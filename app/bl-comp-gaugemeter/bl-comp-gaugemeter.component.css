@@ -24,7 +24,7 @@
 }
 
 .gm-gauge-b {
-  z-index: 3;
+  z-index: 4;
   position: absolute;
   background-color: #fff;
   width: 110px;
@@ -35,8 +35,7 @@
   border-radius: 250px 250px 0px 0px;
 }
 
-.gm-gauge-c {
-  z-index: 2;
+.gm-gauge-c, .gm-gauge-max {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -50,8 +49,18 @@
   transition: all 0.8s ease-in-out;
 }
 
+.gm-gauge-c {
+  z-index: 3;
+}
+
+.gm-gauge-max {
+  z-index: 2;
+  border-top: 3px solid #717171;
+  background: none!important;
+}
+
 .gm-gauge-data {
-  z-index: 4;
+  z-index: 5;
   color: #333;
   top: 49px;
   font-size: 30px;

@@ -23,9 +23,10 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._value = 0;
                     this._minVal = 0;
                     this._maxVal = 100;
+                    this._lastMaxVal = 0;
                     this._title = "";
                     this._unit = "";
-                    this._color = "red";
+                    this._color = "#FF0000";
                     this._transformColor = false;
                 }
                 Object.defineProperty(BLCompGaugeMeterComponent.prototype, "value", {
@@ -79,21 +80,27 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 });
                 // Check for changes
                 BLCompGaugeMeterComponent.prototype.ngOnChanges = function (changes) {
-                    console.log('ngOnChanges - myProp = ' + changes['value'].currentValue);
+                    //console.log('ngOnChanges - myProp = ' + changes['value'].currentValue);
                 };
                 // Convert current value to the rotation degree
                 // TODO: Save value range as class property to save arithmetic operation
                 BLCompGaugeMeterComponent.prototype.convertToDeg = function (val) {
+                    if (val < this._minVal) {
+                        val = this._minVal;
+                    }
+                    else if (val > this._maxVal) {
+                        val = this._maxVal;
+                    }
                     return (val - this._minVal) * (180 / (this._maxVal - this._minVal));
                 };
                 // Generate color
                 BLCompGaugeMeterComponent.prototype.genColor = function (percent) {
                     var minColor = { r: 0, g: 255, b: 0 };
+                    var midColor = { r: 255, g: 255, b: 0 };
                     var maxColor = { r: 255, g: 0, b: 0 };
                     function makeChannel(a, b) {
                         return (a + Math.round((b - a) * (percent / 100)));
                     }
-                    this._value;
                     function makeColorPiece(num) {
                         num = Math.min(num, 255);
                         num = Math.max(num, 0);
@@ -105,15 +112,22 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     }
                     return "#" + makeColorPiece(makeChannel(minColor.r, maxColor.r)) + makeColorPiece(makeChannel(minColor.g, maxColor.g)) + makeColorPiece(makeChannel(minColor.b, maxColor.b));
                 };
-                BLCompGaugeMeterComponent.prototype.updateGauge = function () {
-                    var deg = this.convertToDeg(this._value);
+                BLCompGaugeMeterComponent.prototype.updateGauge = function (val) {
+                    if (val === void 0) { val = this._value; }
+                    var deg = this.convertToDeg(val);
                     var styles = {
                         '-webkit-transform': 'rotate(' + deg + "deg)",
                         '-moz-transform': 'rotate(' + deg + "deg)",
                         'transform': 'rotate(' + deg + "deg)",
-                        'background-color': (this._transformColor) ? this.genColor(this._value) : this._color
+                        'background-color': (this._transformColor) ? this.genColor(val) : this._color
                     };
                     return styles;
+                };
+                BLCompGaugeMeterComponent.prototype.updateMaxGauge = function () {
+                    if (this._lastMaxVal < this._value) {
+                        this._lastMaxVal = this._value;
+                    }
+                    return this.updateGauge(this._lastMaxVal);
                 };
                 __decorate([
                     core_1.Input(), 

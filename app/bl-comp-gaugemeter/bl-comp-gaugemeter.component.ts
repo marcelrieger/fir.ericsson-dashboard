@@ -6,14 +6,16 @@ import { Router } from 'angular2/router';
   templateUrl: 'app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.html',
   styleUrls: ['app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.css']
 })
+
 export class BLCompGaugeMeterComponent implements OnChanges{
 
 	private _value = 0;
 	private _minVal = 0;
 	private _maxVal = 100;
+	private _lastMaxVal = 0;
 	private _title = "";
 	private _unit = "";
-	private _color = "red";
+	private _color = "#FF0000";
 	private _transformColor = false;
 
 	@Input()
@@ -47,25 +49,29 @@ export class BLCompGaugeMeterComponent implements OnChanges{
 
 	// Check for changes
 	ngOnChanges(changes: { [value: number]: SimpleChange }) {
-		console.log('ngOnChanges - myProp = ' + changes['value'].currentValue);
+		//console.log('ngOnChanges - myProp = ' + changes['value'].currentValue);
 	}
 
 	// Convert current value to the rotation degree
 	// TODO: Save value range as class property to save arithmetic operation
 	convertToDeg(val: number) {
+		if (val<this._minVal) {
+			val = this._minVal;
+		} else if (val>this._maxVal) {
+			val = this._maxVal;
+		}
 		return (val-this._minVal) * (180 / (this._maxVal - this._minVal));  
 	}
 
 	// Generate color
 	genColor(percent: number) {
 		let minColor = { r: 0, g: 255, b: 0 };
+		let midColor = { r: 255, g: 255, b: 0 };
 		let maxColor = { r: 255, g: 0, b: 0 };
 
 	    function makeChannel(a, b) {
 	        return (a + Math.round((b - a) * (percent / 100)));
 	    }
-
-	    this._value 
 
 	    function makeColorPiece(num) {
 	        num = Math.min(num, 255);
@@ -80,16 +86,23 @@ export class BLCompGaugeMeterComponent implements OnChanges{
 		return "#" + makeColorPiece(makeChannel(minColor.r, maxColor.r)) + makeColorPiece(makeChannel(minColor.g, maxColor.g)) + makeColorPiece(makeChannel(minColor.b, maxColor.b));
 	}
 
-	updateGauge() {
-		let deg = this.convertToDeg(this._value);
+	updateGauge(val:number = this._value) {
+		let deg = this.convertToDeg(val);
 		let styles = {
 			'-webkit-transform': 'rotate(' + deg + "deg)",
 			'-moz-transform': 'rotate(' + deg + "deg)",
 			'transform': 'rotate(' + deg + "deg)",
-			'background-color': (this._transformColor) ? this.genColor(this._value) : this._color
+			'background-color': (this._transformColor) ? this.genColor(val) : this._color
 		}
 
 		return styles;
+	}
+
+	updateMaxGauge() {
+		if (this._lastMaxVal < this._value) {
+			this._lastMaxVal = this._value;
+		} 
+		return this.updateGauge(this._lastMaxVal);
 	}
 
 }

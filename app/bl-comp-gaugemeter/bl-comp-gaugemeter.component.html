@@ -3,6 +3,7 @@
 	  <div class="gm-gauge-a"></div>
 	  <div class="gm-gauge-b"></div>
 	  <div class="gm-gauge-c" [ngStyle]="updateGauge()"></div>
+	  <div class="gm-gauge-max" [ngStyle]="updateMaxGauge()"></div>
 	  <div class="gm-gauge-data">
 	    {{_value}}<span [innerHTML]="_unit"></span>
 	  </div>
