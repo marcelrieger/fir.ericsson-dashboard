@@ -60,30 +60,33 @@ export class BLCompGaugeMeterComponent implements OnChanges{
 		} else if (val>this._maxVal) {
 			val = this._maxVal;
 		}
-		return (val-this._minVal) * (180 / (this._maxVal - this._minVal));  
+		return (val - this._minVal) * (180 / (this._maxVal - this._minVal));
 	}
 
 	// Generate color
+	// TODO: improve algorithm
 	genColor(percent: number) {
 		let minColor = { r: 0, g: 255, b: 0 };
-		let midColor = { r: 255, g: 255, b: 0 };
+        let midColor = { r: 255, g: 255, b: 0 };
 		let maxColor = { r: 255, g: 0, b: 0 };
 
-	    function makeChannel(a, b) {
-	        return (a + Math.round((b - a) * (percent / 100)));
-	    }
+		function makeChannel(a, b, _percent) {
+			return (a + Math.round((b - a) * _percent));
+		}
 
-	    function makeColorPiece(num) {
-	        num = Math.min(num, 255);
-	        num = Math.max(num, 0);
-	        var str = num.toString(16);
-	        if (str.length < 2) {
-	            str = "0" + str;
-	        }
-	        return (str);
-	    }
+		function makeColorPiece(num) {
+			num = Math.min(num, 255);
+			num = Math.max(num, 0);
+			var str = num.toString(16);
+			if (str.length < 2) {
+				str = "0" + str;
+			}
+			return (str);
+		}
 
-		return "#" + makeColorPiece(makeChannel(minColor.r, maxColor.r)) + makeColorPiece(makeChannel(minColor.g, maxColor.g)) + makeColorPiece(makeChannel(minColor.b, maxColor.b));
+        let halfPercent = (this._maxVal + this._minVal) / 2;
+
+        return "#" + ((percent <= halfPercent) ? makeColorPiece(makeChannel(minColor.r, midColor.r, this._value / halfPercent)) + makeColorPiece(makeChannel(minColor.g, midColor.g, this._value / halfPercent)) + makeColorPiece(makeChannel(minColor.b, midColor.b, this._value / halfPercent)) : makeColorPiece(makeChannel(midColor.r, maxColor.r, (this._value - halfPercent + this._minVal) / halfPercent)) + makeColorPiece(makeChannel(midColor.g, maxColor.g, (this._value - halfPercent + this._minVal) / halfPercent)) + makeColorPiece(makeChannel(midColor.b, maxColor.b, (this._value - halfPercent + this._minVal) / halfPercent)));
 	}
 
 	updateGauge(val:number = this._value) {

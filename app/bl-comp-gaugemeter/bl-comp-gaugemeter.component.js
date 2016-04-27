@@ -94,12 +94,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return (val - this._minVal) * (180 / (this._maxVal - this._minVal));
                 };
                 // Generate color
+                // TODO: improve algorithm
                 BLCompGaugeMeterComponent.prototype.genColor = function (percent) {
                     var minColor = { r: 0, g: 255, b: 0 };
                     var midColor = { r: 255, g: 255, b: 0 };
                     var maxColor = { r: 255, g: 0, b: 0 };
-                    function makeChannel(a, b) {
-                        return (a + Math.round((b - a) * (percent / 100)));
+                    function makeChannel(a, b, _percent) {
+                        return (a + Math.round((b - a) * _percent));
                     }
                     function makeColorPiece(num) {
                         num = Math.min(num, 255);
@@ -110,7 +111,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         }
                         return (str);
                     }
-                    return "#" + makeColorPiece(makeChannel(minColor.r, maxColor.r)) + makeColorPiece(makeChannel(minColor.g, maxColor.g)) + makeColorPiece(makeChannel(minColor.b, maxColor.b));
+                    var halfPercent = (this._maxVal + this._minVal) / 2;
+                    return "#" + ((percent <= halfPercent) ? makeColorPiece(makeChannel(minColor.r, midColor.r, this._value / halfPercent)) + makeColorPiece(makeChannel(minColor.g, midColor.g, this._value / halfPercent)) + makeColorPiece(makeChannel(minColor.b, midColor.b, this._value / halfPercent)) : makeColorPiece(makeChannel(midColor.r, maxColor.r, (this._value - halfPercent + this._minVal) / halfPercent)) + makeColorPiece(makeChannel(midColor.g, maxColor.g, (this._value - halfPercent + this._minVal) / halfPercent)) + makeColorPiece(makeChannel(midColor.b, maxColor.b, (this._value - halfPercent + this._minVal) / halfPercent)));
                 };
                 BLCompGaugeMeterComponent.prototype.updateGauge = function (val) {
                     if (val === void 0) { val = this._value; }
