@@ -1,0 +1,15 @@
+.mdl-cell {
+    margin: 2px;
+    /*width: calc(33.3333333333% - 4px);*/
+    border: 1px solid #eee;
+}
+
+@media (min-width: 840px)
+.mdl-cell--4-col, .mdl-cell--4-col-desktop.mdl-cell--4-col-desktop {
+    width: calc(33.3333333333% - 4px)!important;
+}
+
+@media (min-width: 840px)
+.mdl-cell--8-col, .mdl-cell--8-col-desktop.mdl-cell--8-col-desktop {
+    width: calc(66.6666666667% - 4px)!important;
+}

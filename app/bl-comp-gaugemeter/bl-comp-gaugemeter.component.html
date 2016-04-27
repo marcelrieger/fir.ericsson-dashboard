@@ -1,0 +1,13 @@
+<div class="gm-main">
+	<div class="gm-container">
+	  <div class="gm-gauge-a"></div>
+	  <div class="gm-gauge-b"></div>
+	  <div class="gm-gauge-c" [ngStyle]="updateGauge()"></div>
+	  <div class="gm-gauge-data">
+	    {{_value}}<span [innerHTML]="_unit"></span>
+	  </div>
+	</div>
+	<div class="gm-title">
+		{{_title}}
+	</div>
+</div>

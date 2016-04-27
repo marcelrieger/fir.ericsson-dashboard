@@ -1,0 +1,84 @@
+.gm-main {
+  width: 150px;
+  height: 75px;
+  display: inline-block;
+  text-align: center;
+}
+
+.gm-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.gm-gauge-a {
+  z-index: 1;
+  position: absolute;
+  background-color: #eee;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  border-radius: 250px 250px 0px 0px;
+}
+
+.gm-gauge-b {
+  z-index: 3;
+  position: absolute;
+  background-color: #fff;
+  width: 110px;
+  height: 100px;
+  top: 20px;
+  margin-left: 20px;
+  margin-right: auto;
+  border-radius: 250px 250px 0px 0px;
+}
+
+.gm-gauge-c {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0px 0px 200px 200px;
+  transform-origin: center top;
+  -webkit-transition: all 0.8s ease-in-out;
+  -moz-transition: all 0.8s ease-in-out;
+  transition: all 0.8s ease-in-out;
+}
+
+.gm-gauge-data {
+  z-index: 4;
+  color: #333;
+  top: 49px;
+  font-size: 30px;
+  line-height: 25px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  /*transition: all 1s ease-out;*/
+}
+
+.gm-gauge-data span.super {
+  font-size: 20px;
+  display: inline-block;
+  vertical-align: top;
+  position: absolute;
+  top: -5px;
+  margin-left: 0px;
+}
+
+.sub {
+  vertical-align: text-bottom;
+  font-size: 20px;
+}
+
+.gm-title {
+  color: #AAA;
+  font-size: 13px;
+}

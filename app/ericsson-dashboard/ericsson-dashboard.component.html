@@ -1,0 +1,21 @@
+<div class="mdl-grid">
+	<div class="mdl-cell mdl-cell--4-col">
+
+	</div>
+	<div class="mdl-cell mdl-cell--8-col">Livestream</div>
+	<div class="mdl-cell mdl-cell--4-col">
+		
+			<div>Temp: 30C</div>
+			<div>Temp: 30C</div>
+			<div>Temp: 30C</div>
+
+	</div>
+	<div class="mdl-cell mdl-cell--4-col">
+		
+		<bl-comp-gaugemeter [title]="'TEMPERATUR'" [value]="deviceA.temp" [unit]="'&#176;C'" [transformColor]="true" [valueMin]=10></bl-comp-gaugemeter>
+		<bl-comp-gaugemeter [title]="'BELEUCHTUNG'" [value]="deviceA.lux" [unit]="'lx'" [color]="'#ffff00'" [valueMax]=300></bl-comp-gaugemeter>
+		<bl-comp-gaugemeter [title]="'GESCHWINDIGKEIT'" [value]="deviceA.acceleration" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [color]="'#C9FF47'" [valueMax]=10></bl-comp-gaugemeter>
+
+	</div>
+	<div class="mdl-cell mdl-cell--4-col"></div>
+</div>
