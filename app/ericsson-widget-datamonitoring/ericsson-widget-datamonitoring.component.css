@@ -1,0 +1,14 @@
+.gauges {
+	text-align: center;
+}
+.gaugemeter {
+	cursor: pointer;
+}
+
+.graph {
+	display: none;
+}
+
+.graph.active {
+	display: block;
+}

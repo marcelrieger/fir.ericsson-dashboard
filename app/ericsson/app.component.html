@@ -1,25 +1,11 @@
-<div class="mdl-layout mdl-js-layout">
-  <header class="mdl-layout__header mdl-layout__header--scroll">
-    <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Ericsson Dashboard</span>
-      <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="">Logout</a>
-      </nav>
-    </div>
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Title</span>
-    <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-    </nav>
-  </div>
-  <main class="mdl-layout__content">
-    <div class="page-content">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
+<header>
+  <a class="logo" href="#">Ericsson Dashboard</a>
+  <nav class="mainmenu">
+    <span [ngClass]="{active: device==1}" (click)="device=1">Device A</span>
+    <span [ngClass]="{active: device==2}" (click)="device=2">Device B</span>
+    <span [ngClass]="{active: device==3}" (click)="device=3">Device C</span>
+  </nav>
+</header>
+<div class="page-content">
+  <router-outlet></router-outlet>
 </div>

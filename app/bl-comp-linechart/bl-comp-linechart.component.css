@@ -1,0 +1,52 @@
+.chart {
+	text-align: center;
+	width: 100%;
+}
+
+.chart /deep/ svg {
+	padding: 10px 0 30px;
+	margin: 5px auto;
+}
+
+.chart /deep/ path {
+	stroke: steelblue;
+	stroke-width: 1;
+	fill: none;
+}
+
+.chart /deep/ .axis path,
+.chart /deep/ .axis line {
+    fill: none;
+    stroke: #3e3e3e;
+}
+
+.chart /deep/ text {
+	font-size: 11px;
+}
+
+.chart /deep/ .tick text{
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.chart /deep/ .tick line{
+	opacity: 0.1;
+}
+
+.chart /deep/ .critical{
+	fill: rgb(255, 235, 235);
+}
+
+.chart /deep/ .risk{
+	fill: #FFFFE8;
+}
+
+.chart /deep/ .dashedline {
+	stroke-width:0.4px;
+	stroke: rgb(150,150,150);
+}
+
+.chart /deep/ .maxline {
+	stroke-width:1px;
+	stroke: rgb(255,80,80);
+}

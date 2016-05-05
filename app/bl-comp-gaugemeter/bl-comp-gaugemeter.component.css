@@ -44,9 +44,9 @@
   margin-right: auto;
   border-radius: 0px 0px 200px 200px;
   transform-origin: center top;
-  -webkit-transition: all 0.8s ease-in-out;
-  -moz-transition: all 0.8s ease-in-out;
-  transition: all 0.8s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .gm-gauge-c {

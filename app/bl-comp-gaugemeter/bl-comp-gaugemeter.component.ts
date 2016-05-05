@@ -15,8 +15,9 @@ export class BLCompGaugeMeterComponent implements OnChanges{
 	private _lastMaxVal = 0;
 	private _title = "";
 	private _unit = "";
-	private _color = "#FF0000";
-	private _transformColor = false;
+	private _color = "#00FF00";
+	@Input() criticalValue = [0, 0];
+	@Input() riskValue = [0, 0];
 
 	@Input()
 	set value(val: number) {
@@ -37,10 +38,6 @@ export class BLCompGaugeMeterComponent implements OnChanges{
 	@Input()
 	set unit(u: string) {
 		this._unit = u;
-	}
-	@Input()
-	set transformColor(f: boolean) {
-		this._transformColor = f;
 	}
 	@Input()
 	set color(s: string) {
@@ -91,11 +88,19 @@ export class BLCompGaugeMeterComponent implements OnChanges{
 
 	updateGauge(val:number = this._value) {
 		let deg = this.convertToDeg(val);
+		let color = this._color;
+
+		if ((val < this.criticalValue[0]) || (this.criticalValue[1] > 0 && val > this.criticalValue[1])) {
+			color = "#FF0000";
+		} else if ((val < this.riskValue[0]) || (this.riskValue[1] > 0 && val > this.riskValue[1])) {
+			color = "#FFFF00";
+		}
+
 		let styles = {
 			'-webkit-transform': 'rotate(' + deg + "deg)",
 			'-moz-transform': 'rotate(' + deg + "deg)",
 			'transform': 'rotate(' + deg + "deg)",
-			'background-color': (this._transformColor) ? this.genColor(val) : this._color
+			'background-color': color
 		}
 
 		return styles;

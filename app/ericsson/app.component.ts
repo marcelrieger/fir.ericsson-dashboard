@@ -20,4 +20,6 @@ import { EricssonDashboardComponent } from '../ericsson-dashboard/ericsson-dashb
     useAsDefault: true
   }
 ])
-export class EricssonComponent {}
+export class EricssonComponent {
+  public device = 1;
+}

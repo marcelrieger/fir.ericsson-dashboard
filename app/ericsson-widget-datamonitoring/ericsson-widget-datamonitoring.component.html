@@ -1,0 +1,9 @@
+<div class="graphcont">
+	<bl-comp-linechart [ngClass]="{active: (activeChart==1)}" class="graph" [streamIn]="temp" [criticalValue]="[10,90]" [riskValue]="[20,70]" [yTitle]="'&#176;C'" [xTitle]="'Zeit'"></bl-comp-linechart>
+	<bl-comp-linechart [ngClass]="{active: (activeChart==2)}" class="graph" [streamIn]="lux" [yRange]="[0,300]" [yTitle]="'lux'" [xTitle]="'Zeit'"></bl-comp-linechart>
+</div>
+
+<div class="gauges">
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=1" [title]="'TEMPERATUR'" [value]="temp" [unit]="'&#176;C'" [valueMin]=10 [criticalValue]="[10,90]" [riskValue]="[20,70]"></bl-comp-gaugemeter>
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=2" [title]="'BELEUCHTUNG'" [value]="lux" [unit]="'lx'" [color]="'#ffff00'" [valueMax]=300></bl-comp-gaugemeter>
+</div>

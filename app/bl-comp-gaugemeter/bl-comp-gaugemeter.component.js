@@ -26,8 +26,9 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._lastMaxVal = 0;
                     this._title = "";
                     this._unit = "";
-                    this._color = "#FF0000";
-                    this._transformColor = false;
+                    this._color = "#00FF00";
+                    this.criticalValue = [0, 0];
+                    this.riskValue = [0, 0];
                 }
                 Object.defineProperty(BLCompGaugeMeterComponent.prototype, "value", {
                     set: function (val) {
@@ -60,13 +61,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 Object.defineProperty(BLCompGaugeMeterComponent.prototype, "unit", {
                     set: function (u) {
                         this._unit = u;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(BLCompGaugeMeterComponent.prototype, "transformColor", {
-                    set: function (f) {
-                        this._transformColor = f;
                     },
                     enumerable: true,
                     configurable: true
@@ -117,11 +111,18 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 BLCompGaugeMeterComponent.prototype.updateGauge = function (val) {
                     if (val === void 0) { val = this._value; }
                     var deg = this.convertToDeg(val);
+                    var color = this._color;
+                    if ((val < this.criticalValue[0]) || (this.criticalValue[1] > 0 && val > this.criticalValue[1])) {
+                        color = "#FF0000";
+                    }
+                    else if ((val < this.riskValue[0]) || (this.riskValue[1] > 0 && val > this.riskValue[1])) {
+                        color = "#FFFF00";
+                    }
                     var styles = {
                         '-webkit-transform': 'rotate(' + deg + "deg)",
                         '-moz-transform': 'rotate(' + deg + "deg)",
                         'transform': 'rotate(' + deg + "deg)",
-                        'background-color': (this._transformColor) ? this.genColor(val) : this._color
+                        'background-color': color
                     };
                     return styles;
                 };
@@ -131,6 +132,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     }
                     return this.updateGauge(this._lastMaxVal);
                 };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BLCompGaugeMeterComponent.prototype, "criticalValue", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BLCompGaugeMeterComponent.prototype, "riskValue", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Number), 
@@ -156,11 +165,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     __metadata('design:type', String), 
                     __metadata('design:paramtypes', [String])
                 ], BLCompGaugeMeterComponent.prototype, "unit", null);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', Boolean), 
-                    __metadata('design:paramtypes', [Boolean])
-                ], BLCompGaugeMeterComponent.prototype, "transformColor", null);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String), 

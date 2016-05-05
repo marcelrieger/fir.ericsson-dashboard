@@ -5,7 +5,8 @@
     <title>Ericsson Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="./static/material.min.css">
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/material.min.css">
     <script src="./static/material.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- IE required polyfills, in this exact order -->
@@ -19,6 +20,7 @@
     <script src="https://code.angularjs.org/2.0.0-beta.15/Rx.js"></script>
     <script src="https://code.angularjs.org/2.0.0-beta.15/angular2.dev.js"></script>
     <script src="https://code.angularjs.org/2.0.0-beta.15/router.dev.js"></script>
+    <script src="./static/d3.min.js" charset="utf-8"></script>
     <script>
      System.config({
         transpiler: 'typescript', 
@@ -28,6 +30,7 @@
       System.import('app/main')
             .then(null, console.error.bind(console));
     </script>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,400italic,600,600italic' rel='stylesheet' type='text/css'>
   </head>
 
   <body>

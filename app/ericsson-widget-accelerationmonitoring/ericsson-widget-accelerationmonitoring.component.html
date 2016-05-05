@@ -1,0 +1,11 @@
+<div class="graphcont">
+	<bl-comp-linechart [ngClass]="{active: (activeChart==1)}" class="graph" [streamIn]="x" [yRange]="[0,10]" [yTitle]="'m/s'" [xTitle]="'Zeit'"></bl-comp-linechart>
+	<bl-comp-linechart [ngClass]="{active: (activeChart==2)}" class="graph" [streamIn]="y" [yRange]="[0,10]" [yTitle]="'m/s'" [xTitle]="'Zeit'"></bl-comp-linechart>
+	<bl-comp-linechart [ngClass]="{active: (activeChart==3)}" class="graph" [streamIn]="z" [yRange]="[0,10]" [yTitle]="'m/s'" [xTitle]="'Zeit'"></bl-comp-linechart>
+</div>
+
+<div class="gauges">
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=1" [title]="'X'" [value]="x" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [valueMax]=10></bl-comp-gaugemeter>
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=2" [title]="'Y'" [value]="y" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [valueMax]=10></bl-comp-gaugemeter>
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=3" [title]="'Z'" [value]="z" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [valueMax]=10></bl-comp-gaugemeter>
+</div>

@@ -26,6 +26,7 @@ System.register(['angular2/core', 'angular2/router', '../ericsson-dashboard/eric
         execute: function() {
             EricssonComponent = (function () {
                 function EricssonComponent() {
+                    this.device = 1;
                 }
                 EricssonComponent = __decorate([
                     core_1.Component({
