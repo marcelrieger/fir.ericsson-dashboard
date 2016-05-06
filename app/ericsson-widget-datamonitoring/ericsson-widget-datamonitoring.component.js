@@ -27,11 +27,21 @@ System.register(['angular2/core', '../bl-comp-gaugemeter/bl-comp-gaugemeter.comp
             EricssonWidgetDataMonitoring = (function () {
                 function EricssonWidgetDataMonitoring() {
                     this.deviceID = 0;
+                    this.temp = {
+                        data: 0,
+                        risk: [20, 70],
+                        critical: [10, 90]
+                    };
+                    this.lux = {
+                        data: 0,
+                        risk: [0, 260],
+                        critical: [0, 275]
+                    };
                     this.activeChart = 1;
                     var C = this;
                     setInterval(function () {
-                        C.temp = parseInt(60 + Math.random() * 20 + "");
-                        C.lux = parseInt(Math.random() * 300 + "");
+                        C.temp.data = parseInt(60 + Math.random() * 20 + "");
+                        C.lux.data = parseInt(270 + Math.random() * 5 + "");
                     }, 250);
                 }
                 __decorate([
