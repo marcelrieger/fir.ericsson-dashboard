@@ -1,4 +1,4 @@
-System.register(['angular2/core', './mock-tempdata'], function(exports_1, context_1) {
+System.register(['angular2/core'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,38 +10,30 @@ System.register(['angular2/core', './mock-tempdata'], function(exports_1, contex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, mock_tempdata_1;
-    var TempDataService;
+    var core_1;
+    var MDL;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (mock_tempdata_1_1) {
-                mock_tempdata_1 = mock_tempdata_1_1;
             }],
         execute: function() {
-            TempDataService = (function () {
-                function TempDataService() {
+            MDL = (function () {
+                function MDL() {
                 }
-                TempDataService.prototype.getTempData = function () {
-                    return Promise.resolve(mock_tempdata_1.DATAS);
+                MDL.prototype.ngAfterViewInit = function () {
+                    componentHandler.upgradeAllRegistered();
                 };
-                TempDataService.prototype.getHeroesSlowly = function () {
-                    return new Promise(function (resolve) {
-                        return setTimeout(function () { return resolve(mock_tempdata_1.DATAS); }, 2000);
-                    } // 2 seconds
-                     // 2 seconds
-                    );
-                };
-                TempDataService = __decorate([
-                    core_1.Injectable(), 
+                MDL = __decorate([
+                    core_1.Directive({
+                        selector: '[mdl]'
+                    }), 
                     __metadata('design:paramtypes', [])
-                ], TempDataService);
-                return TempDataService;
+                ], MDL);
+                return MDL;
             }());
-            exports_1("TempDataService", TempDataService);
+            exports_1("MDL", MDL);
         }
     }
 });
-//# sourceMappingURL=tempdata.service.js.map
+//# sourceMappingURL=MaterialDesignLiteUpgradeElement.js.map

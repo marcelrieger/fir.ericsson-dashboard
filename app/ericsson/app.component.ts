@@ -5,7 +5,8 @@ import { EricssonDashboardComponent } from '../ericsson-dashboard/ericsson-dashb
 
 @Component({
   selector: 'ericsson',
-  templateUrl: 'app/ericsson/app.component.html',
+  template: '<router-outlet></router-outlet>',
+  //templateUrl: 'app/ericsson/app.component.html',
   //TODO styleUrls: ['app/ericsson/main.component.css'],
   directives: [ROUTER_DIRECTIVES],
   providers: [
@@ -21,5 +22,4 @@ import { EricssonDashboardComponent } from '../ericsson-dashboard/ericsson-dashb
   }
 ])
 export class EricssonComponent {
-  public device = 1;
 }

@@ -91,3 +91,19 @@
   color: #AAA;
   font-size: 13px;
 }
+
+@media all and (max-width: 1160px) {
+  .gm-main {
+    width: 130px;
+    height: 65px;
+  }
+  .gm-gauge-b {
+    width: 90px;
+    height: 100px;
+    top: 20px;
+    margin-left: 20px;
+  }
+  .gm-gauge-data {
+    top: 38px;
+  }
+}

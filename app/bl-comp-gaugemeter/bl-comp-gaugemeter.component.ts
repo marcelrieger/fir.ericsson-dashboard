@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChange } from 'angular2/core';
+import { Component, Input } from 'angular2/core';
 import { Router } from 'angular2/router';
 
 @Component({
@@ -7,57 +7,27 @@ import { Router } from 'angular2/router';
   styleUrls: ['app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.css']
 })
 
-export class BLCompGaugeMeterComponent implements OnChanges{
+export class BLCompGaugeMeterComponent{
 
-	private _value = 0;
-	private _minVal = 0;
-	private _maxVal = 100;
 	private _lastMaxVal = 0;
-	private _title = "";
-	private _unit = "";
-	private _color = "#00FF00";
+
+	@Input() range = [0, 100];
+	@Input() value = 0;
+	@Input() _title = "";
+	@Input() unit = "";
+	@Input() color = "#00FF00";
 	@Input() criticalValue = [0, 0];
 	@Input() riskValue = [0, 0];
-
-	@Input()
-	set value(val: number) {
-		this._value = val;
-	}
-	@Input()
-	set valueMin(val: number) {
-		this._minVal = val;
-	}
-	@Input()
-	set valueMax(val: number) {
-		this._maxVal = val;
-	}
-	@Input()
-	set title(ti: string) {
-		this._title = ti;
-	}
-	@Input()
-	set unit(u: string) {
-		this._unit = u;
-	}
-	@Input()
-	set color(s: string) {
-		this._color = s;
-	}
-
-	// Check for changes
-	ngOnChanges(changes: { [value: number]: SimpleChange }) {
-		//console.log('ngOnChanges - myProp = ' + changes['value'].currentValue);
-	}
 
 	// Convert current value to the rotation degree
 	// TODO: Save value range as class property to save arithmetic operation
 	convertToDeg(val: number) {
-		if (val<this._minVal) {
-			val = this._minVal;
-		} else if (val>this._maxVal) {
-			val = this._maxVal;
+		if (val<this.range[0]) {
+			val = this.range[0];
+		} else if (val>this.range[1]) {
+			val = this.range[1];
 		}
-		return (val - this._minVal) * (180 / (this._maxVal - this._minVal));
+		return (val - this.range[0]) * (180 / (this.range[1] - this.range[0]));
 	}
 
 	// Generate color
@@ -81,18 +51,20 @@ export class BLCompGaugeMeterComponent implements OnChanges{
 			return (str);
 		}
 
-        let halfPercent = (this._maxVal + this._minVal) / 2;
+        let halfPercent = (this.range[1] + this.range[0]) / 2;
 
-        return "#" + ((percent <= halfPercent) ? makeColorPiece(makeChannel(minColor.r, midColor.r, this._value / halfPercent)) + makeColorPiece(makeChannel(minColor.g, midColor.g, this._value / halfPercent)) + makeColorPiece(makeChannel(minColor.b, midColor.b, this._value / halfPercent)) : makeColorPiece(makeChannel(midColor.r, maxColor.r, (this._value - halfPercent + this._minVal) / halfPercent)) + makeColorPiece(makeChannel(midColor.g, maxColor.g, (this._value - halfPercent + this._minVal) / halfPercent)) + makeColorPiece(makeChannel(midColor.b, maxColor.b, (this._value - halfPercent + this._minVal) / halfPercent)));
+        return "#" + ((percent <= halfPercent) ? makeColorPiece(makeChannel(minColor.r, midColor.r, this.value / halfPercent)) + makeColorPiece(makeChannel(minColor.g, midColor.g, this.value / halfPercent)) + makeColorPiece(makeChannel(minColor.b, midColor.b, this.value / halfPercent)) : makeColorPiece(makeChannel(midColor.r, maxColor.r, (this.value - halfPercent + this.range[0]) / halfPercent)) + makeColorPiece(makeChannel(midColor.g, maxColor.g, (this.value - halfPercent + this.range[0]) / halfPercent)) + makeColorPiece(makeChannel(midColor.b, maxColor.b, (this.value - halfPercent + this.range[0]) / halfPercent)));
 	}
 
-	updateGauge(val:number = this._value) {
+	updateGauge(val:number = this.value) {
 		let deg = this.convertToDeg(val);
-		let color = this._color;
+		let color = this.color;
 
-		if ((val < this.criticalValue[0]) || (this.criticalValue[1] > 0 && val > this.criticalValue[1])) {
+		
+
+		if ((this.criticalValue[0] > this.range[0] && val < this.criticalValue[0]) || (this.criticalValue[1] < this.range[1] && val > this.criticalValue[1])) {
 			color = "#FF0000";
-		} else if ((val < this.riskValue[0]) || (this.riskValue[1] > 0 && val > this.riskValue[1])) {
+		} else if ((this.riskValue[0] > this.range[0] && val < this.riskValue[0]) || (this.riskValue[1] < this.range[1] && val > this.riskValue[1])) {
 			color = "#FFFF00";
 		}
 
@@ -107,8 +79,8 @@ export class BLCompGaugeMeterComponent implements OnChanges{
 	}
 
 	updateMaxGauge() {
-		if (this._lastMaxVal < this._value) {
-			this._lastMaxVal = this._value;
+		if (this._lastMaxVal < this.value) {
+			this._lastMaxVal = this.value;
 		} 
 		return this.updateGauge(this._lastMaxVal);
 	}

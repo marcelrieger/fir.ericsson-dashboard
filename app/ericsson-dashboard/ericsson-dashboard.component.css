@@ -1,15 +1,81 @@
-.mdl-cell {
-    margin: 2px;
-    /*width: calc(33.3333333333% - 4px);*/
-    border: 1px solid #eee;
+ericsson-widget-container {
+	display: flex;
+	width: 100%;
+	-webkit-transition: all ease-out 0.2s; 
+	-moz-transition: all ease-out 0.2s; 
+    transition: all ease-out 0.2s;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
 }
 
-@media (min-width: 840px)
-.mdl-cell--4-col, .mdl-cell--4-col-desktop.mdl-cell--4-col-desktop {
-    width: calc(33.3333333333% - 4px)!important;
+.bl-grid {
+	flex: 1;
+	font-family: 'Source Sans Pro', sans-serif!important;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -moz-flex;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-flow: column;
+	-moz-flex-flow: column;
+	-ms-flex-flow: column;
+	flex-flow: column;
+	justify-content: center;
 }
 
-@media (min-width: 840px)
-.mdl-cell--8-col, .mdl-cell--8-col-desktop.mdl-cell--8-col-desktop {
-    width: calc(66.6666666667% - 4px)!important;
+.bl-cell {
+	flex: 1;
+	position: relative;
+}
+
+.bl-cell-big {
+	flex: 1;
+}
+
+.bl-cell-small {
+	flex: 2;
+}
+
+@media all and (min-width: 980px) {
+	.bl-grid {
+		-webkit-flex-flow: row wrap;
+		-moz-flex-flow: row wrap;
+		-ms-flex-flow: row wrap;
+		flex-flow: row wrap;
+	}
+	.bl-cell-big {
+		flex: 2;
+	}
+
+	.bl-cell-small {
+		flex: 1;
+		min-width: 405px;
+		order: 1;
+	}
+
+	.bl-cell-big {
+		order: 2;
+	}
+}
+
+@media all and (min-width: 1160px) {
+  .bl-cell-small {
+  	min-width: 470px;
+    order: 1;
+  }
+}
+
+.controlpanel {
+	position: absolute;
+	z-index: 999;
+	bottom: 10px;
+    right: 10px;
+    border: 1px solid #7CA0BF;
+    padding: 10px;
+}
+
+.controlpanel .row {
+	margin: 10px;
 }

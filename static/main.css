@@ -3,10 +3,18 @@ body {
 	font-weight: 200;
 }
 
+h1,h2,h3,h4,h5,h6 {
+	font-family: 'Source Sans Pro', sans-serif!important;
+}
+
 header {
 	background: #000;
 	padding: 0;
-	overflow: hidden;
+	overflow: visible;
+	position: fixed;
+	top: 0;
+	z-index: 101;
+	width: 100%;
 }
 
 header a.logo {
@@ -21,7 +29,7 @@ header a.logo {
 
 header nav {
 	float: right;
-	margin: 0 20px;
+	margin: 0 5px;
 	padding: 0;
 }
 
@@ -42,3 +50,51 @@ header nav span:hover {
 header nav span.active {
 	color: #ff4081;
 }
+
+header button.settings {
+	float: right;
+	margin: 10px 20px 0 5px;
+	padding: 0;
+	color: #fff;
+}
+
+header .settingstab {
+	width: 300px;
+	text-align: center;
+	padding: 10px; 
+}
+
+header .settingstab span {
+	margin-bottom: 15px;
+	display: block;
+}
+
+.page-content {
+	position: relative;
+	top: 50px;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	visibility: visible;
+	width: 100%;
+}
+
+@media all and (max-width: 480px) {
+	.page-content {
+		top: 90px;
+	}
+	.mdl-menu__container {
+		right: 0;
+	}
+	header a.logo {
+		margin: 10px 0;
+	}
+	header button.settings {
+		margin: 6px 5px 0 5px;
+	}
+}
+
+@media all and (min-width: 769px) {
+	.page-content {
+		position: absolute;
+	}

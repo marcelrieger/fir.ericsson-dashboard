@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
+import { DFAEnergyDataService } from '../fir-dbapi/dfaenergydata.service';
 
 import { BLCompGaugeMeterComponent } from '../bl-comp-gaugemeter/bl-comp-gaugemeter.component';
 import { BLCompLineChartComponent } from '../bl-comp-linechart/bl-comp-linechart.component';
@@ -11,35 +12,57 @@ import { BLCompLineChartComponent } from '../bl-comp-linechart/bl-comp-linechart
 	directives: [
 		BLCompGaugeMeterComponent,
 		BLCompLineChartComponent
+	],
+	providers: [
+		DFAEnergyDataService
 	]
 })
 
-export class EricssonWidgetDataMonitoring {
+export class EricssonWidgetDataMonitoring implements OnInit {
 
-	@Input() deviceID = 0;
+	// TODO: IMPORTANT!!!!
+    //	 	 Render view only if all core promises has been resolved
 
-	public temp = {
-		data: 0,
-		risk: [20,70],
-		critical: [10,90]
+    @Input() 
+    set deviceID(val: number){
+		this._deviceID = val;
+		this.ngOnInit();
+    }
+    @Input()
+    set datarate(val: number) {
+		this._datarate = val;
+		this.updateDatarate();
+    }
+
+    @Input() width = 390;
+	private _deviceID = null;
+	private device;
+	private data = {
+		temp: null,
+		lux: null
 	};
-	public lux = {
-		data: 0,
-		risk: [0, 260],
-		critical: [0, 275]
-	};
+	private _datarate: number = 250;
+	private updater: any = 0;
+	private ready: boolean = false;
 	public activeChart = 1;
 
-	constructor() {
+	constructor(private DFAEnergyData: DFAEnergyDataService) {}
 
-		var C = this;
-
-		setInterval(function() {
-			C.temp.data = parseInt(60 + Math.random() * 20 + "");
-			C.lux.data = parseInt(270 + Math.random() * 5 + "");
-		}, 250);
-
+	ngOnInit() {
+		let C = this;
+		this.DFAEnergyData.init(this._deviceID).then(function(data) {
+			C.device = data;
+			C.ready = true;
+		});
+		this.updateDatarate();
 	}
 
+	public updateDatarate() {
+		let C = this;
+		clearInterval(C.updater);
+		C.updater = setInterval(function() {
+			C.DFAEnergyData.getCurData(C._deviceID).then(data => C.data = data);
+		}, C._datarate);
+	}
 
 }

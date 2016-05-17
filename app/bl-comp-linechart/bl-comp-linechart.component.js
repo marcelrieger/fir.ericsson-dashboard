@@ -22,7 +22,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             BLCompLineChartComponent = (function () {
                 function BLCompLineChartComponent(element) {
                     this.element = element;
-                    this.width = 450;
+                    this.width = 390;
                     this.height = 200;
                     this.xTitle = "";
                     this.yTitle = "";
@@ -37,10 +37,21 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.ready = false;
                     this.host = d3.select(this.element.nativeElement);
                 }
+                Object.defineProperty(BLCompLineChartComponent.prototype, "setDataset", {
+                    set: function (val) {
+                        this.dataset = val;
+                        if (this.ready) {
+                            this._graph.data([this.dataset]);
+                            this.renderGraph(false);
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(BLCompLineChartComponent.prototype, "streamIn", {
                     set: function (n) {
                         this.dataset.push(n);
-                        if (this.ready) {
+                        if (this.ready && !isNaN(parseInt(n))) {
                             if (n > this._maxValue) {
                                 this._maxValue = n;
                             }
@@ -58,7 +69,10 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 });
                 BLCompLineChartComponent.prototype.ngOnInit = function () {
                     var C = this;
-                    C.dataset = [];
+                    if (this.width > 600) {
+                        this.width -= 50;
+                        this.height = this.width / 2. - 50;
+                    }
                     this._x = d3.scale.linear().domain(C.xRange).range([0 + 17 + C._hMargin, this.width - 30 - C._hMargin]);
                     this._y = d3.scale.linear().domain(C.yRange).range([C.height, C.yRange[0]]);
                     this._xAxis = d3.svg.axis()
@@ -73,8 +87,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         .interpolate("linear");
                     this._graphContainer = this.host.select(".chart")
                         .append("svg")
-                        .attr("height", C.height).attr("width", "100%");
-                    if (this.riskValue[0] > 0) {
+                        .attr("height", C.height).attr("width", C.width + "px");
+                    if (this.riskValue[0] > this.yRange[0]) {
                         this._graph = this._graphContainer
                             .append("rect")
                             .attr("class", "risk")
@@ -90,14 +104,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             .attr("x2", this.width - 10)
                             .attr("y2", C._y(this.riskValue[0]));
                     }
-                    if (this.riskValue[1] > 0) {
+                    if (this.riskValue[1] < this.yRange[1]) {
                         this._graph = this._graphContainer
                             .append("rect")
                             .attr("class", "risk")
                             .attr("x", 30)
                             .attr("y", C._y(this.yRange[1]))
                             .attr("width", this.width - 40)
-                            .attr("height", C._y(this.riskValue[1]));
+                            .attr("height", C._y(this.riskValue[1]) - C._y(this.yRange[1]));
                         this._graphContainer.append("line")
                             .attr("class", "dashedline")
                             .attr("stroke-dasharray", "5,5")
@@ -106,7 +120,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             .attr("x2", this.width - 10)
                             .attr("y2", C._y(this.riskValue[1]));
                     }
-                    if (this.criticalValue[0] > 0) {
+                    if (this.criticalValue[0] > this.yRange[0]) {
                         this._graph = this._graphContainer
                             .append("rect")
                             .attr("class", "critical")
@@ -121,14 +135,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             .attr("x2", this.width - 10)
                             .attr("y2", C._y(this.criticalValue[0]));
                     }
-                    if (this.criticalValue[1] > 0) {
+                    if (this.criticalValue[1] < this.yRange[1]) {
                         this._graph = this._graphContainer
                             .append("rect")
                             .attr("class", "critical")
                             .attr("x", 30)
                             .attr("y", C._y(this.yRange[1]))
                             .attr("width", this.width - 40)
-                            .attr("height", C._y(this.criticalValue[1]));
+                            .attr("height", C._y(this.criticalValue[1]) - C._y(this.yRange[1]));
                         this._graphContainer.append("line")
                             .attr("class", "dashedline")
                             .attr("x1", 30)
@@ -229,8 +243,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 ], BLCompLineChartComponent.prototype, "yValue", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Number), 
-                    __metadata('design:paramtypes', [Number])
+                    __metadata('design:type', Object), 
+                    __metadata('design:paramtypes', [Object])
+                ], BLCompLineChartComponent.prototype, "setDataset", null);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object), 
+                    __metadata('design:paramtypes', [Object])
                 ], BLCompLineChartComponent.prototype, "streamIn", null);
                 BLCompLineChartComponent = __decorate([
                     core_1.Component({

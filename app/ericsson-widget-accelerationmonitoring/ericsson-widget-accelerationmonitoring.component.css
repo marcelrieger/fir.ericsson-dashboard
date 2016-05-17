@@ -9,6 +9,8 @@
 	display: none;
 }
 
-.graph.active {
-	display: block;
+@media all and (min-width: 768px) {
+	.graph.active {
+		display: block;
+	}
 }

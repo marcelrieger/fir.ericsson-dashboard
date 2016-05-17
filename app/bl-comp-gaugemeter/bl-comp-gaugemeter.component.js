@@ -20,72 +20,25 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         execute: function() {
             BLCompGaugeMeterComponent = (function () {
                 function BLCompGaugeMeterComponent() {
-                    this._value = 0;
-                    this._minVal = 0;
-                    this._maxVal = 100;
                     this._lastMaxVal = 0;
+                    this.range = [0, 100];
+                    this.value = 0;
                     this._title = "";
-                    this._unit = "";
-                    this._color = "#00FF00";
+                    this.unit = "";
+                    this.color = "#00FF00";
                     this.criticalValue = [0, 0];
                     this.riskValue = [0, 0];
                 }
-                Object.defineProperty(BLCompGaugeMeterComponent.prototype, "value", {
-                    set: function (val) {
-                        this._value = val;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(BLCompGaugeMeterComponent.prototype, "valueMin", {
-                    set: function (val) {
-                        this._minVal = val;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(BLCompGaugeMeterComponent.prototype, "valueMax", {
-                    set: function (val) {
-                        this._maxVal = val;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(BLCompGaugeMeterComponent.prototype, "title", {
-                    set: function (ti) {
-                        this._title = ti;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(BLCompGaugeMeterComponent.prototype, "unit", {
-                    set: function (u) {
-                        this._unit = u;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(BLCompGaugeMeterComponent.prototype, "color", {
-                    set: function (s) {
-                        this._color = s;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                // Check for changes
-                BLCompGaugeMeterComponent.prototype.ngOnChanges = function (changes) {
-                    //console.log('ngOnChanges - myProp = ' + changes['value'].currentValue);
-                };
                 // Convert current value to the rotation degree
                 // TODO: Save value range as class property to save arithmetic operation
                 BLCompGaugeMeterComponent.prototype.convertToDeg = function (val) {
-                    if (val < this._minVal) {
-                        val = this._minVal;
+                    if (val < this.range[0]) {
+                        val = this.range[0];
                     }
-                    else if (val > this._maxVal) {
-                        val = this._maxVal;
+                    else if (val > this.range[1]) {
+                        val = this.range[1];
                     }
-                    return (val - this._minVal) * (180 / (this._maxVal - this._minVal));
+                    return (val - this.range[0]) * (180 / (this.range[1] - this.range[0]));
                 };
                 // Generate color
                 // TODO: improve algorithm
@@ -105,17 +58,17 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         }
                         return (str);
                     }
-                    var halfPercent = (this._maxVal + this._minVal) / 2;
-                    return "#" + ((percent <= halfPercent) ? makeColorPiece(makeChannel(minColor.r, midColor.r, this._value / halfPercent)) + makeColorPiece(makeChannel(minColor.g, midColor.g, this._value / halfPercent)) + makeColorPiece(makeChannel(minColor.b, midColor.b, this._value / halfPercent)) : makeColorPiece(makeChannel(midColor.r, maxColor.r, (this._value - halfPercent + this._minVal) / halfPercent)) + makeColorPiece(makeChannel(midColor.g, maxColor.g, (this._value - halfPercent + this._minVal) / halfPercent)) + makeColorPiece(makeChannel(midColor.b, maxColor.b, (this._value - halfPercent + this._minVal) / halfPercent)));
+                    var halfPercent = (this.range[1] + this.range[0]) / 2;
+                    return "#" + ((percent <= halfPercent) ? makeColorPiece(makeChannel(minColor.r, midColor.r, this.value / halfPercent)) + makeColorPiece(makeChannel(minColor.g, midColor.g, this.value / halfPercent)) + makeColorPiece(makeChannel(minColor.b, midColor.b, this.value / halfPercent)) : makeColorPiece(makeChannel(midColor.r, maxColor.r, (this.value - halfPercent + this.range[0]) / halfPercent)) + makeColorPiece(makeChannel(midColor.g, maxColor.g, (this.value - halfPercent + this.range[0]) / halfPercent)) + makeColorPiece(makeChannel(midColor.b, maxColor.b, (this.value - halfPercent + this.range[0]) / halfPercent)));
                 };
                 BLCompGaugeMeterComponent.prototype.updateGauge = function (val) {
-                    if (val === void 0) { val = this._value; }
+                    if (val === void 0) { val = this.value; }
                     var deg = this.convertToDeg(val);
-                    var color = this._color;
-                    if ((val < this.criticalValue[0]) || (this.criticalValue[1] > 0 && val > this.criticalValue[1])) {
+                    var color = this.color;
+                    if ((this.criticalValue[0] > this.range[0] && val < this.criticalValue[0]) || (this.criticalValue[1] < this.range[1] && val > this.criticalValue[1])) {
                         color = "#FF0000";
                     }
-                    else if ((val < this.riskValue[0]) || (this.riskValue[1] > 0 && val > this.riskValue[1])) {
+                    else if ((this.riskValue[0] > this.range[0] && val < this.riskValue[0]) || (this.riskValue[1] < this.range[1] && val > this.riskValue[1])) {
                         color = "#FFFF00";
                     }
                     var styles = {
@@ -127,11 +80,31 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return styles;
                 };
                 BLCompGaugeMeterComponent.prototype.updateMaxGauge = function () {
-                    if (this._lastMaxVal < this._value) {
-                        this._lastMaxVal = this._value;
+                    if (this._lastMaxVal < this.value) {
+                        this._lastMaxVal = this.value;
                     }
                     return this.updateGauge(this._lastMaxVal);
                 };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BLCompGaugeMeterComponent.prototype, "range", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BLCompGaugeMeterComponent.prototype, "value", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BLCompGaugeMeterComponent.prototype, "_title", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BLCompGaugeMeterComponent.prototype, "unit", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BLCompGaugeMeterComponent.prototype, "color", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Object)
@@ -140,36 +113,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Input(), 
                     __metadata('design:type', Object)
                 ], BLCompGaugeMeterComponent.prototype, "riskValue", void 0);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', Number), 
-                    __metadata('design:paramtypes', [Number])
-                ], BLCompGaugeMeterComponent.prototype, "value", null);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', Number), 
-                    __metadata('design:paramtypes', [Number])
-                ], BLCompGaugeMeterComponent.prototype, "valueMin", null);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', Number), 
-                    __metadata('design:paramtypes', [Number])
-                ], BLCompGaugeMeterComponent.prototype, "valueMax", null);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', String), 
-                    __metadata('design:paramtypes', [String])
-                ], BLCompGaugeMeterComponent.prototype, "title", null);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', String), 
-                    __metadata('design:paramtypes', [String])
-                ], BLCompGaugeMeterComponent.prototype, "unit", null);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', String), 
-                    __metadata('design:paramtypes', [String])
-                ], BLCompGaugeMeterComponent.prototype, "color", null);
                 BLCompGaugeMeterComponent = __decorate([
                     core_1.Component({
                         selector: 'bl-comp-gaugemeter',

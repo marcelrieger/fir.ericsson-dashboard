@@ -1,11 +1,11 @@
-<div class="graphcont">
-	<bl-comp-linechart [ngClass]="{active: (activeChart==1)}" class="graph" [streamIn]="x" [yRange]="[0,10]" [yTitle]="'m/s'" [xTitle]="'Zeit'"></bl-comp-linechart>
-	<bl-comp-linechart [ngClass]="{active: (activeChart==2)}" class="graph" [streamIn]="y" [yRange]="[0,10]" [yTitle]="'m/s'" [xTitle]="'Zeit'"></bl-comp-linechart>
-	<bl-comp-linechart [ngClass]="{active: (activeChart==3)}" class="graph" [streamIn]="z" [yRange]="[0,10]" [yTitle]="'m/s'" [xTitle]="'Zeit'"></bl-comp-linechart>
+<div class="graphcont" *ngIf="ready">
+	<bl-comp-linechart [ngClass]="{active: (activeChart==1)}" class="graph" [streamIn]="data.x" [yRange]="device.x.range" [yTitle]="'m/s'" [xTitle]="'Zeit'" [criticalValue]="device.x.critical" [riskValue]="device.x.risk" [setDataset]="device.x.data" [width]="width"></bl-comp-linechart>
+	<bl-comp-linechart [ngClass]="{active: (activeChart==2)}" class="graph" [streamIn]="data.y" [yRange]="device.y.range" [yTitle]="'m/s'" [xTitle]="'Zeit'" [criticalValue]="device.y.critical" [riskValue]="device.y.risk" [setDataset]="device.y.data" [width]="width"></bl-comp-linechart>
+	<bl-comp-linechart [ngClass]="{active: (activeChart==3)}" class="graph" [streamIn]="data.z" [yRange]="device.z.range" [yTitle]="'m/s'" [xTitle]="'Zeit'" [criticalValue]="device.z.critical" [riskValue]="device.z.risk" [setDataset]="device.z.data" [width]="width"></bl-comp-linechart>
 </div>
 
-<div class="gauges">
-	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=1" [title]="'X'" [value]="x" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [valueMax]=10></bl-comp-gaugemeter>
-	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=2" [title]="'Y'" [value]="y" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [valueMax]=10></bl-comp-gaugemeter>
-	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=3" [title]="'Z'" [value]="z" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [valueMax]=10></bl-comp-gaugemeter>
+<div class="gauges" *ngIf="ready">
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=1" [title]="'X'" [value]="data.x" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [range]="device.x.range" [criticalValue]="device.x.critical" [riskValue]="device.x.risk"></bl-comp-gaugemeter>
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=2" [title]="'Y'" [value]="data.y" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [range]="device.y.range" [criticalValue]="device.y.critical" [riskValue]="device.y.risk"></bl-comp-gaugemeter>
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=3" [title]="'Z'" [value]="data.z" [unit]='" <span class=\"super\">m</span>&frasl;<span class=\"sub\">s</span>"' [range]="device.z.range" [criticalValue]="device.z.critical" [riskValue]="device.z.risk"></bl-comp-gaugemeter>
 </div>

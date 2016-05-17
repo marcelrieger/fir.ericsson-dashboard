@@ -1,0 +1,47 @@
+[GET] /modules
+
+	REQ:
+	RES:
+		{ 
+			"id": <id>,
+			"name": <name>,
+			"sensors": [ <sensors>,... ] 
+		}
+
+[GET] /get_init_data
+	REQ:
+		{ 
+			"id":<id>,
+			[
+				{ "sensor": <sensor> }
+				,...
+			] 
+		}
+	RES:
+	[
+		<sensor1>: { 
+			"is_risk": <bool>,
+			"risk": <risk>,
+			"is_critical": <bool>,
+			"critical": <critical>,
+			"range": <range>,
+			"data": <last 120 values> 
+		},
+		...
+	]
+
+[GET] /get_last_data
+	REQ:
+		{ "id":<id>,
+			[
+				{ "sensor": <sensor> }
+				,...
+			] 
+		}
+	RES:
+	[
+		<sensor1>: { 
+						"data": <last value> 
+					},
+		...
+	]

@@ -1,10 +1,11 @@
 .chart {
 	text-align: center;
 	width: 100%;
+	background: antiquewhite;
 }
 
 .chart /deep/ svg {
-	padding: 10px 0 30px;
+	padding: 0;
 	margin: 5px auto;
 	overflow: visible;
 }

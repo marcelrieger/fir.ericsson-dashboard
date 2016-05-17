@@ -1,9 +1,9 @@
-<div class="graphcont">
-	<bl-comp-linechart [ngClass]="{active: (activeChart==1)}" class="graph" [streamIn]="temp.data" [criticalValue]="temp.critical" [riskValue]="temp.risk" [yTitle]="'&#176;C'" [xTitle]="'Zeit'"></bl-comp-linechart>
-	<bl-comp-linechart [ngClass]="{active: (activeChart==2)}" class="graph" [streamIn]="lux.data" [criticalValue]="lux.critical" [riskValue]="lux.risk" [yRange]="[0,300]" [yTitle]="'lux'" [xTitle]="'Zeit'"></bl-comp-linechart>
+<div class="graphcont" *ngIf="ready">
+	<bl-comp-linechart [ngClass]="{active: (activeChart==1)}" class="graph" [streamIn]="data.temp" [criticalValue]="device.temp.critical" [riskValue]="device.temp.risk" [yTitle]="'&#176;C'" [xTitle]="'Zeit'" [setDataset]="device.temp.data" [width]="width"></bl-comp-linechart>
+	<bl-comp-linechart [ngClass]="{active: (activeChart==2)}" class="graph" [streamIn]="data.lux" [criticalValue]="device.lux.critical" [riskValue]="device.lux.risk" [yRange]="[0,300]" [yTitle]="'lux'" [xTitle]="'Zeit'" [setDataset]="device.lux.data" [width]="width"></bl-comp-linechart>
 </div>
 
-<div class="gauges">
-	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=1" [title]="'TEMPERATUR'" [value]="temp.data" [unit]="'&#176;C'" [valueMin]=10 [criticalValue]="temp.critical" [riskValue]="temp.risk"></bl-comp-gaugemeter>
-	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=2" [title]="'BELEUCHTUNG'" [value]="lux.data" [unit]="'lx'" [valueMax]=300  [criticalValue]="lux.critical" [riskValue]="lux.risk"></bl-comp-gaugemeter>
+<div class="gauges" *ngIf="ready">
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=1" [title]="'TEMPERATUR'" [value]="data.temp" [unit]="'&#176;C'" [criticalValue]="device.temp.critical" [riskValue]="device.temp.risk"></bl-comp-gaugemeter>
+	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=2" [title]="'BELEUCHTUNG'" [value]="data.lux" [unit]="'lx'" [range]="[0,300]"  [criticalValue]="device.lux.critical" [riskValue]="device.lux.risk"></bl-comp-gaugemeter>
 </div>

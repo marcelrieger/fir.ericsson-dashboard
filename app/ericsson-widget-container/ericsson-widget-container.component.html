@@ -1,0 +1,35 @@
+<div class="widgetcont">
+	<div class="menu" (click)="menuActive=!menuActive"><i class="material-icons">&#xE42A;</i></div>
+	<div class="cover loading" [ngClass]="{hide: !loading}">
+		<span>{{device?.name}}</span>
+	</div>
+	<div class="cover anim widgetcontrol" [ngClass]="{hide: !menuActive}">
+		<div class="header">
+			<h2>{{device?.name}}</h2>
+			<h4>{{widgetList[activeWidget].name}}</h4>
+		</div>
+		<div class="widgetselection">
+			<div class="btn" (click)="switchWidget('left')"><i class="material-icons">&#xE314;</i></div>
+			<div class="activewidgeticon" (click)="menuActive=false"><i class="material-icons"[innerHTML]="widgetList[activeWidget].icon"></i></div>
+			<div class="btn" (click)="switchWidget('right')"><i class="material-icons">&#xE315;</i></div>
+		</div>
+		<div class="footer">
+			  	<input class="mdl-slider mdl-js-slider" type="range"
+		  min="250" max="2000" [(ngModel)]="datarate" tabindex="0">
+			<span>Aktualisierungsrate: {{datarate}}ms</span>  
+		</div>
+	</div>
+	<div [ngSwitch]="activeWidget" class="anim" [ngClass]="{minheight: menuActive}">
+		
+		<ericsson-widget-datamonitoring *ngSwitchWhen="0" [deviceID]="_deviceID" [datarate]="datarate" [width]="width"></ericsson-widget-datamonitoring>
+
+		<ericsson-widget-accelerationmonitoring *ngSwitchWhen="1" [deviceID]="_deviceID" [datarate]="datarate" [width]="width"></ericsson-widget-accelerationmonitoring>
+
+		<ericsson-widget-livemap *ngSwitchWhen="2" [deviceID]="_deviceID" [datarate]="datarate"></ericsson-widget-livemap>
+
+		<div *ngSwitchWhen="3" class="title">
+				<span>livestream</span>
+		</div>
+
+	</div>
+</div>
