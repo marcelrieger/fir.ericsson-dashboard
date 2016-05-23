@@ -32,7 +32,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     this.element = element;
                     this.device = null;
                     this._deviceID = null;
-                    this.datarate = 250;
+                    this.datarate = 300;
                     this.widgetList = [];
                     this.availWidgetList = [
                         {

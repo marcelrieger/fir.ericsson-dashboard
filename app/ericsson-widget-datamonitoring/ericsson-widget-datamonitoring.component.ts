@@ -42,7 +42,7 @@ export class EricssonWidgetDataMonitoring implements OnInit {
 	private _deviceID = null;
 	private data;
 	private dataset;
-	private _datarate: number = 2500;
+	private _datarate: number = 300;
 	private updater: any = 0;
 	private ready: boolean = false;
 	private trigger:boolean = true;

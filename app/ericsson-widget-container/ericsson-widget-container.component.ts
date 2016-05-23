@@ -25,7 +25,7 @@ export class EricssonWidgetContainer implements OnInit {
 	}
 	public activeWidget;
 	public _deviceID = null;
-	public datarate = 250;
+	public datarate = 300;
 	public widgetList = [];
 	public availWidgetList = [
 		{

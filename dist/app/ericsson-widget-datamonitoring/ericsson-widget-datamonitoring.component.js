@@ -34,7 +34,7 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                     this.sensorIDs = [];
                     this.width = 390;
                     this._deviceID = null;
-                    this._datarate = 2500;
+                    this._datarate = 300;
                     this.updater = 0;
                     this.ready = false;
                     this.trigger = true;
