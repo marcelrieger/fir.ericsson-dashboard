@@ -10,36 +10,6 @@ export class DFAEnergyDataService {
 	private apiLastVal = this.api + "get_data/";
 
   constructor(private http: Http) { }
-  
-  init(deviceID: number) {
-	  let tempdata = [];
-	  let luxdata = [];
-
-		for (var i = 120 - 1; i >= 0; i--) {
-			tempdata.push(parseInt(60 + Math.random() * 20 + ""));
-			luxdata.push(parseInt(260 + Math.random() * 15 + ""));
-		}
-
-    return Promise.resolve({
-				temp: {
-					data: tempdata,
-					risk: [20, 70],
-					critical: [10, 90]
-				},
-				lux: {
-					data: luxdata,
-					risk: [0, 260],
-					critical: [0, 275]
-				}
-		});
-  }
-
-  getCurData2(sensorIDs) {
-	  return Promise.resolve({
-	    temp : parseInt(60 + Math.random() * 20 + ""),
-	    lux : parseInt(270 + Math.random() * 5 + ""),
-	  });
-  }
 
   getInitData(sensorIDs) {
 
@@ -53,14 +23,8 @@ export class DFAEnergyDataService {
 	  })
 		  .toPromise()
 		  .then(function(res: Response) {
-			  console.log(sensorIDs);
-			  console.log(res);
 			  let body = res.json();
 			  return Promise.resolve(body);
-			  //return Promise.resolve({
-			//	  "1": [23, 24, 24, 23, 27, 25, 27, 27, 28, 25, 27, 26],
-			//	  "2": [23, 24, 24, 23, 27, 25, 27, 27, 28, 25, 27, 26]
-			  //});
 		  })
 		  .catch(function (error: any) {
 			  console.warn("EnergyDataException: INIT API not reachable");
@@ -86,10 +50,6 @@ export class DFAEnergyDataService {
 		  .then(function(res: Response) {
 			  let body = res.json();
 			  return Promise.resolve(body);
-			  //return Promise.resolve({
-			//	  "1": [parseInt(20 + Math.random() * 5 + "")],
-			//	  "2": [parseInt(20 + Math.random() * 5 + "")]
-			  //});
 		  })
 		  .catch(this.handleError);
   }

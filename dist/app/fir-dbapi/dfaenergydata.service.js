@@ -28,32 +28,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_
                     this.api = 'http://137.226.151.169/';
                     this.apiLastVal = this.api + "get_data/";
                 }
-                DFAEnergyDataService.prototype.init = function (deviceID) {
-                    var tempdata = [];
-                    var luxdata = [];
-                    for (var i = 120 - 1; i >= 0; i--) {
-                        tempdata.push(parseInt(60 + Math.random() * 20 + ""));
-                        luxdata.push(parseInt(260 + Math.random() * 15 + ""));
-                    }
-                    return Promise.resolve({
-                        temp: {
-                            data: tempdata,
-                            risk: [20, 70],
-                            critical: [10, 90]
-                        },
-                        lux: {
-                            data: luxdata,
-                            risk: [0, 260],
-                            critical: [0, 275]
-                        }
-                    });
-                };
-                DFAEnergyDataService.prototype.getCurData2 = function (sensorIDs) {
-                    return Promise.resolve({
-                        temp: parseInt(60 + Math.random() * 20 + ""),
-                        lux: parseInt(270 + Math.random() * 5 + ""),
-                    });
-                };
                 DFAEnergyDataService.prototype.getInitData = function (sensorIDs) {
                     var creds = JSON.stringify(sensorIDs);
                     var headers = new http_1.Headers();
@@ -63,14 +37,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_
                     })
                         .toPromise()
                         .then(function (res) {
-                        console.log(sensorIDs);
-                        console.log(res);
                         var body = res.json();
                         return Promise.resolve(body);
-                        //return Promise.resolve({
-                        //	  "1": [23, 24, 24, 23, 27, 25, 27, 27, 28, 25, 27, 26],
-                        //	  "2": [23, 24, 24, 23, 27, 25, 27, 27, 28, 25, 27, 26]
-                        //});
                     })
                         .catch(function (error) {
                         console.warn("EnergyDataException: INIT API not reachable");
@@ -92,10 +60,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_
                         .then(function (res) {
                         var body = res.json();
                         return Promise.resolve(body);
-                        //return Promise.resolve({
-                        //	  "1": [parseInt(20 + Math.random() * 5 + "")],
-                        //	  "2": [parseInt(20 + Math.random() * 5 + "")]
-                        //});
                     })
                         .catch(this.handleError);
                 };
