@@ -3,7 +3,7 @@ body {
 	font-weight: 200;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,h2,h3,h4,h5,h6, .font {
 	font-family: 'Source Sans Pro', sans-serif!important;
 }
 
@@ -48,7 +48,8 @@ header nav span:hover {
 }
 
 header nav span.active {
-	color: #ff4081;
+	//color: #ff4081;
+	color: rgb(0, 138, 255);
 }
 
 header button.settings {

@@ -1,5 +1,6 @@
 <div class="widgetcont">
-	<div class="menu" (click)="menuActive=!menuActive"><i class="material-icons">&#xE42A;</i></div>
+	<div class="menutop left font">{{device?.name}} - {{widgetList[activeWidget].name}}</div>
+	<div class="menutop menuright" (click)="menuActive=!menuActive"><i class="material-icons">&#xE42A;</i></div>
 	<div class="cover loading" [ngClass]="{hide: !loading}">
 		<span>{{device?.name}}</span>
 	</div>

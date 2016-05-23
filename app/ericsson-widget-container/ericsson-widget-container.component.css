@@ -4,6 +4,10 @@
     transition: all ease-out 0.2s;
 }
 
+.left {
+	left: 6px;
+}
+
 .widgetcont {
 	width: calc(100% - 6px);
 	margin: 2px;
@@ -21,13 +25,18 @@
     flex-basis: auto;
 }
 
-.widgetcont > .menu {
+.widgetcont > .menutop {
 	position: absolute;
     top: 0;
-    right: 2px;
-    color: #EAEAEA;
+    color: rgb(0, 138, 255);
+    z-index: 89;
+}
+
+.widgetcont > .menuright {
+    right: 2px!important;
     cursor: pointer;
     z-index: 99;
+    color: rgb(110, 186, 251);
 }
 
 .cover {
@@ -38,7 +47,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index: 9;
+	z-index: 90;
 	opacity: 1;
     display: flex;
 	justify-content: center; /* align horizontal */
@@ -62,6 +71,11 @@
 .cover .header h2, .cover .header h3, .cover .header h4 {
 	font-weight: 200;
 	margin: 0;
+	color: rgb(110, 186, 251);
+}
+
+.cover .header h2 {
+	rgb(41, 157, 255)
 }
 
 .cover .widgetselection {
@@ -89,7 +103,7 @@
 	justify-content: center;
 	text-align: center;
 	cursor: pointer;
-	color: #e7e7e7;
+	color: rgb(194, 227, 255);
 }
 
 .cover .widgetselection .btn i {
@@ -101,7 +115,7 @@
 	-moz-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;
 	font-size: 70px;
-	color: #bdbdbd;
+	color: rgb(110, 186, 251);
 	cursor: pointer;
 }
 
