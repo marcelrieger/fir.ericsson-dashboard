@@ -53,6 +53,7 @@ ericsson-widget-container {
 		flex: 1;
 		min-width: 405px;
 		order: 1;
+		padding-left: 3px;
 	}
 
 	.bl-cell-big {

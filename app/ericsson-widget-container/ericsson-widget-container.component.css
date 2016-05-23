@@ -12,7 +12,7 @@
 	width: calc(100% - 6px);
 	margin: 2px;
 	padding: 9px 0;
-	border: 1px solid #eee;
+	border: 1px solid #b3e4ff;
 	position: relative;
 	display: flex;
 	justify-content: center; /* align horizontal */
@@ -25,10 +25,16 @@
     flex-basis: auto;
 }
 
+@media all and (max-width: 767px) {
+	.widgetcont {
+		padding: 28px 0 9px 0;
+	}
+}
+
 .widgetcont > .menutop {
 	position: absolute;
     top: 0;
-    color: rgb(0, 138, 255);
+    color: rgb(70, 170, 255);
     z-index: 89;
 }
 
@@ -62,6 +68,12 @@
 	font-weight: 300;
 	font-size: 25px;
 	color: #6f6f6f;
+}
+
+.loading span  {
+	color: rgb(70, 170, 255);
+	padding: 30px 0;
+	display: block;
 }
 
 .widgetcontrol {
