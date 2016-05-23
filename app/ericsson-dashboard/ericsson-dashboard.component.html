@@ -1,6 +1,6 @@
 <header mdl>
   <a class="logo" href="#">Ericsson Dashboard</a>
-	<button id="demo-menu-lower-right"
+	<button *ngIf="false" id="demo-menu-lower-right"
 	    class="mdl-button mdl-js-button mdl-button--icon settings">
 	  <i class="material-icons">build</i>
 	</button>
@@ -22,7 +22,7 @@
 
 	<div class="bl-cell bl-cell-big bl-grid">
 
-		<ericsson-widget-container [deviceID]="activeDevice.id" [device]="activeDevice" [defaultWidget]="0"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="activeDevice?.id" [device]="activeDevice" [defaultWidget]="0"></ericsson-widget-container>
 
 	</div>
 	<div class="bl-cell bl-cell-small bl-grid">
@@ -53,9 +53,9 @@
 			
 		</div>
 		-->
-		<ericsson-widget-container [deviceID]="activeDevice.id" [device]="activeDevice" [defaultWidget]="0"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="activeDevice?.id" [device]="activeDevice" [defaultWidget]="0"></ericsson-widget-container>
 
-		<ericsson-widget-container [deviceID]="activeDevice.id" [device]="activeDevice" [defaultWidget]="1"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="activeDevice?.id" [device]="activeDevice" [defaultWidget]="1"></ericsson-widget-container>
 
 		
 

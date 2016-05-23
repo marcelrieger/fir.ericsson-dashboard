@@ -58,7 +58,7 @@ export class EricssonWidgetLiveMap implements OnInit {
 
 		this.renderMap();
 
-		console.log(C.dataset);
+		//console.log(C.dataset);
 
 	}
 
@@ -66,7 +66,7 @@ export class EricssonWidgetLiveMap implements OnInit {
 
 		let C = this;
 
-		console.log(C.dataset);
+		//console.log(C.dataset);
 
 		this._devices
 			.transition()

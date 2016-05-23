@@ -110,6 +110,14 @@
 	font-size: 15px;
 }
 
+.cover .mdl-slider__background-lower {
+	background: rgb(89, 185, 255)!important;
+}
+
+.cover .mdl-slider__background-upper {
+	background: rgba(89, 185, 255, 0.3)!important;
+}
+
 @media all and (min-width: 768px) {
 
 	.cover .footer {

@@ -1,6 +1,7 @@
 {
   "name": "ericsson-v0.1",
   "version": "1.0.0",
+  "main": "start.js",
   "scripts": {
     "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
     "tsc": "tsc",

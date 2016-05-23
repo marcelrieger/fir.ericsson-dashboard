@@ -12,6 +12,7 @@
 	REQ:
 		{ 
 			"id":<id>,
+			"datacount":120,
 			[
 				{ "sensor": <sensor> }
 				,...

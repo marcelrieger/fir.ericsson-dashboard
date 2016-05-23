@@ -13,7 +13,7 @@ export class BLCompGaugeMeterComponent{
 
 	@Input() range = [0, 100];
 	@Input() value = 0;
-	@Input() _title = "";
+	@Input() title = "";
 	@Input() unit = "";
 	@Input() color = "#00FF00";
 	@Input() criticalValue = [0, 0];
@@ -62,10 +62,10 @@ export class BLCompGaugeMeterComponent{
 
 		
 
-		if ((this.criticalValue[0] > this.range[0] && val < this.criticalValue[0]) || (this.criticalValue[1] < this.range[1] && val > this.criticalValue[1])) {
+		if ((this.criticalValue[0] != null && val < this.criticalValue[0]) || (this.criticalValue[1] != null && val > this.criticalValue[1])) {
 			color = "#FF0000";
-		} else if ((this.riskValue[0] > this.range[0] && val < this.riskValue[0]) || (this.riskValue[1] < this.range[1] && val > this.riskValue[1])) {
-			color = "#FFFF00";
+		} else if ((this.riskValue[0] != null && val < this.riskValue[0]) || (this.riskValue[1] != null && val > this.riskValue[1])) {
+			color = "#FFE100";
 		}
 
 		let styles = {

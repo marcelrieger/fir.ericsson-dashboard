@@ -14,11 +14,11 @@ export class BLCompLineChartComponent implements OnInit {
 	@Input() height = 200;
 	@Input() xTitle = "";
 	@Input() yTitle = "";
-	@Input() xRange = [0, 1000/250 * 30];
+	@Input() xRange = [0, 120];
 	@Input() yRange = [0, 100];
 	@Input() criticalValue = [0, 0];
 	@Input() riskValue = [0, 0];
-	@Input() yValue = ["-30m", "-20m", "-10m", "0m"];
+	@Input() yValue = ["-30s", "-20s", "-10s", "0s"];
 
 	@Input()
 	set setDataset(val: any) {
@@ -46,6 +46,26 @@ export class BLCompLineChartComponent implements OnInit {
 			}
 		}
 	}
+
+	@Input() dataIn;
+
+	@Input() 
+	set trigger(n: any) {
+		this.dataset.push(this.dataIn);
+
+		if (this.ready && !isNaN(parseInt(this.dataIn))) {
+
+			if (this.dataIn > this._maxValue) {
+				this._maxValue = this.dataIn;
+			}
+			if (this.dataset.length > this.xRange[1] + 1) {
+				this.dataset.shift();
+				this.renderGraph(true);
+			} else {
+				this.renderGraph(false);
+			}
+		}
+	}
 	
 	private dataset = [];
 	private host;
@@ -56,7 +76,7 @@ export class BLCompLineChartComponent implements OnInit {
 	private _xAxis;
 	private _yAxis;
 	private _graph;
-	private _maxValue = 0;
+	private _maxValue;
 	private _graphMaxLine;
 	private _graphMinLine;
 	private _lineFunction;
@@ -69,11 +89,12 @@ export class BLCompLineChartComponent implements OnInit {
 	ngOnInit() {
 		let C = this;
 
+		C._maxValue = C.yRange[0];
+
 		if (this.width>600) {
 			this.width -= 50;
 			this.height = this.width / 2. - 50;
 		}
-		
 		this._x = d3.scale.linear().domain(C.xRange).range([0 + 17 + C._hMargin, this.width-30 - C._hMargin]);
 		this._y = d3.scale.linear().domain(C.yRange).range([C.height, C.yRange[0]]);
 
@@ -94,12 +115,12 @@ export class BLCompLineChartComponent implements OnInit {
 								.append("svg")
 								.attr("height", C.height).attr("width", C.width+"px");
 
-		if (this.riskValue[0] > this.yRange[0]) {
+		if (C.valid(this.riskValue[0]) && this.riskValue[0] > this.yRange[0]) {
 			this._graph = this._graphContainer
 				.append("rect")
 				.attr("class", "risk")
 				.attr("x", 30)
-				.attr("y", C._y(this.riskValue[0]))
+				.attr("y", C._y(this.riskValue[0])-1)
 				.attr("width", this.width - 40)
 				.attr("height", C._y(this.yRange[0]) - C._y(this.riskValue[0]));
 			this._graphContainer.append("line")
@@ -110,7 +131,7 @@ export class BLCompLineChartComponent implements OnInit {
 				.attr("x2", this.width-10)
 				.attr("y2", C._y(this.riskValue[0]));
 		}
-		if (this.riskValue[1] < this.yRange[1]) {
+		if (C.valid(this.riskValue[1]) && this.riskValue[1] < this.yRange[1]) {
 			this._graph = this._graphContainer
 				.append("rect")
 				.attr("class", "risk")
@@ -127,7 +148,7 @@ export class BLCompLineChartComponent implements OnInit {
 				.attr("y2", C._y(this.riskValue[1]));
 		}
 
-		if (this.criticalValue[0] > this.yRange[0]) {
+		if (C.valid(this.criticalValue[0]) && this.criticalValue[0] > this.yRange[0]) {
 			this._graph = this._graphContainer
 				.append("rect")
 				.attr("class", "critical")
@@ -142,7 +163,7 @@ export class BLCompLineChartComponent implements OnInit {
 				.attr("x2", this.width - 10)
 				.attr("y2", C._y(this.criticalValue[0]));
 		}
-		if (this.criticalValue[1] < this.yRange[1]) {
+		if (C.valid(this.criticalValue[1]) && this.criticalValue[1] < this.yRange[1]) {
 			this._graph = this._graphContainer
 				.append("rect")
 				.attr("class", "critical")
@@ -158,11 +179,6 @@ export class BLCompLineChartComponent implements OnInit {
 				.attr("y2", C._y(this.criticalValue[1]));
 		}
 
-		this._graph = this._graphContainer
-			.append("path")
-			.data([this.dataset])
-			.attr("class", "line");
-
 		this._graphMaxLine = this._graphContainer.append("line")
 			.attr("class", "maxline")
 			.attr("stroke-dasharray", "2,5")
@@ -170,6 +186,11 @@ export class BLCompLineChartComponent implements OnInit {
 			.attr("y1", 0)
 			.attr("x2", this.width - 10)
 			.attr("y2", 0);
+
+		this._graph = this._graphContainer
+			.append("path")
+			.data([this.dataset])
+			.attr("class", "line");
 
 		this._graphContainer.append("g")
 			.attr("class", "x axis")
@@ -190,11 +211,15 @@ export class BLCompLineChartComponent implements OnInit {
 			.attr("y", 6)
 			.attr("dy", ".71em")
 			.style("text-anchor", "end")
-			.text(this.yTitle);
+			.html(this.yTitle);
 		//console.log(this._graphContainer);
 		//console.log(this._graphContainer[0][0].clientWidth);
 		this.ready = true;
 
+	}
+
+	private valid(v: any) {
+		return (v != null);
 	}
 
 	private renderGraph(datafull: boolean) {
@@ -207,6 +232,12 @@ export class BLCompLineChartComponent implements OnInit {
 			xEnd = xStart - 0.5;
 		}
 
+		this._graphMaxLine
+			.transition()
+			.duration(300)
+			.ease("linear")
+			.attr("transform", "translate(0," + this._y(this._maxValue) + ")");
+
 		this._graph
 			.attr("transform", "translate(" + this._x(xStart) + ",0)")
 			.attr("d", this._lineFunction)
@@ -214,12 +245,6 @@ export class BLCompLineChartComponent implements OnInit {
 			.duration(150)
 			.ease("linear")
 			.attr("transform", "translate(" + this._x(xEnd) + ",0)");
-
-		this._graphMaxLine
-			.transition()
-			.duration(300)
-			.ease("linear")
-			.attr("transform", "translate(0," + this._y(this._maxValue) + ")");
 
 	}
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
+import { DFAModulesService } from '../fir-dbapi/dfamodules.service';
 
 import {MDL} from '../MaterialDesignLiteUpgradeElement';
 import { EricssonWidgetDataMonitoring } from '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component';
@@ -17,14 +18,18 @@ import { EricssonWidgetContainer } from '../ericsson-widget-container/ericsson-w
 		EricssonWidgetDataMonitoring,
 		EricssonWidgetAccelerationMonitoring,
 		EricssonWidgetLiveMap
+	],
+	providers: [
+		DFAModulesService
 	]
 })
-export class EricssonDashboardComponent {
+export class EricssonDashboardComponent implements OnInit {
 
 	private devices: any[] = [];
 	private loading: boolean = true;
 	private datarate: number = 250;
 	private activeDevice: any;
+	private activeDeviceId: any = 0;
 	private activeDeviceIndex: number = 0;
 	private updater: any = 0;
 
@@ -32,25 +37,24 @@ export class EricssonDashboardComponent {
 	private coordinateschanged: boolean = false;
 	private devicescoordinate: any[] = [];
 
-	constructor() {
-		let C = this;
+	constructor(private DFAModules: DFAModulesService) {
+		//let C = this;
+		//this.devices = [
+		//	{ "id": "1", "name": "Carrier A", "sensors": [{ "id": "1", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "temp", "name": "Cedric" }, { "id": "2", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "light", "name": "Marcel" }, { "id": "3", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_x", "name": "Hans" }, { "id": "4", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_y", "name": "Peter" }, { "id": "5", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_z", "name": "Gerline" }] }, { "id": "1", "name": "Carrier B", "sensors": [{ "id": "1", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "temp", "name": "Cedric" }, { "id": "2", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "light", "name": "Marcel" }, { "id": "3", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_x", "name": "Hans" }, { "id": "4", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_y", "name": "Peter" }, { "id": "5", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_z", "name": "Gerline" }] }
+		//];
+		//C.activeDevice = this.devices[0];
+	}
 
-		this.devices = [
-			{
-				id: 541234,
-				name: "Wagen A"
-			},
-			{
-				id: 632267,
-				name: "Wagen B"
-			},
-			{
-				id: 194613,
-				name: "Wagen C"
-			}
-		];
-		C.activeDevice = this.devices[0];
-		C.loading = false;
+	ngOnInit() {
+		let C = this;
+		this.DFAModules.getModules().then(function(data) {
+			C.devices = data;
+			C.activeDevice = C.devices[0];
+			C.loading = false;
+		}).catch(function(e) {
+			let errMsg = e.message || e.statusText || 'Server error';
+			console.error("DashboardComponentException:" + errMsg);
+		});
 	}
 
 	public updateDatarate() {}
@@ -60,6 +64,7 @@ export class EricssonDashboardComponent {
 		C.loading = true;
 		C.activeDeviceIndex = index;
 		C.activeDevice = C.devices[index];
+		C.activeDeviceId = C.devices[index].id;
 		setTimeout(function(){
 			C.loading = false;
 		},400)

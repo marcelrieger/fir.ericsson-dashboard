@@ -10,7 +10,7 @@
 }
 
 .chart /deep/ path {
-	stroke: steelblue;
+	stroke: #2D87C9;
 	stroke-width: 1;
 	fill: none;
 }
@@ -35,16 +35,18 @@
 }
 
 .chart /deep/ .critical{
-	fill: rgb(255, 235, 235);
+	//fill: rgb(255, 235, 235);
+	fill: #FF93D4;
 }
 
 .chart /deep/ .risk{
-	fill: #FFFFE8;
+	//fill: #FFFFE8;
+	fill: #FCFF86;
 }
 
 .chart /deep/ .dashedline {
 	stroke-width:0.4px;
-	stroke: rgb(150,150,150);
+	stroke: rgb(255, 117, 0);
 }
 
 .chart /deep/ .maxline {

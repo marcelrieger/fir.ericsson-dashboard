@@ -23,11 +23,15 @@ export class EricssonWidgetDataMonitoring implements OnInit {
 	// TODO: IMPORTANT!!!!
     //	 	 Render view only if all core promises has been resolved
 
-    @Input() 
-    set deviceID(val: number){
+    @Input()
+    set deviceID(val: number) {
 		this._deviceID = val;
 		this.ngOnInit();
     }
+
+	@Input() sensors = [];
+	@Input() sensorIDs = [];
+
     @Input()
     set datarate(val: number) {
 		this._datarate = val;
@@ -36,33 +40,64 @@ export class EricssonWidgetDataMonitoring implements OnInit {
 
     @Input() width = 390;
 	private _deviceID = null;
-	private device;
-	private data = {
-		temp: null,
-		lux: null
-	};
-	private _datarate: number = 250;
+	private data;
+	private dataset;
+	private _datarate: number = 2500;
 	private updater: any = 0;
 	private ready: boolean = false;
-	public activeChart = 1;
+	private trigger:boolean = true;
+	public activeChart = 0;
 
 	constructor(private DFAEnergyData: DFAEnergyDataService) {}
 
 	ngOnInit() {
+		if (this.sensorIDs.length == 0) return;
 		let C = this;
-		this.DFAEnergyData.init(this._deviceID).then(function(data) {
-			C.device = data;
+		//for (var i = 0, len = C.sensors.length; i < len;i++) {
+		//	C.sensorIDs.push(C.sensors[i].id);
+		//}
+		//this.DFAEnergyData.init(this._deviceID).then(function(data) {
+		//	C.device = data;
+		//	
+		//}).catch(function(e) {
+		//	console.error("ExceptionEnergyData:" + e);
+		//});
+		this.DFAEnergyData.getInitData(this.sensorIDs).then(function(data) {
+			C.dataset = data;
+			C.data = data;
 			C.ready = true;
+		}).catch(function(e) {
+			console.error("ExceptionEnergyData:" + e);
 		});
 		this.updateDatarate();
 	}
 
 	public updateDatarate() {
+		if (this.sensorIDs.length == 0) return;
 		let C = this;
 		clearInterval(C.updater);
 		C.updater = setInterval(function() {
-			C.DFAEnergyData.getCurData(C._deviceID).then(data => C.data = data);
+			C.DFAEnergyData.getCurData(C.sensorIDs)
+			.then(function (data){
+				C.data = data;
+				C.trigger = !C.trigger;
+			});
 		}, C._datarate);
+	}
+
+	public units(s: string) {
+		switch (s) {
+			case "temp":
+				return '&#176;C';
+			case "light":
+				return 'lx';
+			case "accel_x":
+			case "accel_y":
+			case "accel_z":
+				return 'm/s';
+			default:
+				return '';
+		}
 	}
 
 }
