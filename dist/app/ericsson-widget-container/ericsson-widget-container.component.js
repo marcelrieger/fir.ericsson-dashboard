@@ -61,9 +61,10 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         },
                         {
                             index: 3,
-                            activated: false,
+                            activated: true,
                             name: "Camera Feed",
                             icon: "&#xE04B;",
+                            ip: "137.226.150.205",
                             sensors: [],
                             ids: []
                         }

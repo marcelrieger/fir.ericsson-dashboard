@@ -28,10 +28,10 @@
 
 		<ericsson-widget-accelerationmonitoring *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate" [width]="width"></ericsson-widget-accelerationmonitoring>
 
-		<ericsson-widget-livemap *ngSwitchWhen="2" [deviceID]="_deviceID" [datarate]="datarate"></ericsson-widget-livemap>
+		<ericsson-widget-livemap *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate"></ericsson-widget-livemap>
 
-		<div *ngSwitchWhen="3" class="title">
-				<span>livestream</span>
+		<div *ngSwitchWhen="2">
+			<img src="http://{{widgetList[activeWidget].ip}}/cam_pic.php" class="livestream" />
 		</div>
 
 	</div>
