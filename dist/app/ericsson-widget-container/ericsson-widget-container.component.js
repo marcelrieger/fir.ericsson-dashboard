@@ -64,7 +64,6 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                             activated: true,
                             name: "Camera Feed",
                             icon: "&#xE04B;",
-                            ip: "137.226.150.205",
                             sensors: [],
                             ids: []
                         }
@@ -73,6 +72,8 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     this.width = 390;
                     this.loading = true;
                     this.menuActive = false;
+                    this.livestreamurl = "";
+                    this.timestamp = 0;
                     this.host = this.element.nativeElement;
                     this.widgetList = this.availWidgetList;
                 }
@@ -137,7 +138,9 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     configurable: true
                 });
                 EricssonWidgetContainer.prototype.ngOnInit = function () {
+                    var C = this;
                     this.width = this.host.offsetWidth - 20;
+                    setInterval(function () { C.livestreamurl = "http://137.226.150.205/cam_pic.php?ts=" + (++C.timestamp); }, 30);
                 };
                 EricssonWidgetContainer.prototype.switchWidget = function (s) {
                     switch (s) {

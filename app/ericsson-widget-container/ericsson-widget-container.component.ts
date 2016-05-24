@@ -57,7 +57,6 @@ export class EricssonWidgetContainer implements OnInit {
 			activated: true,
 			name: "Camera Feed",
 			icon: "&#xE04B;",
-			ip: "137.226.150.205",
 			sensors: [],
 			ids: []
 		}
@@ -67,6 +66,8 @@ export class EricssonWidgetContainer implements OnInit {
 	private loading: boolean = true;
 	private menuActive: boolean = false;
 	private host;
+	private livestreamurl = "";
+	private timestamp = 0;
 
 	@Input() 
 	set deviceID(val: number){
@@ -126,7 +127,9 @@ export class EricssonWidgetContainer implements OnInit {
 	}
 
 	ngOnInit() {
+		let C = this;
 		this.width = this.host.offsetWidth - 20;
+		setInterval(function() { C.livestreamurl = "http://137.226.150.205/cam_pic.php?ts="+(++C.timestamp); }, 30);
 	}
 
 	public switchWidget(s: string) {

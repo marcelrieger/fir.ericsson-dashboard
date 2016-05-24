@@ -31,7 +31,7 @@
 		<ericsson-widget-livemap *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate"></ericsson-widget-livemap>
 
 		<div *ngSwitchWhen="2">
-			<img src="http://{{widgetList[activeWidget].ip}}/cam_pic.php" class="livestream" />
+			<img [src]="livestreamurl" class="livestream" />
 		</div>
 
 	</div>
