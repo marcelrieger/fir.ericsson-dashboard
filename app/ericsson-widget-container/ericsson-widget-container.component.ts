@@ -67,7 +67,6 @@ export class EricssonWidgetContainer implements OnInit {
 	private menuActive: boolean = false;
 	private host;
 	private livestreamurl = "";
-	private timestamp = 0;
 
 	@Input() 
 	set deviceID(val: number){
@@ -129,7 +128,7 @@ export class EricssonWidgetContainer implements OnInit {
 	ngOnInit() {
 		let C = this;
 		this.width = this.host.offsetWidth - 20;
-		setInterval(function() { C.livestreamurl = "http://137.226.150.205/cam_pic.php?ts="+(++C.timestamp); }, 30);
+		setInterval(function() { C.livestreamurl = "http://137.226.150.205/cam_pic.php?ts=" + (new Date()).getTime(); }, 100);
 	}
 
 	public switchWidget(s: string) {
