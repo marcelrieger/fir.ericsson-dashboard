@@ -2,11 +2,11 @@
 	-webkit-transition: all ease-out 0.2s; 
 	-moz-transition: all ease-out 0.2s; 
     transition: all ease-out 0.2s;
-    width: 90%;
 }
 
 .livestream {
 	width: 100%;
+	color: rgb(152, 152, 152);
 }
 
 .left {

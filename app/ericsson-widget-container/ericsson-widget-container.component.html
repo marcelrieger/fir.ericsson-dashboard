@@ -20,7 +20,7 @@
 			<span>Refresh rate: {{datarate}}ms</span>  
 		</div>
 	</div>
-	<div [ngSwitch]="activeWidget" *ngIf="ready" class="anim" [ngClass]="{minheight: menuActive}">
+	<div [ngSwitch]="widgetList[activeWidget].index" *ngIf="ready" class="anim" [ngClass]="{minheight: menuActive}">
 		
 		<ericsson-widget-datamonitoring *ngSwitchWhen="0" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids"></ericsson-widget-datamonitoring>
 
@@ -30,9 +30,7 @@
 
 		<ericsson-widget-livemap *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate"></ericsson-widget-livemap>
 
-		<div *ngSwitchWhen="2">
-			<img [src]="livestreamurl" class="livestream" />
-		</div>
+		<img *ngSwitchWhen="3" [src]="livestreamurl" class="livestream" alt="camera offline" />
 
 	</div>
 </div>
