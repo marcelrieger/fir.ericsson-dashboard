@@ -42,24 +42,16 @@ System.register(['angular2/core', '../fir-dbapi/dfamodules.service', '../Materia
                     this.devices = [];
                     this.loading = true;
                     this.datarate = 250;
-                    this.activeDeviceId = 0;
-                    this.activeDeviceIndex = 0;
                     this.updater = 0;
                     this.devMode = false;
                     this.coordinateschanged = false;
                     this.devicescoordinate = [];
-                    //let C = this;
-                    //this.devices = [
-                    //	{ "id": "1", "name": "Carrier A", "sensors": [{ "id": "1", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "temp", "name": "Cedric" }, { "id": "2", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "light", "name": "Marcel" }, { "id": "3", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_x", "name": "Hans" }, { "id": "4", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_y", "name": "Peter" }, { "id": "5", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_z", "name": "Gerline" }] }, { "id": "1", "name": "Carrier B", "sensors": [{ "id": "1", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "temp", "name": "Cedric" }, { "id": "2", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "light", "name": "Marcel" }, { "id": "3", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_x", "name": "Hans" }, { "id": "4", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_y", "name": "Peter" }, { "id": "5", "module_id": "1", "freq": "10", "min": "0", "max": "200", "warn_low": null, "crit_low": null, "crit_high": null, "warn_high": null, "type": "accel_z", "name": "Gerline" }] }
-                    //];
-                    //C.activeDevice = this.devices[0];
                 }
                 EricssonDashboardComponent.prototype.ngOnInit = function () {
                     var C = this;
                     this.DFAModules.getModules().then(function (data) {
                         C.devices = data;
-                        C.activeDevice = C.devices[0];
-                        C.loading = false;
+                        C.switchActiveDevice(0);
                     }).catch(function (e) {
                         var errMsg = e.message || e.statusText || 'Server error';
                         console.error("DashboardComponentException:" + errMsg);
@@ -70,29 +62,34 @@ System.register(['angular2/core', '../fir-dbapi/dfamodules.service', '../Materia
                     var C = this;
                     C.loading = true;
                     C.activeDeviceIndex = index;
-                    C.activeDevice = C.devices[index];
-                    C.activeDeviceId = C.devices[index].id;
+                    C.mainWidgetDeviceID = index;
+                    C.topWidgetDeviceID = index;
+                    C.bottomWidgetDeviceID = index;
                     setTimeout(function () {
                         C.loading = false;
                     }, 400);
                 };
-                EricssonDashboardComponent.prototype.dev = function (vehicle, index) {
-                    console.info(this.devicescoordinate);
-                    switch (index) {
+                EricssonDashboardComponent.prototype.overrideDevice = function (widget, op) {
+                    var len = this.devices.length;
+                    switch (widget) {
                         case 0:
-                            this.devicescoordinate[vehicle].y += 1;
+                            this.mainWidgetDeviceID = (this.mainWidgetDeviceID + parseInt(op)) % len;
+                            if (this.mainWidgetDeviceID < 0) {
+                                this.mainWidgetDeviceID = len - 1;
+                            }
                             break;
                         case 1:
-                            this.devicescoordinate[vehicle].y -= 1;
+                            this.topWidgetDeviceID = (this.topWidgetDeviceID + parseInt(op)) % len;
+                            if (this.topWidgetDeviceID < 0) {
+                                this.topWidgetDeviceID = len - 1;
+                            }
                             break;
                         case 2:
-                            this.devicescoordinate[vehicle].x -= 1;
-                            break;
-                        case 3:
-                            this.devicescoordinate[vehicle].x += 1;
-                            break;
+                            this.bottomWidgetDeviceID = (this.bottomWidgetDeviceID + parseInt(op)) % len;
+                            if (this.bottomWidgetDeviceID < 0) {
+                                this.bottomWidgetDeviceID = len - 1;
+                            }
                     }
-                    this.coordinateschanged = !this.coordinateschanged;
                 };
                 EricssonDashboardComponent = __decorate([
                     core_1.Component({

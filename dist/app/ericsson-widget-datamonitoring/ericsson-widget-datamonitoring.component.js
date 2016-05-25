@@ -62,23 +62,17 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                     if (this.sensorIDs.length == 0)
                         return;
                     var C = this;
-                    //for (var i = 0, len = C.sensors.length; i < len;i++) {
-                    //	C.sensorIDs.push(C.sensors[i].id);
-                    //}
-                    //this.DFAEnergyData.init(this._deviceID).then(function(data) {
-                    //	C.device = data;
-                    //	
-                    //}).catch(function(e) {
-                    //	console.error("ExceptionEnergyData:" + e);
-                    //});
                     this.DFAEnergyData.getInitData(this.sensorIDs).then(function (data) {
                         C.dataset = data;
                         C.data = data;
                         C.ready = true;
                     }).catch(function (e) {
-                        console.error("ExceptionEnergyData:" + e);
+                        console.warn("Initialization error:" + e);
                     });
                     this.updateDatarate();
+                };
+                EricssonWidgetDataMonitoring.prototype.ngOnDestroy = function () {
+                    clearInterval(this.updater);
                 };
                 EricssonWidgetDataMonitoring.prototype.updateDatarate = function () {
                     if (this.sensorIDs.length == 0)
@@ -90,6 +84,9 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                             .then(function (data) {
                             C.data = data;
                             C.trigger = !C.trigger;
+                        })
+                            .catch(function (e) {
+                            console.warn("Request failed:" + e);
                         });
                     }, C._datarate);
                 };

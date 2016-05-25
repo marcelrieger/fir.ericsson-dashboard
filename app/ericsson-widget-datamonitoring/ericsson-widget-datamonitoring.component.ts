@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from 'angular2/core';
+import { Component, Input, OnInit, OnDestroy } from 'angular2/core';
 import { Router } from 'angular2/router';
 import { DFAEnergyDataService } from '../fir-dbapi/dfaenergydata.service';
 
@@ -18,7 +18,7 @@ import { BLCompLineChartComponent } from '../bl-comp-linechart/bl-comp-linechart
 	]
 })
 
-export class EricssonWidgetDataMonitoring implements OnInit {
+export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
 
 	// TODO: IMPORTANT!!!!
     //	 	 Render view only if all core promises has been resolved
@@ -53,23 +53,18 @@ export class EricssonWidgetDataMonitoring implements OnInit {
 	ngOnInit() {
 		if (this.sensorIDs.length == 0) return;
 		let C = this;
-		//for (var i = 0, len = C.sensors.length; i < len;i++) {
-		//	C.sensorIDs.push(C.sensors[i].id);
-		//}
-		//this.DFAEnergyData.init(this._deviceID).then(function(data) {
-		//	C.device = data;
-		//	
-		//}).catch(function(e) {
-		//	console.error("ExceptionEnergyData:" + e);
-		//});
 		this.DFAEnergyData.getInitData(this.sensorIDs).then(function(data) {
 			C.dataset = data;
 			C.data = data;
 			C.ready = true;
 		}).catch(function(e) {
-			console.error("ExceptionEnergyData:" + e);
+			console.warn("Initialization error:" + e);
 		});
 		this.updateDatarate();
+	}
+
+	ngOnDestroy() {
+		clearInterval(this.updater);
 	}
 
 	public updateDatarate() {
@@ -81,6 +76,9 @@ export class EricssonWidgetDataMonitoring implements OnInit {
 			.then(function (data){
 				C.data = data;
 				C.trigger = !C.trigger;
+			})
+			.catch(function(e) {
+				console.warn("Request failed:" + e);
 			});
 		}, C._datarate);
 	}

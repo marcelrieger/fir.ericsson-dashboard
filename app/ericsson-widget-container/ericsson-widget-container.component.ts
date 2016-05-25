@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef } from 'angular2/core';
+import { Component, Input, OnInit, ElementRef, Output, EventEmitter, OnDestroy } from 'angular2/core';
 import { Router } from 'angular2/router';
 
 import { EricssonWidgetDataMonitoring } from '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component';
@@ -16,13 +16,15 @@ import { EricssonWidgetLiveMap } from '../ericsson-widget-livemap/ericsson-widge
 	]
 })
 
-export class EricssonWidgetContainer implements OnInit {
+export class EricssonWidgetContainer implements OnInit, OnDestroy {
 
 	@Input() device = null;
 	@Input() 
 	set defaultWidget(val: number) {
 		this.activeWidget = val;
 	}
+	@Output() overrideDeviceID= new EventEmitter();
+
 	public activeWidget;
 	public _deviceID = null;
 	public datarate = 300;
@@ -63,10 +65,12 @@ export class EricssonWidgetContainer implements OnInit {
 	];
 	private ready: boolean = false;
 	private width: number = 390;
+	private height: number = 200;
 	private loading: boolean = true;
 	private menuActive: boolean = false;
 	private host;
 	private livestreamurl = "";
+	private interval;
 
 	@Input() 
 	set deviceID(val: number){
@@ -74,6 +78,7 @@ export class EricssonWidgetContainer implements OnInit {
 		C._deviceID = val;
 		C.loading = true;
 		C.ready = false;
+		C.activeWidget = 0;
 		if (typeof C.device === "undefined") { return; }
 
 		// Create lookup table
@@ -100,10 +105,6 @@ export class EricssonWidgetContainer implements OnInit {
 					lookup[1].sensors.push(C.device.sensors[i]);
 					lookup[1].ids.push(C.device.sensors[i].id);
 					break;
-				case "camera":
-					lookup[3].activated = true;
-					lookup[3].ids.push(C.device.sensors[i].id);
-					break;
 			}
 		}
 
@@ -128,7 +129,12 @@ export class EricssonWidgetContainer implements OnInit {
 	ngOnInit() {
 		let C = this;
 		this.width = this.host.offsetWidth - 20;
-		setInterval(function() { C.livestreamurl = "http://137.226.150.205/cam_pic.php?ts=" + (new Date()).getTime(); }, 100);
+		this.height = this.host.offsetHeight - 20;
+		this.interval = setInterval(function() { C.livestreamurl = "http://"+C.device.camera_ip+"/cam_pic.php?ts=" + (new Date()).getTime(); }, 100);
+	}
+
+	ngOnDestroy() {
+		clearInterval(this.interval);
 	}
 
 	public switchWidget(s: string) {
@@ -139,6 +145,10 @@ export class EricssonWidgetContainer implements OnInit {
 			case "right":
 				this.activeWidget = ++this.activeWidget % this.widgetList.length;
 		}
+	}
+
+	public overrideDevice(s: any) {
+		this.overrideDeviceID.emit(s);
 	}
 
 }

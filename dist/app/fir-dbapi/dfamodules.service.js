@@ -25,7 +25,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_
             DFAModulesService = (function () {
                 function DFAModulesService(http) {
                     this.http = http;
-                    this.api = 'http://137.226.151.169/';
+                    this.api = 'http://137.226.134.44:8080/';
                     this.apiLastVal = this.api + "modules/";
                     this.mockup = [
                         {

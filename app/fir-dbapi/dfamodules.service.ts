@@ -5,7 +5,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class DFAModulesService {
 
-	private api = 'http://137.226.151.169/';
+	private api = 'http://137.226.134.44:8080/';
 	private apiLastVal = this.api + "modules/";
 	private mockup = [
 		{

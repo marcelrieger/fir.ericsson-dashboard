@@ -31,6 +31,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                 function EricssonWidgetContainer(element) {
                     this.element = element;
                     this.device = null;
+                    this.overrideDeviceID = new core_1.EventEmitter();
                     this._deviceID = null;
                     this.datarate = 300;
                     this.widgetList = [];
@@ -70,6 +71,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     ];
                     this.ready = false;
                     this.width = 390;
+                    this.height = 200;
                     this.loading = true;
                     this.menuActive = false;
                     this.livestreamurl = "";
@@ -89,6 +91,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         C._deviceID = val;
                         C.loading = true;
                         C.ready = false;
+                        C.activeWidget = 0;
                         if (typeof C.device === "undefined") {
                             return;
                         }
@@ -116,10 +119,6 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                                     lookup[1].sensors.push(C.device.sensors[i]);
                                     lookup[1].ids.push(C.device.sensors[i].id);
                                     break;
-                                case "camera":
-                                    lookup[3].activated = true;
-                                    lookup[3].ids.push(C.device.sensors[i].id);
-                                    break;
                             }
                         }
                         C.widgetList = [];
@@ -139,7 +138,11 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                 EricssonWidgetContainer.prototype.ngOnInit = function () {
                     var C = this;
                     this.width = this.host.offsetWidth - 20;
-                    setInterval(function () { C.livestreamurl = "http://137.226.150.205/cam_pic.php?ts=" + (new Date()).getTime(); }, 100);
+                    this.height = this.host.offsetHeight - 20;
+                    this.interval = setInterval(function () { C.livestreamurl = "http://" + C.device.camera_ip + "/cam_pic.php?ts=" + (new Date()).getTime(); }, 100);
+                };
+                EricssonWidgetContainer.prototype.ngOnDestroy = function () {
+                    clearInterval(this.interval);
                 };
                 EricssonWidgetContainer.prototype.switchWidget = function (s) {
                     switch (s) {
@@ -150,6 +153,9 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                             this.activeWidget = ++this.activeWidget % this.widgetList.length;
                     }
                 };
+                EricssonWidgetContainer.prototype.overrideDevice = function (s) {
+                    this.overrideDeviceID.emit(s);
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Object)
@@ -159,6 +165,10 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     __metadata('design:type', Number), 
                     __metadata('design:paramtypes', [Number])
                 ], EricssonWidgetContainer.prototype, "defaultWidget", null);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], EricssonWidgetContainer.prototype, "overrideDeviceID", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Number), 
