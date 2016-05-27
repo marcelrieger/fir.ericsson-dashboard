@@ -91,8 +91,8 @@ export class BLCompLineChartComponent implements OnInit {
 
 		C._maxValue = C.yRange[0];
 
+		this.width -= 40;
 		if (this.width>600) {
-			this.width -= 50;
 			this.height = this.width / 2. - 50;
 		}
 		this._x = d3.scale.linear().domain(C.xRange).range([0 + 17 + C._hMargin, this.width-30 - C._hMargin]);
