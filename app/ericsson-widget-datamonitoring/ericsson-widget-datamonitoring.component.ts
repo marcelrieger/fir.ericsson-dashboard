@@ -39,6 +39,7 @@ export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
     }
 
     @Input() width = 390;
+    @Input() height = 200;
 	private _deviceID = null;
 	private data;
 	private dataset;
@@ -48,7 +49,6 @@ export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
 	private trigger:boolean = true;
 	public activeChart = 0;
 	private host;
-	private height = null;
 
 	constructor(private DFAEnergyData: DFAEnergyDataService, private element: ElementRef) {
 		this.host = this.element.nativeElement;

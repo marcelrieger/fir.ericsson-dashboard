@@ -22,9 +22,9 @@
 	</div>
 	<div [ngSwitch]="widgetList[activeWidget].index" *ngIf="ready" class="anim" [ngClass]="{minheight: menuActive}" style="max-height:{{height}}px; width:90%;">
 		
-		<ericsson-widget-datamonitoring *ngSwitchWhen="0" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids"></ericsson-widget-datamonitoring>
+		<ericsson-widget-datamonitoring *ngSwitchWhen="0" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [height]="height" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids"></ericsson-widget-datamonitoring>
 
-		<ericsson-widget-datamonitoring *ngSwitchWhen="1" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids"></ericsson-widget-datamonitoring>
+		<ericsson-widget-datamonitoring *ngSwitchWhen="1" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [height]="height" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids"></ericsson-widget-datamonitoring>
 
 		<ericsson-widget-accelerationmonitoring *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate" [width]="width"></ericsson-widget-accelerationmonitoring>
 

@@ -34,13 +34,13 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                     this.sensors = [];
                     this.sensorIDs = [];
                     this.width = 390;
+                    this.height = 200;
                     this._deviceID = null;
                     this._datarate = 300;
                     this.updater = 0;
                     this.ready = false;
                     this.trigger = true;
                     this.activeChart = 0;
-                    this.height = null;
                     this.host = this.element.nativeElement;
                 }
                 Object.defineProperty(EricssonWidgetDataMonitoring.prototype, "deviceID", {
@@ -129,6 +129,10 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                     core_1.Input(), 
                     __metadata('design:type', Object)
                 ], EricssonWidgetDataMonitoring.prototype, "width", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], EricssonWidgetDataMonitoring.prototype, "height", void 0);
                 EricssonWidgetDataMonitoring = __decorate([
                     core_1.Component({
                         selector: 'ericsson-widget-datamonitoring',
