@@ -1,4 +1,4 @@
-import { Component, Input } from 'angular2/core';
+import { Component, Input, Init } from 'angular2/core';
 import { Router } from 'angular2/router';
 
 @Component({
@@ -7,7 +7,7 @@ import { Router } from 'angular2/router';
   styleUrls: ['app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.css']
 })
 
-export class BLCompGaugeMeterComponent{
+export class BLCompGaugeMeterComponent implements OnInit {
 
 	private _lastMaxVal = 0;
 
@@ -19,6 +19,15 @@ export class BLCompGaugeMeterComponent{
 	@Input() criticalValue = [0, 0];
 	@Input() riskValue = [0, 0];
 
+	ngOnInit() {
+		this.range = [this.intOrNull(this.range[0]), this.intOrNull(this.range[1])];
+		this.criticalValue = [this.intOrNull(this.criticalValue[0]), this.intOrNull(this.criticalValue[1])];
+		this.riskValue = [this.intOrNull(this.riskValue[0]), this.intOrNull(this.riskValue[1])];
+	}
+
+	intOrNull(v: any) {
+		return (v == null) ? null : parseInt(v);
+	}
 	// Convert current value to the rotation degree
 	// TODO: Save value range as class property to save arithmetic operation
 	convertToDeg(val: number) {
@@ -59,8 +68,6 @@ export class BLCompGaugeMeterComponent{
 	updateGauge(val:number = this.value) {
 		let deg = this.convertToDeg(val);
 		let color = this.color;
-
-		
 
 		if ((this.criticalValue[0] != null && val < this.criticalValue[0]) || (this.criticalValue[1] != null && val > this.criticalValue[1])) {
 			color = "#FF0000";

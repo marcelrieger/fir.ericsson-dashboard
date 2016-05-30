@@ -10,8 +10,8 @@
 }
 
 .chart /deep/ path {
-	stroke: #2D87C9;
-	stroke-width: 1;
+	stroke: #FE7400;
+	stroke-width: 2;
 	fill: none;
 }
 
@@ -23,11 +23,13 @@
 
 .chart /deep/ text {
 	font-size: 11px;
+	fill: #fff;
 }
 
 .chart /deep/ .tick text{
     font-size: 10px;
     opacity: 0.8;
+    fill: #fff;
 }
 
 .chart /deep/ .tick line{
@@ -36,17 +38,17 @@
 
 .chart /deep/ .critical{
 	//fill: rgb(255, 235, 235);
-	fill: #FF93D4;
+	fill: #423535;
 }
 
 .chart /deep/ .risk{
 	//fill: #FFFFE8;
-	fill: #FCFF86;
+	fill: #373832;
 }
 
 .chart /deep/ .dashedline {
 	stroke-width:0.4px;
-	stroke: rgb(255, 117, 0);
+	stroke: rgb(96, 85, 75);
 }
 
 .chart /deep/ .maxline {

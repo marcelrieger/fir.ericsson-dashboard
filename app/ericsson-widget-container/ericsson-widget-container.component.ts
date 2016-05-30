@@ -130,6 +130,7 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 		let C = this;
 		this.width = this.host.offsetWidth - 20;
 		this.height = this.host.offsetHeight - 20;
+		if (typeof C.device == "undefined") return;
 		this.interval = setInterval(function() { C.livestreamurl = "http://"+C.device.camera_ip+"/cam_pic.php?ts=" + (new Date()).getTime(); }, 100);
 	}
 

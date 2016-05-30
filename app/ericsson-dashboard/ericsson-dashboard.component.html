@@ -18,6 +18,19 @@
 </header>
 <div class="page-content">
 
+<div class="page-collumn">
+		<ericsson-widget-container [deviceID]="mainWidgetDeviceID" [device]="devices[mainWidgetDeviceID]" [defaultWidget]="0" (overrideDeviceID)="overrideDevice(0, $event)"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="topWidgetDeviceID" [device]="devices[topWidgetDeviceID]" [defaultWidget]="0" (overrideDeviceID)="overrideDevice(1, $event)"></ericsson-widget-container>
+</div>
+
+
+<div class="page-collumn">
+		<ericsson-widget-container [deviceID]="topWidgetDeviceID" [device]="devices[topWidgetDeviceID]" [defaultWidget]="0" (overrideDeviceID)="overrideDevice(1, $event)"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="bottomWidgetDeviceID" [device]="devices[bottomWidgetDeviceID]" [defaultWidget]="1" (overrideDeviceID)="overrideDevice(2, $event)"></ericsson-widget-container>
+</div>
+
+
+<!--
 <div class="bl-grid">
 
 	<div class="bl-cell bl-cell-big bl-grid">
@@ -36,5 +49,6 @@
 	</div>
 
 </div>
+-->
 
 </div>

@@ -1,12 +1,10 @@
 ericsson-widget-container {
-	display: flex;
+	display: inline-block;
+	height: 50%;
 	width: 100%;
-	-webkit-transition: all ease-out 0.2s; 
-	-moz-transition: all ease-out 0.2s; 
-    transition: all ease-out 0.2s;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
+	border: #5a573b 1px solid;
+	margin: 0;
+	padding: 0;
 }
 
 .bl-grid {

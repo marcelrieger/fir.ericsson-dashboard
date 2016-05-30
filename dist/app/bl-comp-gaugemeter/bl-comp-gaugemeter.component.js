@@ -29,6 +29,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.criticalValue = [0, 0];
                     this.riskValue = [0, 0];
                 }
+                BLCompGaugeMeterComponent.prototype.ngOnInit = function () {
+                    this.range = [this.intOrNull(this.range[0]), this.intOrNull(this.range[1])];
+                    this.criticalValue = [this.intOrNull(this.criticalValue[0]), this.intOrNull(this.criticalValue[1])];
+                    this.riskValue = [this.intOrNull(this.riskValue[0]), this.intOrNull(this.riskValue[1])];
+                };
+                BLCompGaugeMeterComponent.prototype.intOrNull = function (v) {
+                    return (v == null) ? null : parseInt(v);
+                };
                 // Convert current value to the rotation degree
                 // TODO: Save value range as class property to save arithmetic operation
                 BLCompGaugeMeterComponent.prototype.convertToDeg = function (val) {

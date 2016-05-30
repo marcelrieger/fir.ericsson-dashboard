@@ -43,13 +43,10 @@ header nav span {
     cursor: pointer;
 }
 
-header nav span:hover {
-	color: #ff4081;
-}
-
-header nav span.active {
+header nav span:hover, header nav span.active {
 	//color: #ff4081;
-	color: rgb(0, 138, 255);
+	//color: rgb(0, 138, 255);
+	color: rgb(254, 136, 3);
 }
 
 header button.settings {
@@ -71,13 +68,39 @@ header .settingstab span {
 }
 
 .page-content {
-	position: relative;
+	position: absolute;
 	top: 50px;
 	bottom: 0;
-	display: flex;
-	justify-content: center;
-	visibility: visible;
+	left: 0;
+	right: 0;
+	background: #333;
+	overflow: hidden;
+	//display: flex;
+	//justify-content: center;
+	//visibility: visible;
+	//width: 100%;
+}
+
+.page-collumn {
+	display: inline-block;
+	float: left;
+	width: calc(50% - 13px);
+	height: calc(100% - 23px);
+	padding: 8px 0 0 8px;
+	margin: 0;
+}
+
+.widget {
+	display: inline-block;
+	height: 50%;
 	width: 100%;
+	border: palegoldenrod 1px solid;
+	margin: 0;
+	padding: 0;
+}
+
+.ww:last-child {
+	margin-bottom: 4px;
 }
 
 @media all and (max-width: 480px) {
