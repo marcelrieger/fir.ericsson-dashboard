@@ -5,6 +5,7 @@ ericsson-widget-container {
 	border: #5a573b 1px solid;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 }
 
 .bl-grid {
