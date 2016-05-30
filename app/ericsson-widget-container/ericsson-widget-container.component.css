@@ -48,6 +48,7 @@
     //color: rgb(70, 170, 255);
     color: rgb(255, 194, 88);
     z-index: 89;
+    background: #333;
 }
 
 .widgetcont > .menuright {

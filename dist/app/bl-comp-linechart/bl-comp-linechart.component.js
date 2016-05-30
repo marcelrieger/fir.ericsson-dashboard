@@ -91,6 +91,9 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.width -= 40;
                     if (this.width > 600) {
                         this.height = this.width / 2. - 50;
+                        if (this.height > 364) {
+                            this.height = 190;
+                        }
                     }
                     this._x = d3.scale.linear().domain(C.xRange).range([0 + 17 + C._hMargin, this.width - 30 - C._hMargin]);
                     this._y = d3.scale.linear().domain(C.yRange).range([C.height, C.yRange[0]]);

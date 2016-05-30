@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from 'angular2/core';
+import { Component, Input, OnInit, OnDestroy, ElementRef } from 'angular2/core';
 import { Router } from 'angular2/router';
 import { DFAEnergyDataService } from '../fir-dbapi/dfaenergydata.service';
 
@@ -47,8 +47,12 @@ export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
 	private ready: boolean = false;
 	private trigger:boolean = true;
 	public activeChart = 0;
+	private host;
+	private height = null;
 
-	constructor(private DFAEnergyData: DFAEnergyDataService) {}
+	constructor(private DFAEnergyData: DFAEnergyDataService, private element: ElementRef) {
+		this.host = this.element.nativeElement;
+	}
 
 	ngOnInit() {
 		if (this.sensorIDs.length == 0) return;
