@@ -1,5 +1,6 @@
 module.exports = {
   "port": 80,
   "files": ["./**/*.{html,htm,css,js}"],
-  "server": { "baseDir": "./" }
+  "server": { "baseDir": "./" },
+  "ghostMode": false
 }
