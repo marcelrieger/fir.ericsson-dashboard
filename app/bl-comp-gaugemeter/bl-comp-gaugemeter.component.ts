@@ -1,4 +1,4 @@
-import { Component, Input, Init } from 'angular2/core';
+import { Component, Input, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
 
 @Component({
