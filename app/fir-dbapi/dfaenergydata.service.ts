@@ -18,7 +18,30 @@ export class DFAEnergyDataService {
 	  let headers = new Headers();
 	  headers.append('Content-Type', 'application/json');
 
-	  return this.http.post(this.apiLastVal+"?count=120", JSON.stringify(sensorIDs), {
+	  return this.http.get(this.apiLastVal + "?count=120&data=" + btoa(JSON.stringify(sensorIDs)))
+		  .toPromise()
+		  .then(function(res: Response) {
+			  let body = res.json();
+			  return Promise.resolve(body);
+		  })
+		  .catch(function(error: any) {
+			  console.warn("EnergyDataException: INIT API not reachable");
+			  console.warn("Serving mockup data");
+			  return Promise.reject({
+				  "1": [23, 24, 24, 23, 27, 25, 27, 27, 28, 25, 27, 26],
+				  "2": [23, 24, 24, 23, 27, 25, 27, 27, 28, 25, 27, 26]
+			  });
+		  });
+  }
+
+  getInitDataviaPost(sensorIDs) {
+
+	  let creds = JSON.stringify(sensorIDs);
+
+	  let headers = new Headers();
+	  headers.append('Content-Type', 'application/json');
+
+	  return this.http.post(this.apiLastVal + "?count=120", JSON.stringify(sensorIDs), {
 		  headers: headers
 	  })
 		  .toPromise()
@@ -26,7 +49,7 @@ export class DFAEnergyDataService {
 			  let body = res.json();
 			  return Promise.resolve(body);
 		  })
-		  .catch(function (error: any) {
+		  .catch(function(error: any) {
 			  console.warn("EnergyDataException: INIT API not reachable");
 			  console.warn("Serving mockup data");
 			  return Promise.reject({
@@ -37,6 +60,22 @@ export class DFAEnergyDataService {
   }
 
   getCurData(sensorIDs) {
+
+	  let creds = JSON.stringify(sensorIDs);
+
+	  let headers = new Headers();
+	  headers.append('Content-Type', 'application/json');
+
+	  return this.http.get(this.apiLastVal + "?data=" + btoa(JSON.stringify(sensorIDs)))
+		  .toPromise()
+		  .then(function(res: Response) {
+			  let body = res.json();
+			  return Promise.resolve(body);
+		  })
+		  .catch(this.handleError);
+  }
+
+  getCurDataviaPost(sensorIDs) {
 
 	  let creds = JSON.stringify(sensorIDs);
 

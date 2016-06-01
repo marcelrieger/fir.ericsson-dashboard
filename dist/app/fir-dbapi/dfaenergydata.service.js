@@ -32,6 +32,25 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_
                     var creds = JSON.stringify(sensorIDs);
                     var headers = new http_1.Headers();
                     headers.append('Content-Type', 'application/json');
+                    return this.http.get(this.apiLastVal + "?count=120&data=" + btoa(JSON.stringify(sensorIDs)))
+                        .toPromise()
+                        .then(function (res) {
+                        var body = res.json();
+                        return Promise.resolve(body);
+                    })
+                        .catch(function (error) {
+                        console.warn("EnergyDataException: INIT API not reachable");
+                        console.warn("Serving mockup data");
+                        return Promise.reject({
+                            "1": [23, 24, 24, 23, 27, 25, 27, 27, 28, 25, 27, 26],
+                            "2": [23, 24, 24, 23, 27, 25, 27, 27, 28, 25, 27, 26]
+                        });
+                    });
+                };
+                DFAEnergyDataService.prototype.getInitDataviaPost = function (sensorIDs) {
+                    var creds = JSON.stringify(sensorIDs);
+                    var headers = new http_1.Headers();
+                    headers.append('Content-Type', 'application/json');
                     return this.http.post(this.apiLastVal + "?count=120", JSON.stringify(sensorIDs), {
                         headers: headers
                     })
@@ -50,6 +69,18 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx'], function(exports_
                     });
                 };
                 DFAEnergyDataService.prototype.getCurData = function (sensorIDs) {
+                    var creds = JSON.stringify(sensorIDs);
+                    var headers = new http_1.Headers();
+                    headers.append('Content-Type', 'application/json');
+                    return this.http.get(this.apiLastVal + "?data=" + btoa(JSON.stringify(sensorIDs)))
+                        .toPromise()
+                        .then(function (res) {
+                        var body = res.json();
+                        return Promise.resolve(body);
+                    })
+                        .catch(this.handleError);
+                };
+                DFAEnergyDataService.prototype.getCurDataviaPost = function (sensorIDs) {
                     var creds = JSON.stringify(sensorIDs);
                     var headers = new http_1.Headers();
                     headers.append('Content-Type', 'application/json');
