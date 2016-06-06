@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', '../pipes/stringmanip'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, stringmanip_1;
     var BLCompGaugeMeterComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (stringmanip_1_1) {
+                stringmanip_1 = stringmanip_1_1;
             }],
         execute: function() {
             BLCompGaugeMeterComponent = (function () {
@@ -23,12 +26,20 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._lastMaxVal = 0;
                     this.range = [0, 100];
                     this.value = 0;
-                    this._title = "";
+                    this.title = "";
                     this.unit = "";
                     this.color = "#00FF00";
                     this.criticalValue = [0, 0];
                     this.riskValue = [0, 0];
                 }
+                BLCompGaugeMeterComponent.prototype.ngOnInit = function () {
+                    this.range = [this.intOrNull(this.range[0]), this.intOrNull(this.range[1])];
+                    this.criticalValue = [this.intOrNull(this.criticalValue[0]), this.intOrNull(this.criticalValue[1])];
+                    this.riskValue = [this.intOrNull(this.riskValue[0]), this.intOrNull(this.riskValue[1])];
+                };
+                BLCompGaugeMeterComponent.prototype.intOrNull = function (v) {
+                    return (v == null) ? null : parseInt(v);
+                };
                 // Convert current value to the rotation degree
                 // TODO: Save value range as class property to save arithmetic operation
                 BLCompGaugeMeterComponent.prototype.convertToDeg = function (val) {
@@ -65,11 +76,11 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     if (val === void 0) { val = this.value; }
                     var deg = this.convertToDeg(val);
                     var color = this.color;
-                    if ((this.criticalValue[0] > this.range[0] && val < this.criticalValue[0]) || (this.criticalValue[1] < this.range[1] && val > this.criticalValue[1])) {
+                    if ((this.criticalValue[0] != null && val < this.criticalValue[0]) || (this.criticalValue[1] != null && val > this.criticalValue[1])) {
                         color = "#FF0000";
                     }
-                    else if ((this.riskValue[0] > this.range[0] && val < this.riskValue[0]) || (this.riskValue[1] < this.range[1] && val > this.riskValue[1])) {
-                        color = "#FFFF00";
+                    else if ((this.riskValue[0] != null && val < this.riskValue[0]) || (this.riskValue[1] != null && val > this.riskValue[1])) {
+                        color = "#FFE100";
                     }
                     var styles = {
                         '-webkit-transform': 'rotate(' + deg + "deg)",
@@ -96,7 +107,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Object)
-                ], BLCompGaugeMeterComponent.prototype, "_title", void 0);
+                ], BLCompGaugeMeterComponent.prototype, "title", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Object)
@@ -117,7 +128,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Component({
                         selector: 'bl-comp-gaugemeter',
                         templateUrl: 'app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.html',
-                        styleUrls: ['app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.css']
+                        styleUrls: ['app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.css'],
+                        pipes: [stringmanip_1.FloorPipe]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], BLCompGaugeMeterComponent);

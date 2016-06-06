@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
 
+import { FloorPipe } from '../pipes/stringmanip';
+
 @Component({
   selector: 'bl-comp-gaugemeter',
   templateUrl: 'app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.html',
-  styleUrls: ['app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.css']
+  styleUrls: ['app/bl-comp-gaugemeter/bl-comp-gaugemeter.component.css'],
+  pipes: [FloorPipe]
 })
 
 export class BLCompGaugeMeterComponent implements OnInit {

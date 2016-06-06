@@ -28,18 +28,20 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
             }],
         execute: function() {
             EricssonWidgetDataMonitoring = (function () {
-                function EricssonWidgetDataMonitoring(DFAEnergyData) {
+                function EricssonWidgetDataMonitoring(DFAEnergyData, element) {
                     this.DFAEnergyData = DFAEnergyData;
+                    this.element = element;
+                    this.sensors = [];
+                    this.sensorIDs = [];
                     this.width = 390;
+                    this.height = 200;
                     this._deviceID = null;
-                    this.data = {
-                        temp: null,
-                        lux: null
-                    };
-                    this._datarate = 250;
+                    this._datarate = 300;
                     this.updater = 0;
                     this.ready = false;
-                    this.activeChart = 1;
+                    this.trigger = true;
+                    this.activeChart = 0;
+                    this.host = this.element.nativeElement;
                 }
                 Object.defineProperty(EricssonWidgetDataMonitoring.prototype, "deviceID", {
                     // TODO: IMPORTANT!!!!
@@ -60,25 +62,64 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                     configurable: true
                 });
                 EricssonWidgetDataMonitoring.prototype.ngOnInit = function () {
+                    if (this.sensorIDs.length == 0)
+                        return;
                     var C = this;
-                    this.DFAEnergyData.init(this._deviceID).then(function (data) {
-                        C.device = data;
+                    this.DFAEnergyData.getInitData(this.sensorIDs).then(function (data) {
+                        C.dataset = data;
+                        C.data = data;
                         C.ready = true;
+                    }).catch(function (e) {
+                        console.warn("Initialization error:" + e);
                     });
                     this.updateDatarate();
                 };
+                EricssonWidgetDataMonitoring.prototype.ngOnDestroy = function () {
+                    clearInterval(this.updater);
+                };
                 EricssonWidgetDataMonitoring.prototype.updateDatarate = function () {
+                    if (this.sensorIDs.length == 0)
+                        return;
                     var C = this;
                     clearInterval(C.updater);
                     C.updater = setInterval(function () {
-                        C.DFAEnergyData.getCurData(C._deviceID).then(function (data) { return C.data = data; });
+                        C.DFAEnergyData.getCurData(C.sensorIDs)
+                            .then(function (data) {
+                            C.data = data;
+                            C.trigger = !C.trigger;
+                        })
+                            .catch(function (e) {
+                            console.warn("Request failed:" + e);
+                        });
                     }, C._datarate);
+                };
+                EricssonWidgetDataMonitoring.prototype.units = function (s) {
+                    switch (s) {
+                        case "temp":
+                            return '&#176;C';
+                        case "light":
+                            return 'lx';
+                        case "accel_x":
+                        case "accel_y":
+                        case "accel_z":
+                            return 'm/s&#178;';
+                        default:
+                            return '';
+                    }
                 };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Number), 
                     __metadata('design:paramtypes', [Number])
                 ], EricssonWidgetDataMonitoring.prototype, "deviceID", null);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], EricssonWidgetDataMonitoring.prototype, "sensors", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], EricssonWidgetDataMonitoring.prototype, "sensorIDs", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Number), 
@@ -88,6 +129,10 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                     core_1.Input(), 
                     __metadata('design:type', Object)
                 ], EricssonWidgetDataMonitoring.prototype, "width", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], EricssonWidgetDataMonitoring.prototype, "height", void 0);
                 EricssonWidgetDataMonitoring = __decorate([
                     core_1.Component({
                         selector: 'ericsson-widget-datamonitoring',
@@ -101,7 +146,7 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                             dfaenergydata_service_1.DFAEnergyDataService
                         ]
                     }), 
-                    __metadata('design:paramtypes', [dfaenergydata_service_1.DFAEnergyDataService])
+                    __metadata('design:paramtypes', [dfaenergydata_service_1.DFAEnergyDataService, core_1.ElementRef])
                 ], EricssonWidgetDataMonitoring);
                 return EricssonWidgetDataMonitoring;
             }());

@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../MaterialDesignLiteUpgradeElement', '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component', '../ericsson-widget-accelerationmonitoring/ericsson-widget-accelerationmonitoring.component', '../ericsson-widget-livemap/ericsson-widget-livemap.component', '../ericsson-widget-container/ericsson-widget-container.component'], function(exports_1, context_1) {
+System.register(['angular2/core', '../fir-dbapi/dfamodules.service', '../MaterialDesignLiteUpgradeElement', '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component', '../ericsson-widget-accelerationmonitoring/ericsson-widget-accelerationmonitoring.component', '../ericsson-widget-livemap/ericsson-widget-livemap.component', '../ericsson-widget-container/ericsson-widget-container.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core', '../MaterialDesignLiteUpgradeElement', '../eri
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, MaterialDesignLiteUpgradeElement_1, ericsson_widget_datamonitoring_component_1, ericsson_widget_accelerationmonitoring_component_1, ericsson_widget_livemap_component_1, ericsson_widget_container_component_1;
+    var core_1, dfamodules_service_1, MaterialDesignLiteUpgradeElement_1, ericsson_widget_datamonitoring_component_1, ericsson_widget_accelerationmonitoring_component_1, ericsson_widget_livemap_component_1, ericsson_widget_container_component_1;
     var EricssonDashboardComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (dfamodules_service_1_1) {
+                dfamodules_service_1 = dfamodules_service_1_1;
             },
             function (MaterialDesignLiteUpgradeElement_1_1) {
                 MaterialDesignLiteUpgradeElement_1 = MaterialDesignLiteUpgradeElement_1_1;
@@ -34,60 +37,46 @@ System.register(['angular2/core', '../MaterialDesignLiteUpgradeElement', '../eri
             }],
         execute: function() {
             EricssonDashboardComponent = (function () {
-                function EricssonDashboardComponent() {
+                function EricssonDashboardComponent(DFAModules) {
+                    this.DFAModules = DFAModules;
                     this.devices = [];
+                    this.deviceIDs = [];
                     this.loading = true;
                     this.datarate = 250;
-                    this.activeDeviceIndex = 0;
                     this.updater = 0;
                     this.devMode = false;
                     this.coordinateschanged = false;
                     this.devicescoordinate = [];
-                    var C = this;
-                    this.devices = [
-                        {
-                            id: 541234,
-                            name: "Wagen A"
-                        },
-                        {
-                            id: 632267,
-                            name: "Wagen B"
-                        },
-                        {
-                            id: 194613,
-                            name: "Wagen C"
-                        }
-                    ];
-                    C.activeDevice = this.devices[0];
-                    C.loading = false;
                 }
+                EricssonDashboardComponent.prototype.ngOnInit = function () {
+                    var C = this;
+                    this.DFAModules.getModules().then(function (data) {
+                        C.devices = data;
+                        C.switchActiveDevice(0);
+                    }).catch(function (e) {
+                        var errMsg = e.message || e.statusText || 'Server error';
+                        console.error("DashboardComponentException:" + errMsg);
+                    });
+                };
                 EricssonDashboardComponent.prototype.updateDatarate = function () { };
                 EricssonDashboardComponent.prototype.switchActiveDevice = function (index) {
                     var C = this;
                     C.loading = true;
                     C.activeDeviceIndex = index;
-                    C.activeDevice = C.devices[index];
+                    C.deviceIDs[0] = index;
+                    C.deviceIDs[1] = index;
+                    C.deviceIDs[2] = index;
+                    C.deviceIDs[3] = index;
                     setTimeout(function () {
                         C.loading = false;
                     }, 400);
                 };
-                EricssonDashboardComponent.prototype.dev = function (vehicle, index) {
-                    console.info(this.devicescoordinate);
-                    switch (index) {
-                        case 0:
-                            this.devicescoordinate[vehicle].y += 1;
-                            break;
-                        case 1:
-                            this.devicescoordinate[vehicle].y -= 1;
-                            break;
-                        case 2:
-                            this.devicescoordinate[vehicle].x -= 1;
-                            break;
-                        case 3:
-                            this.devicescoordinate[vehicle].x += 1;
-                            break;
+                EricssonDashboardComponent.prototype.overrideDevice = function (widget, op) {
+                    var len = this.devices.length;
+                    this.deviceIDs[widget] = (this.deviceIDs[widget] + parseInt(op)) % len;
+                    if (this.deviceIDs[widget] < 0) {
+                        this.deviceIDs[widget] = len - 1;
                     }
-                    this.coordinateschanged = !this.coordinateschanged;
                 };
                 EricssonDashboardComponent = __decorate([
                     core_1.Component({
@@ -100,9 +89,12 @@ System.register(['angular2/core', '../MaterialDesignLiteUpgradeElement', '../eri
                             ericsson_widget_datamonitoring_component_1.EricssonWidgetDataMonitoring,
                             ericsson_widget_accelerationmonitoring_component_1.EricssonWidgetAccelerationMonitoring,
                             ericsson_widget_livemap_component_1.EricssonWidgetLiveMap
+                        ],
+                        providers: [
+                            dfamodules_service_1.DFAModulesService
                         ]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [dfamodules_service_1.DFAModulesService])
                 ], EricssonDashboardComponent);
                 return EricssonDashboardComponent;
             }());

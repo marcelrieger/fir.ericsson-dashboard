@@ -26,14 +26,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.height = 200;
                     this.xTitle = "";
                     this.yTitle = "";
-                    this.xRange = [0, 1000 / 250 * 30];
+                    this.xRange = [0, 120];
                     this.yRange = [0, 100];
                     this.criticalValue = [0, 0];
                     this.riskValue = [0, 0];
-                    this.yValue = ["-30m", "-20m", "-10m", "0m"];
+                    this.yValue = ["-30s", "-20s", "-10s", "0s"];
                     this.dataset = [];
                     this._hMargin = 0;
-                    this._maxValue = 0;
                     this.ready = false;
                     this.host = d3.select(this.element.nativeElement);
                 }
@@ -67,12 +66,30 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     enumerable: true,
                     configurable: true
                 });
+                Object.defineProperty(BLCompLineChartComponent.prototype, "trigger", {
+                    set: function (n) {
+                        this.dataset.push(this.dataIn);
+                        if (this.ready && !isNaN(parseInt(this.dataIn))) {
+                            if (this.dataIn > this._maxValue) {
+                                this._maxValue = this.dataIn;
+                            }
+                            if (this.dataset.length > this.xRange[1] + 1) {
+                                this.dataset.shift();
+                                this.renderGraph(true);
+                            }
+                            else {
+                                this.renderGraph(false);
+                            }
+                        }
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 BLCompLineChartComponent.prototype.ngOnInit = function () {
                     var C = this;
-                    if (this.width > 600) {
-                        this.width -= 50;
-                        this.height = this.width / 2. - 50;
-                    }
+                    C._maxValue = C.yRange[0];
+                    this.width -= 40;
+                    this.height -= 180;
                     this._x = d3.scale.linear().domain(C.xRange).range([0 + 17 + C._hMargin, this.width - 30 - C._hMargin]);
                     this._y = d3.scale.linear().domain(C.yRange).range([C.height, C.yRange[0]]);
                     this._xAxis = d3.svg.axis()
@@ -88,12 +105,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._graphContainer = this.host.select(".chart")
                         .append("svg")
                         .attr("height", C.height).attr("width", C.width + "px");
-                    if (this.riskValue[0] > this.yRange[0]) {
+                    if (C.valid(this.riskValue[0]) && this.riskValue[0] > this.yRange[0]) {
                         this._graph = this._graphContainer
                             .append("rect")
                             .attr("class", "risk")
                             .attr("x", 30)
-                            .attr("y", C._y(this.riskValue[0]))
+                            .attr("y", C._y(this.riskValue[0]) - 1)
                             .attr("width", this.width - 40)
                             .attr("height", C._y(this.yRange[0]) - C._y(this.riskValue[0]));
                         this._graphContainer.append("line")
@@ -104,7 +121,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             .attr("x2", this.width - 10)
                             .attr("y2", C._y(this.riskValue[0]));
                     }
-                    if (this.riskValue[1] < this.yRange[1]) {
+                    if (C.valid(this.riskValue[1]) && this.riskValue[1] < this.yRange[1]) {
                         this._graph = this._graphContainer
                             .append("rect")
                             .attr("class", "risk")
@@ -120,7 +137,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             .attr("x2", this.width - 10)
                             .attr("y2", C._y(this.riskValue[1]));
                     }
-                    if (this.criticalValue[0] > this.yRange[0]) {
+                    if (C.valid(this.criticalValue[0]) && this.criticalValue[0] > this.yRange[0]) {
                         this._graph = this._graphContainer
                             .append("rect")
                             .attr("class", "critical")
@@ -135,7 +152,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             .attr("x2", this.width - 10)
                             .attr("y2", C._y(this.criticalValue[0]));
                     }
-                    if (this.criticalValue[1] < this.yRange[1]) {
+                    if (C.valid(this.criticalValue[1]) && this.criticalValue[1] < this.yRange[1]) {
                         this._graph = this._graphContainer
                             .append("rect")
                             .attr("class", "critical")
@@ -150,10 +167,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             .attr("x2", this.width - 10)
                             .attr("y2", C._y(this.criticalValue[1]));
                     }
-                    this._graph = this._graphContainer
-                        .append("path")
-                        .data([this.dataset])
-                        .attr("class", "line");
                     this._graphMaxLine = this._graphContainer.append("line")
                         .attr("class", "maxline")
                         .attr("stroke-dasharray", "2,5")
@@ -161,6 +174,10 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         .attr("y1", 0)
                         .attr("x2", this.width - 10)
                         .attr("y2", 0);
+                    this._graph = this._graphContainer
+                        .append("path")
+                        .data([this.dataset])
+                        .attr("class", "line");
                     this._graphContainer.append("g")
                         .attr("class", "x axis")
                         .attr("transform", "translate(10," + this.height + ")")
@@ -179,10 +196,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         .attr("y", 6)
                         .attr("dy", ".71em")
                         .style("text-anchor", "end")
-                        .text(this.yTitle);
+                        .html(this.yTitle);
                     //console.log(this._graphContainer);
                     //console.log(this._graphContainer[0][0].clientWidth);
                     this.ready = true;
+                };
+                BLCompLineChartComponent.prototype.valid = function (v) {
+                    return (v != null);
                 };
                 BLCompLineChartComponent.prototype.renderGraph = function (datafull) {
                     // If dataset not full, shift the graph to the right based on current dataset length
@@ -192,6 +212,11 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         xStart = this.xRange[1] - this.dataset.length + 1;
                         xEnd = xStart - 0.5;
                     }
+                    this._graphMaxLine
+                        .transition()
+                        .duration(300)
+                        .ease("linear")
+                        .attr("transform", "translate(0," + this._y(this._maxValue) + ")");
                     this._graph
                         .attr("transform", "translate(" + this._x(xStart) + ",0)")
                         .attr("d", this._lineFunction)
@@ -199,11 +224,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         .duration(150)
                         .ease("linear")
                         .attr("transform", "translate(" + this._x(xEnd) + ",0)");
-                    this._graphMaxLine
-                        .transition()
-                        .duration(300)
-                        .ease("linear")
-                        .attr("transform", "translate(0," + this._y(this._maxValue) + ")");
                 };
                 __decorate([
                     core_1.Input(), 
@@ -251,6 +271,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     __metadata('design:type', Object), 
                     __metadata('design:paramtypes', [Object])
                 ], BLCompLineChartComponent.prototype, "streamIn", null);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BLCompLineChartComponent.prototype, "dataIn", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object), 
+                    __metadata('design:paramtypes', [Object])
+                ], BLCompLineChartComponent.prototype, "trigger", null);
                 BLCompLineChartComponent = __decorate([
                     core_1.Component({
                         selector: 'bl-comp-linechart',

@@ -5,7 +5,7 @@
 	  <div class="gm-gauge-c" [ngStyle]="updateGauge()"></div>
 	  <div class="gm-gauge-max" [ngStyle]="updateMaxGauge()"></div>
 	  <div class="gm-gauge-data">
-	    {{value}}<span [innerHTML]="unit"></span>
+	    {{value | floor}}<span [innerHTML]="unit"></span>
 	  </div>
 	</div>
 	<div class="gm-title">

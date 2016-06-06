@@ -58,11 +58,11 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         .append("circle");
                     this.ready = true;
                     this.renderMap();
-                    console.log(C.dataset);
+                    //console.log(C.dataset);
                 };
                 EricssonWidgetLiveMap.prototype.renderMap = function () {
                     var C = this;
-                    console.log(C.dataset);
+                    //console.log(C.dataset);
                     this._devices
                         .transition()
                         .duration(300)
