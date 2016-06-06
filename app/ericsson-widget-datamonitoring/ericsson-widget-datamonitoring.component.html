@@ -12,6 +12,6 @@
 	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=1" [title]="'TEMPERATUR'" [value]="data.temp" [unit]="'&#176;C'" [criticalValue]="device.temp.critical" [riskValue]="device.temp.risk"></bl-comp-gaugemeter>
 	<bl-comp-gaugemeter class="gaugemeter" (click)="activeChart=2" [title]="'BELEUCHTUNG'" [value]="data.lux" [unit]="'lx'" [range]="[0,300]"  [criticalValue]="device.lux.critical" [riskValue]="device.lux.risk"></bl-comp-gaugemeter>
 -->
-	<bl-comp-gaugemeter *ngFor="#s of sensors; #idx = index" class="gaugemeter" (click)="activeChart=idx" [title]="s.name" [value]="data[s.id][0]" [unit]="units(sensors[idx].type)" [criticalValue]="[sensors[idx].crit_low,sensors[idx].crit_high]" [riskValue]="[sensors[idx].warn_low,sensors[idx].warn_high]" [range]="[sensors[idx].min,sensors[idx].max]"></bl-comp-gaugemeter>
+	<bl-comp-gaugemeter *ngFor="#s of sensors; #idx = index" class="gaugemeter" (click)="activeChart=idx; setsubname(s.name)" [title]="s.name" [value]="data[s.id][0]" [unit]="units(sensors[idx].type)" [criticalValue]="[sensors[idx].crit_low,sensors[idx].crit_high]" [riskValue]="[sensors[idx].warn_low,sensors[idx].warn_high]" [range]="[sensors[idx].min,sensors[idx].max]"></bl-comp-gaugemeter>
 
 </div>

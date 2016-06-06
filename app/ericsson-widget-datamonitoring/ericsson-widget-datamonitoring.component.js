@@ -35,6 +35,7 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                     this.sensorIDs = [];
                     this.width = 390;
                     this.height = 200;
+                    this.setMeta = new core_1.EventEmitter();
                     this._deviceID = null;
                     this._datarate = 300;
                     this.updater = 0;
@@ -69,6 +70,7 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                         C.dataset = data;
                         C.data = data;
                         C.ready = true;
+                        C.setsubname(C.sensors[0].name);
                     }).catch(function (e) {
                         console.warn("Initialization error:" + e);
                     });
@@ -107,6 +109,11 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                             return '';
                     }
                 };
+                EricssonWidgetDataMonitoring.prototype.setsubname = function (s) {
+                    if (this.sensorIDs.length > 0) {
+                        this.setMeta.emit(s);
+                    }
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Number), 
@@ -133,6 +140,10 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                     core_1.Input(), 
                     __metadata('design:type', Object)
                 ], EricssonWidgetDataMonitoring.prototype, "height", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], EricssonWidgetDataMonitoring.prototype, "setMeta", void 0);
                 EricssonWidgetDataMonitoring = __decorate([
                     core_1.Component({
                         selector: 'ericsson-widget-datamonitoring',

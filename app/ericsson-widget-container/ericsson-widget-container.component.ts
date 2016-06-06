@@ -85,6 +85,7 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 	private livestreamurl = "";
 	private interval;
 	private activeWidgetIterator = 0;
+	private subname = null;
 
 	@Input() 
 	set deviceID(val: number){

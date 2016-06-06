@@ -88,6 +88,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     this.menuActive = false;
                     this.livestreamurl = "";
                     this.activeWidgetIterator = 0;
+                    this.subname = null;
                     this.host = this.element.nativeElement;
                     this.widgetList = this.availWidgetList;
                 }

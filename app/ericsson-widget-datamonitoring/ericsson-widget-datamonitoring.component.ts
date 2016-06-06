@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ElementRef } from 'angular2/core';
+import { Component, Input, OnInit, OnDestroy, ElementRef, Output, EventEmitter } from 'angular2/core';
 import { Router } from 'angular2/router';
 import { DFAEnergyDataService } from '../fir-dbapi/dfaenergydata.service';
 
@@ -40,6 +40,9 @@ export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
 
     @Input() width = 390;
     @Input() height = 200;
+	
+	@Output() setMeta= new EventEmitter();
+	
 	private _deviceID = null;
 	private data;
 	private dataset;
@@ -61,6 +64,7 @@ export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
 			C.dataset = data;
 			C.data = data;
 			C.ready = true;
+			C.setsubname(C.sensors[0].name);
 		}).catch(function(e) {
 			console.warn("Initialization error:" + e);
 		});
@@ -99,6 +103,12 @@ export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
 				return 'm/s&#178;';
 			default:
 				return '';
+		}
+	}
+	
+	public setsubname(s: any) {
+		if (this.sensorIDs.length>0) {
+			this.setMeta.emit(s);
 		}
 	}
 

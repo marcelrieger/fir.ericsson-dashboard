@@ -1,5 +1,5 @@
 <div class="widgetcont">
-	<div class="menutop left font">{{device?.name}} - {{widgetList[activeWidget].name}}</div>
+	<div class="menutop left font">{{device?.name}} - {{widgetList[activeWidget].name}}<span *ngIf="subname!=null"> - {{subname}}</span></div>
 	<div class="menutop menuright" (click)="menuActive=!menuActive"><i class="material-icons">&#xE42A;</i></div>
 	<div class="cover loading" [ngClass]="{hide: !loading}">
 		<span>{{device?.name}}</span>
@@ -26,7 +26,7 @@
 		
 		<ericsson-widget-datamonitoring *ngSwitchWhen="4" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [height]="height" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids" [height]="height"></ericsson-widget-datamonitoring>
 
-		<ericsson-widget-datamonitoring *ngSwitchWhen="1" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [height]="height" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids" [height]="height"></ericsson-widget-datamonitoring>
+		<ericsson-widget-datamonitoring *ngSwitchWhen="1" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [height]="height" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids" [height]="height" (setMeta)="subname=$event"></ericsson-widget-datamonitoring>
 
 		<ericsson-widget-accelerationmonitoring *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate" [width]="width"></ericsson-widget-accelerationmonitoring>
 
