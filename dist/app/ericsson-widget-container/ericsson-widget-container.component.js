@@ -34,18 +34,28 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     this.overrideDeviceID = new core_1.EventEmitter();
                     this._deviceID = null;
                     this.datarate = 300;
-                    this.widgetList = [];
                     this.availWidgetList = [
                         {
                             index: 0,
+                            widgetType: 0,
                             activated: false,
-                            name: "Data Monitoring",
-                            icon: "&#xE3A9;",
+                            name: "Temperature",
+                            icon: "&#xE332;",
+                            sensors: [],
+                            ids: []
+                        },
+                        {
+                            index: 4,
+                            widgetType: 0,
+                            activated: false,
+                            name: "Illumination",
+                            icon: "&#xE1AD;",
                             sensors: [],
                             ids: []
                         },
                         {
                             index: 1,
+                            widgetType: 0,
                             activated: false,
                             name: "Acceleration",
                             icon: "&#xE569;",
@@ -54,6 +64,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         },
                         {
                             index: 2,
+                            widgetType: 1,
                             activated: false,
                             name: "DFA-Maps",
                             icon: "&#xE55E;",
@@ -62,6 +73,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         },
                         {
                             index: 3,
+                            widgetType: 2,
                             activated: true,
                             name: "Camera Feed",
                             icon: "&#xE04B;",
@@ -75,6 +87,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     this.loading = true;
                     this.menuActive = false;
                     this.livestreamurl = "";
+                    this.activeWidgetIterator = 0;
                     this.host = this.element.nativeElement;
                     this.widgetList = this.availWidgetList;
                 }
@@ -91,42 +104,57 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         C._deviceID = val;
                         C.loading = true;
                         C.ready = false;
-                        C.activeWidget = 0;
+                        //C.activeWidget = 0;
                         if (typeof C.device === "undefined") {
                             return;
                         }
                         // Create lookup table
-                        var lookup = {}, lookuplength = C.availWidgetList.length;
-                        ;
-                        for (var i = 0, len = lookuplength; i < len; i++) {
-                            C.availWidgetList[i].sensors = [];
-                            C.availWidgetList[i].ids = [];
-                            lookup[C.availWidgetList[i].index] = C.availWidgetList[i];
+                        var lookup = { ids: [3] };
+                        for (var i_1 = 0, lookuplength = C.availWidgetList.length, len = lookuplength; i_1 < len; i_1++) {
+                            C.availWidgetList[i_1].sensors = [];
+                            C.availWidgetList[i_1].ids = [];
+                            lookup[C.availWidgetList[i_1].index] = JSON.parse(JSON.stringify(C.availWidgetList[i_1]));
                         }
                         // Look for available sensors
-                        for (var i = 0, len = C.device.sensors.length; i < len; i++) {
-                            switch (C.device.sensors[i].type) {
+                        for (var i_2 = 0, len = C.device.sensors.length; i_2 < len; i_2++) {
+                            switch (C.device.sensors[i_2].type) {
                                 case "temp":
-                                case "light":
                                     lookup[0].activated = true;
-                                    lookup[0].sensors.push(C.device.sensors[i]);
-                                    lookup[0].ids.push(C.device.sensors[i].id);
+                                    lookup[0].sensors.push(C.device.sensors[i_2]);
+                                    lookup[0].ids.push(C.device.sensors[i_2].id);
+                                    lookup.ids.push(0);
+                                    break;
+                                case "light":
+                                    lookup[4].activated = true;
+                                    lookup[4].sensors.push(C.device.sensors[i_2]);
+                                    lookup[4].ids.push(C.device.sensors[i_2].id);
+                                    lookup.ids.push(4);
                                     break;
                                 case "accel_x":
                                 case "accel_y":
                                 case "accel_z":
                                     lookup[1].activated = true;
-                                    lookup[1].sensors.push(C.device.sensors[i]);
-                                    lookup[1].ids.push(C.device.sensors[i].id);
+                                    lookup[1].sensors.push(C.device.sensors[i_2]);
+                                    lookup[1].ids.push(C.device.sensors[i_2].id);
+                                    lookup.ids.push(1);
                                     break;
                             }
                         }
-                        C.widgetList = [];
-                        for (var i = 0, len = lookuplength; i < len; i++) {
-                            if (lookup[i].activated) {
-                                C.widgetList.push(lookup[i]);
+                        // Remove duplicates on widgetlist
+                        {
+                            var unique = lookup.ids.reduce(function (accum, current) {
+                                if (accum.indexOf(current) < 0) {
+                                    accum.push(current);
+                                }
+                                return accum;
+                            }, []);
+                            lookup.ids.length = 0;
+                            for (var i = 0; i < unique.length; ++i) {
+                                lookup.ids.push(unique[i]);
                             }
                         }
+                        C.widgetList = lookup;
+                        console.log(lookup);
                         setTimeout(function () {
                             C.ready = true;
                             C.loading = false;
@@ -139,7 +167,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     var C = this;
                     this.width = this.host.offsetWidth - 20;
                     this.height = this.host.offsetHeight - 20;
-                    this.interval = setInterval(function () { C.livestreamurl = "http://" + C.device.camera_ip + "/cam_pic.php?ts=" + (new Date()).getTime(); }, 100);
+                    this.interval = setInterval(function () { C.livestreamurl = "http://137.226.134.44:3000/?ts=" + (new Date()).getTime(); }, 100);
                 };
                 EricssonWidgetContainer.prototype.ngOnDestroy = function () {
                     clearInterval(this.interval);
@@ -147,11 +175,13 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                 EricssonWidgetContainer.prototype.switchWidget = function (s) {
                     switch (s) {
                         case "left":
-                            this.activeWidget = (this.activeWidget == 0) ? this.widgetList.length - 1 : --this.activeWidget;
+                            this.activeWidgetIterator = (this.activeWidgetIterator == 0) ? this.widgetList.ids.length - 1 : --this.activeWidgetIterator;
                             break;
                         case "right":
-                            this.activeWidget = ++this.activeWidget % this.widgetList.length;
+                            this.activeWidgetIterator = ++this.activeWidgetIterator % this.widgetList.ids.length;
+                            break;
                     }
+                    this.activeWidget = this.widgetList.ids[this.activeWidgetIterator];
                 };
                 EricssonWidgetContainer.prototype.overrideDevice = function (s) {
                     this.overrideDeviceID.emit(s);

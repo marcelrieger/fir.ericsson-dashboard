@@ -96,7 +96,7 @@ export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
 			case "accel_x":
 			case "accel_y":
 			case "accel_z":
-				return 'm/s';
+				return 'm/s&#178;';
 			default:
 				return '';
 		}

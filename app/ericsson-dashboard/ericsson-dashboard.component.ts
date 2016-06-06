@@ -26,12 +26,10 @@ import { EricssonWidgetContainer } from '../ericsson-widget-container/ericsson-w
 export class EricssonDashboardComponent implements OnInit {
 
 	private devices: any[] = [];
+	private deviceIDs: number[] = [];
 	private loading: boolean = true;
 	private datarate: number = 250;
 	private activeDeviceIndex: number;
-	private mainWidgetDeviceID: number;
-	private topWidgetDeviceID: number;
-	private bottomWidgetDeviceID: number;
 	private updater: any = 0;
 
 	private devMode: boolean = false;
@@ -57,9 +55,10 @@ export class EricssonDashboardComponent implements OnInit {
 		var C = this;
 		C.loading = true;
 		C.activeDeviceIndex = index;
-		C.mainWidgetDeviceID = index;
-		C.topWidgetDeviceID = index;
-		C.bottomWidgetDeviceID = index;
+		C.deviceIDs[0] = index;
+		C.deviceIDs[1] = index;
+		C.deviceIDs[2] = index;
+		C.deviceIDs[3] = index;
 		setTimeout(function(){
 			C.loading = false;
 		},400)
@@ -67,19 +66,8 @@ export class EricssonDashboardComponent implements OnInit {
 
 	public overrideDevice(widget, op) {
 		var len = this.devices.length;
-		switch (widget) {
-			case 0:
-				this.mainWidgetDeviceID = (this.mainWidgetDeviceID + parseInt(op)) % len;
-				if (this.mainWidgetDeviceID < 0) { this.mainWidgetDeviceID = len - 1;}
-				break;
-			case 1:
-				this.topWidgetDeviceID = (this.topWidgetDeviceID + parseInt(op)) % len;
-				if (this.topWidgetDeviceID < 0) { this.topWidgetDeviceID = len - 1; }
-				break;
-			case 2:
-				this.bottomWidgetDeviceID = (this.bottomWidgetDeviceID + parseInt(op)) % len;
-				if (this.bottomWidgetDeviceID < 0) { this.bottomWidgetDeviceID = len - 1; }
-		}
+		this.deviceIDs[widget] = (this.deviceIDs[widget] + parseInt(op)) % len;
+		if (this.deviceIDs[widget] < 0) { this.deviceIDs[widget] = len - 1;}
 	}
 
 }

@@ -19,14 +19,14 @@
 <div class="page-content">
 
 <div class="page-collumn">
-		<ericsson-widget-container [deviceID]="mainWidgetDeviceID" [device]="devices[mainWidgetDeviceID]" [defaultWidget]="3" (overrideDeviceID)="overrideDevice(0, $event)"></ericsson-widget-container>
-		<ericsson-widget-container [deviceID]="topWidgetDeviceID" [device]="devices[topWidgetDeviceID]" [defaultWidget]="0" (overrideDeviceID)="overrideDevice(1, $event)"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="deviceIDs[0]" [defaultWidget]="3" [device]="devices[deviceIDs[0]]" (overrideDeviceID)="overrideDevice(0, $event)"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="deviceIDs[1]" [defaultWidget]="0" [device]="devices[deviceIDs[1]]" (overrideDeviceID)="overrideDevice(1, $event)"></ericsson-widget-container>
 </div>
 
 
 <div class="page-collumn">
-		<ericsson-widget-container [deviceID]="topWidgetDeviceID" [device]="devices[topWidgetDeviceID]" [defaultWidget]="0" (overrideDeviceID)="overrideDevice(1, $event)"></ericsson-widget-container>
-		<ericsson-widget-container [deviceID]="bottomWidgetDeviceID" [device]="devices[bottomWidgetDeviceID]" [defaultWidget]="1" (overrideDeviceID)="overrideDevice(2, $event)"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="deviceIDs[2]" [defaultWidget]="4" [device]="devices[deviceIDs[2]]" (overrideDeviceID)="overrideDevice(2, $event)"></ericsson-widget-container>
+		<ericsson-widget-container [deviceID]="deviceIDs[3]" [defaultWidget]="1" [device]="devices[deviceIDs[3]]" (overrideDeviceID)="overrideDevice(3, $event)"></ericsson-widget-container>
 </div>
 
 

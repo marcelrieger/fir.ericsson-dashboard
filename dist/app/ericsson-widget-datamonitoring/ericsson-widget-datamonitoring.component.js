@@ -102,7 +102,7 @@ System.register(['angular2/core', '../fir-dbapi/dfaenergydata.service', '../bl-c
                         case "accel_x":
                         case "accel_y":
                         case "accel_z":
-                            return 'm/s';
+                            return 'm/s&#178;';
                         default:
                             return '';
                     }

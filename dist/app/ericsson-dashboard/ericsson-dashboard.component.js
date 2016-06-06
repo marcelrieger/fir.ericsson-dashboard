@@ -40,6 +40,7 @@ System.register(['angular2/core', '../fir-dbapi/dfamodules.service', '../Materia
                 function EricssonDashboardComponent(DFAModules) {
                     this.DFAModules = DFAModules;
                     this.devices = [];
+                    this.deviceIDs = [];
                     this.loading = true;
                     this.datarate = 250;
                     this.updater = 0;
@@ -62,33 +63,19 @@ System.register(['angular2/core', '../fir-dbapi/dfamodules.service', '../Materia
                     var C = this;
                     C.loading = true;
                     C.activeDeviceIndex = index;
-                    C.mainWidgetDeviceID = index;
-                    C.topWidgetDeviceID = index;
-                    C.bottomWidgetDeviceID = index;
+                    C.deviceIDs[0] = index;
+                    C.deviceIDs[1] = index;
+                    C.deviceIDs[2] = index;
+                    C.deviceIDs[3] = index;
                     setTimeout(function () {
                         C.loading = false;
                     }, 400);
                 };
                 EricssonDashboardComponent.prototype.overrideDevice = function (widget, op) {
                     var len = this.devices.length;
-                    switch (widget) {
-                        case 0:
-                            this.mainWidgetDeviceID = (this.mainWidgetDeviceID + parseInt(op)) % len;
-                            if (this.mainWidgetDeviceID < 0) {
-                                this.mainWidgetDeviceID = len - 1;
-                            }
-                            break;
-                        case 1:
-                            this.topWidgetDeviceID = (this.topWidgetDeviceID + parseInt(op)) % len;
-                            if (this.topWidgetDeviceID < 0) {
-                                this.topWidgetDeviceID = len - 1;
-                            }
-                            break;
-                        case 2:
-                            this.bottomWidgetDeviceID = (this.bottomWidgetDeviceID + parseInt(op)) % len;
-                            if (this.bottomWidgetDeviceID < 0) {
-                                this.bottomWidgetDeviceID = len - 1;
-                            }
+                    this.deviceIDs[widget] = (this.deviceIDs[widget] + parseInt(op)) % len;
+                    if (this.deviceIDs[widget] < 0) {
+                        this.deviceIDs[widget] = len - 1;
                     }
                 };
                 EricssonDashboardComponent = __decorate([
