@@ -144,7 +144,6 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 				}
 		}
 		C.widgetList = lookup;
-		console.log(lookup);
 
 		setTimeout(function() {
 			C.ready = true;

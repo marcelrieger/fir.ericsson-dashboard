@@ -155,7 +155,6 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                             }
                         }
                         C.widgetList = lookup;
-                        console.log(lookup);
                         setTimeout(function () {
                             C.ready = true;
                             C.loading = false;
