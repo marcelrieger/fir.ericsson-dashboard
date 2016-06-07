@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ElementRef, Output, EventEmitter, OnDestroy } from 'angular2/core';
 import { Router } from 'angular2/router';
+/// <reference path="../socket.io.d.ts" />
 
 import { EricssonWidgetDataMonitoring } from '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component';
 import { EricssonWidgetAccelerationMonitoring } from '../ericsson-widget-accelerationmonitoring/ericsson-widget-accelerationmonitoring.component';
@@ -86,6 +87,7 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 	private interval;
 	private activeWidgetIterator = 0;
 	private subname = null;
+	private livefeeddata = "";
 
 	@Input() 
 	set deviceID(val: number){
@@ -160,7 +162,11 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 		let C = this;
 		this.width = this.host.offsetWidth - 20;
 		this.height = this.host.offsetHeight - 20;
-		this.interval = setInterval(function() { C.livestreamurl = "http://137.226.134.44:3000/?ts=" + (new Date()).getTime(); }, 100);
+		var socket = io.connect('http://137.226.150.209');
+		socket.on('update', function (data) {
+            C.livefeeddata = data;
+        });
+		//this.interval = setInterval(function() { C.livestreamurl = "http://137.226.134.44:3000/?ts=" + (new Date()).getTime(); }, 100);
 	}
 
 	ngOnDestroy() {

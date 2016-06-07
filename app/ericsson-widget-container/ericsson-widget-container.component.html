@@ -32,7 +32,7 @@
 
 		<ericsson-widget-livemap *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate"></ericsson-widget-livemap>
 
-		<img *ngSwitchWhen="3" [src]="livestreamurl" class="livestream" alt="camera offline" />
+		<img *ngSwitchWhen="3" id="livestream" class="livestream" alt="camera offline" src="data:image/jpg;base64,{{livefeeddata}}" />
 
 	</div>
 </div>

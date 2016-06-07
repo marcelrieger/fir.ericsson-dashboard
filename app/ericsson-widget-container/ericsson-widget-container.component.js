@@ -89,6 +89,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     this.livestreamurl = "";
                     this.activeWidgetIterator = 0;
                     this.subname = null;
+                    this.livefeeddata = "";
                     this.host = this.element.nativeElement;
                     this.widgetList = this.availWidgetList;
                 }
@@ -167,7 +168,11 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     var C = this;
                     this.width = this.host.offsetWidth - 20;
                     this.height = this.host.offsetHeight - 20;
-                    this.interval = setInterval(function () { C.livestreamurl = "http://137.226.134.44:3000/?ts=" + (new Date()).getTime(); }, 100);
+                    var socket = io.connect('http://137.226.150.209');
+                    socket.on('update', function (data) {
+                        C.livefeeddata = data;
+                    });
+                    //this.interval = setInterval(function() { C.livestreamurl = "http://137.226.134.44:3000/?ts=" + (new Date()).getTime(); }, 100);
                 };
                 EricssonWidgetContainer.prototype.ngOnDestroy = function () {
                     clearInterval(this.interval);
