@@ -168,7 +168,8 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     var C = this;
                     this.width = this.host.offsetWidth - 20;
                     this.height = this.host.offsetHeight - 20;
-                    var socket = io.connect('http://137.226.134.44:3000');
+                    var raspidongle = "http://10.35.169.138:8080", raspiwifi = "http://137.226.150.209:8080";
+                    var socket = io.connect(raspiwifi);
                     socket.on('update', function (data) {
                         C.livefeeddata = data;
                     });
