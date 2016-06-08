@@ -162,7 +162,9 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 		let C = this;
 		this.width = this.host.offsetWidth - 20;
 		this.height = this.host.offsetHeight - 20;
-		var socket = io.connect('http://137.226.150.209');
+		var raspidongle = "http://10.35.169.141",
+			raspiwifi = "http://137.226.150.209";
+		var socket = io.connect(raspiwifi);
 		socket.on('update', function (data) {
             C.livefeeddata = data;
         });
