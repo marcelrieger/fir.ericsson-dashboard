@@ -45,8 +45,10 @@
 .widgetcont > .menutop {
 	position: absolute;
     top: 0;
-    //color: rgb(70, 170, 255);
-    color: rgb(255, 194, 88);
+    /*
+	color: rgb(70, 170, 255);
+    */
+	color: rgb(255, 194, 88);
     z-index: 89;
     background: #333;
 }
@@ -55,8 +57,10 @@
     right: 2px!important;
     cursor: pointer;
     z-index: 99;
-    //color: rgb(110, 186, 251);
-    color: rgb(255, 194, 88);
+    /*
+	color: rgb(110, 186, 251);
+    */
+	color: rgb(255, 194, 88);
 }
 
 .cover {
@@ -165,7 +169,6 @@
 		width: 400px;
 	}
 
-
 }
 
 @media all and (min-width: 980px) {
@@ -176,7 +179,9 @@
 	}
 
 	.widgetcont {
+		/*
 		min-height: 350px;
+		*/
 	}
 
 	.cover .widgetselection .activewidgeticon i {

@@ -44,8 +44,10 @@ header nav span {
 }
 
 header nav span:hover, header nav span.active {
-	//color: #ff4081;
-	//color: rgb(0, 138, 255);
+	/*
+	color: #ff4081;
+	color: rgb(0, 138, 255);
+	*/
 	color: rgb(254, 136, 3);
 }
 
@@ -75,10 +77,12 @@ header .settingstab span {
 	right: 0;
 	background: #333;
 	overflow: hidden;
-	//display: flex;
-	//justify-content: center;
-	//visibility: visible;
-	//width: 100%;
+	/*
+	display: flex;
+	justify-content: center;
+	visibility: visible;
+	width: 100%;
+	*/
 }
 
 .page-collumn {
