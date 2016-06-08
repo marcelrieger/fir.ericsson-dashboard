@@ -39,6 +39,9 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 Object.defineProperty(BLCompLineChartComponent.prototype, "setDataset", {
                     set: function (val) {
                         this.dataset = val;
+                        for (var i = 0; i < this.dataset.length; i++) {
+                            this.dataset[i] = parseFloat(this.dataset[i]);
+                        }
                         if (this.ready) {
                             this._graph.data([this.dataset]);
                             this.renderGraph(false);
@@ -49,11 +52,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 });
                 Object.defineProperty(BLCompLineChartComponent.prototype, "streamIn", {
                     set: function (n) {
-                        this.dataset.push(n);
+                        this.dataset.push(parseFloat(n));
                         if (this.ready && !isNaN(parseInt(n))) {
-                            if (n > this._maxValue) {
-                                this._maxValue = n;
-                            }
                             if (this.dataset.length > this.xRange[1] + 1) {
                                 this.dataset.shift();
                                 this.renderGraph(true);
@@ -68,11 +68,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 });
                 Object.defineProperty(BLCompLineChartComponent.prototype, "trigger", {
                     set: function (n) {
-                        this.dataset.push(this.dataIn);
+                        this.dataset.push(parseFloat(this.dataIn));
                         if (this.ready && !isNaN(parseInt(this.dataIn))) {
-                            if (this.dataIn > this._maxValue) {
-                                this._maxValue = this.dataIn;
-                            }
                             if (this.dataset.length > this.xRange[1] + 1) {
                                 this.dataset.shift();
                                 this.renderGraph(true);
@@ -91,7 +88,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.width -= 40;
                     this.height -= 180;
                     this._x = d3.scale.linear().domain(C.xRange).range([0 + 17 + C._hMargin, this.width - 30 - C._hMargin]);
-                    this._y = d3.scale.linear().domain(C.yRange).range([C.height, 0]);
+                    this._y = d3.scale.linear().range([C.height, 0]);
+                    this._y.domain(C.yRange);
                     this._xAxis = d3.svg.axis()
                         .scale(d3.scale.ordinal().domain(C.yValue).rangePoints([20, this.width - 20]))
                         .orient("bottom");
@@ -174,6 +172,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         .attr("y1", 0)
                         .attr("x2", this.width - 10)
                         .attr("y2", 0);
+                    this._graphMinLine = this._graphContainer.append("line")
+                        .attr("class", "maxline")
+                        .attr("stroke-dasharray", "2,5")
+                        .attr("x1", 30)
+                        .attr("y1", 0)
+                        .attr("x2", this.width - 10)
+                        .attr("y2", 0);
                     this._graph = this._graphContainer
                         .append("path")
                         .data([this.dataset])
@@ -205,6 +210,17 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return (v != null);
                 };
                 BLCompLineChartComponent.prototype.renderGraph = function (datafull) {
+                    // Set Max and Min
+                    this._maxValue = this.dataset[0];
+                    this._minValue = this.dataset[0];
+                    for (var i = 0; i < this.xRange[1]; i++) {
+                        if (this.dataset[i] > this._maxValue) {
+                            this._maxValue = this.dataset[i];
+                        }
+                        else if (this.dataset[i] < this._minValue) {
+                            this._minValue = this.dataset[i];
+                        }
+                    }
                     // If dataset not full, shift the graph to the right based on current dataset length
                     var xStart = 0;
                     var xEnd = -0.5;
@@ -212,11 +228,22 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         xStart = this.xRange[1] - this.dataset.length + 1;
                         xEnd = xStart - 0.5;
                     }
+                    this._y.domain([this._minValue - 0.3, this._maxValue + 0.3]);
+                    //this._yAxis.scale(this._y);
+                    this._graphContainer.select(".y.axis")
+                        .transition()
+                        .duration(300)
+                        .call(this._yAxis);
                     this._graphMaxLine
                         .transition()
                         .duration(300)
                         .ease("linear")
                         .attr("transform", "translate(0," + this._y(this._maxValue) + ")");
+                    this._graphMinLine
+                        .transition()
+                        .duration(300)
+                        .ease("linear")
+                        .attr("transform", "translate(0," + this._y(this._minValue) + ")");
                     this._graph
                         .attr("transform", "translate(" + this._x(xStart) + ",0)")
                         .attr("d", this._lineFunction)
