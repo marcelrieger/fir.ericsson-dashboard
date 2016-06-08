@@ -94,7 +94,7 @@ export class BLCompLineChartComponent implements OnInit {
 		this.width -= 40;
 		this.height -= 180;
 		this._x = d3.scale.linear().domain(C.xRange).range([0 + 17 + C._hMargin, this.width-30 - C._hMargin]);
-		this._y = d3.scale.linear().domain(C.yRange).range([C.height, C.yRange[0]]);
+		this._y = d3.scale.linear().domain(C.yRange).range([C.height, 0]);
 
 		this._xAxis = d3.svg.axis()
 			.scale(d3.scale.ordinal().domain(C.yValue).rangePoints([20, this.width - 20]))
