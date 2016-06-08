@@ -162,7 +162,7 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 		let C = this;
 		this.width = this.host.offsetWidth - 20;
 		this.height = this.host.offsetHeight - 20;
-		var socket = io.connect('http://137.226.134.44:3000');
+		var socket = io.connect('http://137.226.150.209');
 		socket.on('update', function (data) {
             C.livefeeddata = data;
         });
