@@ -22,8 +22,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 function BlCompWebSocketStream(element) {
                     this.element = element;
                     this.ip_gpsserver = "http://137.226.134.44:3000";
-                    this.ip_raspi_5g = "http://10.35.169.138:8080";
-                    this.ip_raspi_wifi = "http://137.226.150.209:8080";
+                    this.ip_raspi_5g = "http://10.35.169.139";
+                    this.ip_raspi_wifi = "http://137.226.150.209";
                     this.socket = null;
                     this.msg = "camera offline";
                     this.host = this.element.nativeElement;
@@ -41,8 +41,9 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 ;
                 BlCompWebSocketStream.prototype.ngOnInit = function () {
                     var C = this;
-                    this.socket = io.connect(this.ip_gpsserver);
+                    this.socket = io.connect(this.ip_raspi_wifi);
                     this.socket.on('connect', function (socket) {
+                        console.log("Connection established");
                         //C.msg = "camera connection established";
                     });
                     this.socket.on('update', function (data) {

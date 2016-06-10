@@ -112,6 +112,8 @@ export class BLCompLineChartComponent implements OnInit {
 		let C = this;
 
 		C._maxValue = C.yRange[0];
+		console.log(this.riskValue);
+		console.log(this.criticalValue);
 		
 		this.width -= 40;
 		this.height -= 180;
@@ -149,7 +151,9 @@ export class BLCompLineChartComponent implements OnInit {
 				.attr("class", "dashedline")
 				.attr("stroke-dasharray", "5,5")
 				.attr("x1", 30)
-				.attr("x2", this.width-10);
+				.attr("x2", this.width-10)
+				.attr("y1", 0)
+				.attr("y2", 0);
 		}
 		if (C.valid(this.riskValue[1]) && this.riskValue[1] < this.yRange[1]) {
 			this._warnArea[1] = this._graphContainer
@@ -163,7 +167,9 @@ export class BLCompLineChartComponent implements OnInit {
 				.attr("class", "dashedline")
 				.attr("stroke-dasharray", "5,5")
 				.attr("x1", 30)
-				.attr("x2", this.width - 10);
+				.attr("x2", this.width - 10)
+				.attr("y1", 0)
+				.attr("y2", 0);
 		}
 
 		if (C.valid(this.criticalValue[0]) && this.criticalValue[0] > this.yRange[0]) {
@@ -177,7 +183,9 @@ export class BLCompLineChartComponent implements OnInit {
 			this._critAreaBorder[0] = this._graphContainer.append("line")
 				.attr("class", "dashedline")
 				.attr("x1", 30)
-				.attr("x2", this.width - 10);
+				.attr("x2", this.width - 10)
+				.attr("y1", 0)
+				.attr("y2", 0);
 		}
 		if (C.valid(this.criticalValue[1]) && this.criticalValue[1] < this.yRange[1]) {
 			this._critArea[1] = this._graphContainer
@@ -190,7 +198,9 @@ export class BLCompLineChartComponent implements OnInit {
 			this._critAreaBorder[1] = this._graphContainer.append("line")
 				.attr("class", "dashedline")
 				.attr("x1", 30)
-				.attr("x2", this.width - 10);
+				.attr("x2", this.width - 10)
+				.attr("y1", 0)
+				.attr("y2", 0);
 		}
 
 		this._graphMaxLine = this._graphContainer.append("line")
@@ -259,12 +269,18 @@ export class BLCompLineChartComponent implements OnInit {
 		
 		let graphMin = this._minValue-0.3;
 		let graphMax = this._maxValue+0.3;
-		let graphMaxPix = this._y(graphMax);
+		
 		this._y.domain([graphMin,graphMax]);
+		let graphMaxPix = this._y(graphMin);
 
 		if (this._warnArea[0]!=null) {
 			if (this.riskValue[0] < graphMin) {
 				this._warnArea[0].attr("height", 0);
+				this._warnAreaBorder[0]
+					.transition()
+					.duration(300)
+					.ease("linear")
+					.attr("transform", "translate(0,"+graphMaxPix+")");
 			} else {
 				this._warnArea[0]
 					.transition()
@@ -275,12 +291,17 @@ export class BLCompLineChartComponent implements OnInit {
 					.transition()
 					.duration(300)
 					.ease("linear")
-					.attr("transform", "translate(0," + this._y(this.riskValue[0]) + ")");
+					.attr("transform", "translate(0," + this.notBigger(graphMaxPix, this._y(this.riskValue[0])) + ")");
 			}
 		}
 		if (this._warnArea[1]!=null) {
 			if (this.riskValue[1] > graphMax) {
 				this._warnArea[1].attr("height", 0);
+				this._warnAreaBorder[1]
+					.transition()
+					.duration(300)
+					.ease("linear")
+					.attr("transform", "translate(0,"+graphMaxPix+")");
 			} else {
 				this._warnArea[1]
 					.transition()
@@ -291,39 +312,49 @@ export class BLCompLineChartComponent implements OnInit {
 					.transition()
 					.duration(300)
 					.ease("linear")
-					.attr("transform", "translate(0," + this._y(this.riskValue[1]) + ")");
+					.attr("transform", "translate(0," + this.notBigger(graphMaxPix, this._y(this.riskValue[1])) + ")");
 			}
 		}
 		if (this._critArea[0]!=null) {
 			if (this.criticalValue[0] < graphMin) {
 				this._critArea[0].attr("height", 0);
-			} else {
-				this._critArea[0]
-					.transition()
-            		.duration(300)
-					.attr("y", this._y(this.riskValue[0])-1)
-					.attr("height", this.notBigger(graphMaxPix, this._y(this.yRange[0]) - this._y(this.criticalValue[0])));
 				this._critAreaBorder[0]
 					.transition()
 					.duration(300)
 					.ease("linear")
-					.attr("transform", "translate(0," + this._y(this.criticalValue[0]) + ")");
+					.attr("transform", "translate(0,"+graphMaxPix+")");
+			} else {
+				this._critArea[0]
+					.transition()
+            		.duration(300)
+					.attr("y", this._y(this.criticalValue[0])-1)
+					.attr("height", this.notBigger(graphMaxPix, this._y(graphMin) - this._y(this.criticalValue[0])));
+				this._critAreaBorder[0]
+					.transition()
+					.duration(300)
+					.ease("linear")
+					.attr("transform", "translate(0," + this.notBigger(graphMaxPix, this._y(this.criticalValue[0])) + ")");
 			}
 		}
 		if (this._critArea[1]!=null) {
 			if (this.criticalValue[1] > graphMax) {
 				this._critArea[1].attr("height", 0);
+				this._critAreaBorder[1]
+					.transition()
+					.duration(300)
+					.ease("linear")
+					.attr("transform", "translate(0,"+graphMaxPix+")");
 			} else {
 				this._critArea[1]
 					.transition()
             		.duration(300)
 					.attr("y", this._y(graphMax))
-					.attr("height", this.notBigger(graphMaxPix, this._y(this.criticalValue[1]) - this._y(this.yRange[1])));
+					.attr("height", this.notBigger(graphMaxPix, this._y(this.criticalValue[1]) - this._y(graphMax)));
 				this._critAreaBorder[1]
 					.transition()
 					.duration(300)
 					.ease("linear")
-					.attr("transform", "translate(0," + this._y(this.criticalValue[1]) + ")");
+					.attr("transform", "translate(0," + this.notBigger(graphMaxPix, this._y(this.criticalValue[1])) + ")");
 			}
 		}
 		
