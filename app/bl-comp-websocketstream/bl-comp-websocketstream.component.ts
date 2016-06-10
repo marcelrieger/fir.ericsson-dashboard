@@ -32,7 +32,7 @@ export class BlCompWebSocketStream implements OnInit {
 
 	ngOnInit() {
 		let C = this;
-		this.socket = io.connect(this.ip_raspi_wifi);
+		this.socket = io.connect(this.ip_raspi_5g);
 		this.socket.on('connect', function(socket){
 			console.log("Connection established");
 			//C.msg = "camera connection established";
