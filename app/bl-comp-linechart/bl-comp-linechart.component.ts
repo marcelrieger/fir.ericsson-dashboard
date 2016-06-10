@@ -263,7 +263,9 @@ export class BLCompLineChartComponent implements OnInit {
 
 		if (this._warnArea[0]!=null) {
 			if (this.riskValue[0] < graphMin) {
-				this._warnArea[0].attr("height", 0);
+				this._warnArea[0]
+				.attr("y", -999999)
+				.attr("height", 0);
 			} else {
 				this._warnArea[0]
 					.transition()
@@ -279,7 +281,9 @@ export class BLCompLineChartComponent implements OnInit {
 		}
 		if (this._warnArea[1]!=null) {
 			if (this.riskValue[1] > graphMax) {
-				this._warnArea[1].attr("height", 0);
+				this._warnArea[1]
+				.attr("y", -999999)
+				.attr("height", 0);
 			} else {
 				this._warnArea[1]
 					.transition()
@@ -295,7 +299,9 @@ export class BLCompLineChartComponent implements OnInit {
 		}
 		if (this._critArea[0]!=null) {
 			if (this.criticalValue[0] < graphMin) {
-				this._critArea[0].attr("height", 0);
+				this._critArea[0]
+				.attr("y", -999999)
+				.attr("height", 0);
 			} else {
 				this._critArea[0]
 					.transition()
@@ -311,7 +317,9 @@ export class BLCompLineChartComponent implements OnInit {
 		}
 		if (this._critArea[1]!=null) {
 			if (this.criticalValue[1] > graphMax) {
-				this._critArea[1].attr("height", 0);
+				this._critArea[1]
+				.attr("y", -999999)
+				.attr("height", 0);
 			} else {
 				this._critArea[1]
 					.transition()
