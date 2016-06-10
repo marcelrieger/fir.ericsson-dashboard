@@ -4,7 +4,7 @@
 	<bl-comp-linechart [ngClass]="{active: (activeChart==2)}" class="graph" [streamIn]="data.lux" [criticalValue]="device.lux.critical" [riskValue]="device.lux.risk" [yRange]="[0,300]" [yTitle]="'lux'" [xTitle]="'Zeit'" [setDataset]="device.lux.data" [width]="width"></bl-comp-linechart>
 -->
 
-	<bl-comp-linechart *ngFor="#s of sensors; #idx = index" [ngClass]="{active: (activeChart==idx)}" class="graph" [dataIn]="data[s.id][0]" [criticalValue]="[sensors[idx].crit_low,sensors[idx].crit_high]" [riskValue]="[sensors[idx].warn_low,sensors[idx].warn_high]" [yRange]="[sensors[idx].min,sensors[idx].max]" [yTitle]="units(sensors[idx].type)" [xTitle]="'Zeit'" [setDataset]="dataset[s.id]" [width]="width" [height]="height" [trigger]="trigger" [height]="height"></bl-comp-linechart>
+	<bl-comp-linechart *ngFor="#s of sensors; #idx = index" [ngClass]="{active: (activeChart==idx)}" class="graph" [dataIn]="data[s.id][0]" [criticalVal]="[sensors[idx].crit_low,sensors[idx].crit_high]" [riskVal]="[sensors[idx].warn_low,sensors[idx].warn_high]" [yRange]="[sensors[idx].min,sensors[idx].max]" [yTitle]="units(sensors[idx].type)" [xTitle]="'Zeit'" [setDataset]="dataset[s.id]" [width]="width" [height]="height" [trigger]="trigger" [height]="height"></bl-comp-linechart>
 </div>
 
 <div class="gauges" *ngIf="ready">
