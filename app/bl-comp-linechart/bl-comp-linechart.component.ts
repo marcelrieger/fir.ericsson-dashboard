@@ -285,7 +285,7 @@ export class BLCompLineChartComponent implements OnInit {
 					.transition()
             		.duration(300)
 					.attr("y", this._y(graphMax))
-					.attr("height", this._y(this.riskValue[1]) - this._y(this.yRange[1]));
+					.attr("height", this._y(this.riskValue[1]) - this._y(graphMax));
 				this._warnAreaBorder[1]
 					.transition()
 					.duration(300)
