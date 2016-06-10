@@ -19,7 +19,7 @@ export class BlCompWebSocketStream implements OnInit {
 		this.socket.emit('setDatarate', { val: parseInt(n) });
 	};
 	private ip_gpsserver = "http://137.226.134.44:3000";
-	private ip_raspi_5g = "http://10.35.169.138";
+	private ip_raspi_5g = "http://10.35.169.139";
 	private ip_raspi_wifi = "http://137.226.150.209";
 	private socket = null;
 	private host;
