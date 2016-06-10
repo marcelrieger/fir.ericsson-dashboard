@@ -259,6 +259,7 @@ export class BLCompLineChartComponent implements OnInit {
 		
 		let graphMin = this._minValue-0.3;
 		let graphMax = this._maxValue+0.3;
+		let graphMaxPix = this._y(graphMax);
 		this._y.domain([graphMin,graphMax]);
 
 		if (this._warnArea[0]!=null) {
@@ -269,7 +270,7 @@ export class BLCompLineChartComponent implements OnInit {
 					.transition()
             		.duration(300)
 					.attr("y", this._y(this.riskValue[0])-1)
-					.attr("height", this._y(graphMin) - this._y(this.riskValue[0]));
+					.attr("height", this.notBigger(graphMaxPix, this._y(graphMin) - this._y(this.riskValue[0])));
 				this._warnAreaBorder[0]
 					.transition()
 					.duration(300)
@@ -285,7 +286,7 @@ export class BLCompLineChartComponent implements OnInit {
 					.transition()
             		.duration(300)
 					.attr("y", this._y(graphMax))
-					.attr("height", this._y(this.riskValue[1]) - this._y(graphMax));
+					.attr("height", this.notBigger(graphMaxPix, this._y(this.riskValue[1]) - this._y(graphMax)));
 				this._warnAreaBorder[1]
 					.transition()
 					.duration(300)
@@ -301,7 +302,7 @@ export class BLCompLineChartComponent implements OnInit {
 					.transition()
             		.duration(300)
 					.attr("y", this._y(this.riskValue[0])-1)
-					.attr("height", this._y(this.yRange[0]) - this._y(this.criticalValue[0]));
+					.attr("height", this.notBigger(graphMaxPix, this._y(this.yRange[0]) - this._y(this.criticalValue[0])));
 				this._critAreaBorder[0]
 					.transition()
 					.duration(300)
@@ -317,7 +318,7 @@ export class BLCompLineChartComponent implements OnInit {
 					.transition()
             		.duration(300)
 					.attr("y", this._y(graphMax))
-					.attr("height", this._y(this.criticalValue[1]) - this._y(this.yRange[1]));
+					.attr("height", this.notBigger(graphMaxPix, this._y(this.criticalValue[1]) - this._y(this.yRange[1])));
 				this._critAreaBorder[1]
 					.transition()
 					.duration(300)
@@ -344,7 +345,11 @@ export class BLCompLineChartComponent implements OnInit {
 			.duration(150)
 			.ease("linear")
 			.attr("transform", "translate(" + this._x(xEnd) + ",0)");
+			
+	}
 
+	private notBigger(limit: number, x:number) {
+		return (x>limit) ? limit : x;
 	}
 
 }
