@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component', '../ericsson-widget-accelerationmonitoring/ericsson-widget-accelerationmonitoring.component', '../ericsson-widget-livemap/ericsson-widget-livemap.component'], function(exports_1, context_1) {
+System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component', '../ericsson-widget-accelerationmonitoring/ericsson-widget-accelerationmonitoring.component', '../bl-comp-websocketstream/bl-comp-websocketstream.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ericsson_widget_datamonitoring_component_1, ericsson_widget_accelerationmonitoring_component_1, ericsson_widget_livemap_component_1;
+    var core_1, ericsson_widget_datamonitoring_component_1, ericsson_widget_accelerationmonitoring_component_1, bl_comp_websocketstream_component_1;
     var EricssonWidgetContainer;
     return {
         setters:[
@@ -23,8 +23,8 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
             function (ericsson_widget_accelerationmonitoring_component_1_1) {
                 ericsson_widget_accelerationmonitoring_component_1 = ericsson_widget_accelerationmonitoring_component_1_1;
             },
-            function (ericsson_widget_livemap_component_1_1) {
-                ericsson_widget_livemap_component_1 = ericsson_widget_livemap_component_1_1;
+            function (bl_comp_websocketstream_component_1_1) {
+                bl_comp_websocketstream_component_1 = bl_comp_websocketstream_component_1_1;
             }],
         execute: function() {
             EricssonWidgetContainer = (function () {
@@ -168,11 +168,6 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                     var C = this;
                     this.width = this.host.offsetWidth - 20;
                     this.height = this.host.offsetHeight - 20;
-                    var raspidongle = "http://10.35.169.138:8080", raspiwifi = "http://137.226.150.209:8080";
-                    var socket = io.connect(raspiwifi);
-                    socket.on('update', function (data) {
-                        C.livefeeddata = data;
-                    });
                     //this.interval = setInterval(function() { C.livestreamurl = "http://137.226.134.44:3000/?ts=" + (new Date()).getTime(); }, 100);
                 };
                 EricssonWidgetContainer.prototype.ngOnDestroy = function () {
@@ -218,7 +213,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         directives: [
                             ericsson_widget_datamonitoring_component_1.EricssonWidgetDataMonitoring,
                             ericsson_widget_accelerationmonitoring_component_1.EricssonWidgetAccelerationMonitoring,
-                            ericsson_widget_livemap_component_1.EricssonWidgetLiveMap
+                            bl_comp_websocketstream_component_1.BlCompWebSocketStream
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])

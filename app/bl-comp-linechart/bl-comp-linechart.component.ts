@@ -186,14 +186,6 @@ export class BLCompLineChartComponent implements OnInit {
 			.attr("x2", this.width - 10)
 			.attr("y2", 0);
 
-		this._graphMinLine = this._graphContainer.append("line")
-			.attr("class", "maxline")
-			.attr("stroke-dasharray", "2,5")
-			.attr("x1", 30)
-			.attr("y1", 0)
-			.attr("x2", this.width - 10)
-			.attr("y2", 0);
-
 		this._graph = this._graphContainer
 			.append("path")
 			.data([this.dataset])
@@ -264,12 +256,6 @@ export class BLCompLineChartComponent implements OnInit {
 			.duration(300)
 			.ease("linear")
 			.attr("transform", "translate(0," + this._y(this._maxValue) + ")");
-
-		this._graphMinLine
-			.transition()
-			.duration(300)
-			.ease("linear")
-			.attr("transform", "translate(0," + this._y(this._minValue) + ")");
 
 		this._graph
 			.attr("transform", "translate(" + this._x(xStart) + ",0)")

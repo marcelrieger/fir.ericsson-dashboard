@@ -3,14 +3,6 @@
 	-moz-transition: all ease-out 0.2s; 
     transition: all ease-out 0.2s;
 }
-
-.livestream {
-	width: 100%;
-	color: rgb(152, 152, 152);
-	display: block;
-	text-align: center;
-}
-
 .left {
 	left: 6px;
 }

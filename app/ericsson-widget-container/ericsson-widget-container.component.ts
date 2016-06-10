@@ -1,10 +1,9 @@
 import { Component, Input, OnInit, ElementRef, Output, EventEmitter, OnDestroy } from 'angular2/core';
 import { Router } from 'angular2/router';
-/// <reference path="../socket.io.d.ts" />
 
 import { EricssonWidgetDataMonitoring } from '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component';
 import { EricssonWidgetAccelerationMonitoring } from '../ericsson-widget-accelerationmonitoring/ericsson-widget-accelerationmonitoring.component';
-import { EricssonWidgetLiveMap } from '../ericsson-widget-livemap/ericsson-widget-livemap.component';
+import { BlCompWebSocketStream } from '../bl-comp-websocketstream/bl-comp-websocketstream.component';
 
 @Component({
 	selector: 'ericsson-widget-container',
@@ -13,7 +12,7 @@ import { EricssonWidgetLiveMap } from '../ericsson-widget-livemap/ericsson-widge
 	directives: [
 		EricssonWidgetDataMonitoring,
 		EricssonWidgetAccelerationMonitoring,
-		EricssonWidgetLiveMap
+		BlCompWebSocketStream
 	]
 })
 
@@ -162,12 +161,6 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 		let C = this;
 		this.width = this.host.offsetWidth - 20;
 		this.height = this.host.offsetHeight - 20;
-		var raspidongle = "http://10.35.169.138:8080",
-			raspiwifi = "http://137.226.150.209:8080";
-		var socket = io.connect(raspiwifi);
-		socket.on('update', function (data) {
-            C.livefeeddata = data;
-        });
 		//this.interval = setInterval(function() { C.livestreamurl = "http://137.226.134.44:3000/?ts=" + (new Date()).getTime(); }, 100);
 	}
 
