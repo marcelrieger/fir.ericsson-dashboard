@@ -112,7 +112,6 @@ export class BLCompLineChartComponent implements OnInit {
 		let C = this;
 
 		C._maxValue = C.yRange[0];
-		console.log(this.riskValue);
 		
 		this.width -= 40;
 		this.height -= 180;

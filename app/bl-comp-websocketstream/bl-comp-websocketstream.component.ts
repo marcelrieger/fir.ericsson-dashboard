@@ -34,6 +34,7 @@ export class BlCompWebSocketStream implements OnInit {
 		let C = this;
 		this.socket = io.connect(this.ip_raspi_wifi);
 		this.socket.on('connect', function(socket){
+			console.log("Connection established");
 			//C.msg = "camera connection established";
 		});
 		this.socket.on('update', function (data) {
