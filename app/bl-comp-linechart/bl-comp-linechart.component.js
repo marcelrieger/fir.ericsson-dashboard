@@ -113,8 +113,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 BLCompLineChartComponent.prototype.ngOnInit = function () {
                     var C = this;
                     C._maxValue = C.yRange[0];
-                    console.log(this.riskValue);
-                    console.log(this.criticalValue);
                     this.width -= 40;
                     this.height -= 180;
                     this._x = d3.scale.linear().domain(C.xRange).range([0 + 17 + C._hMargin, this.width - 30 - C._hMargin]);
@@ -133,67 +131,71 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._graphContainer = this.host.select(".chart")
                         .append("svg")
                         .attr("height", C.height).attr("width", C.width + "px");
+                    this._warnArea[0] = this._graphContainer
+                        .append("rect")
+                        .attr("class", "risk")
+                        .attr("x", 30)
+                        .attr("y", C._y(this.riskValue[0]) - 1)
+                        .attr("width", this.width - 40);
+                    this._warnAreaBorder[0] = this._graphContainer.append("line")
+                        .attr("class", "dashedline")
+                        .attr("stroke-dasharray", "5,5")
+                        .attr("x1", 30)
+                        .attr("x2", this.width - 10)
+                        .attr("y1", 0)
+                        .attr("y2", 0);
                     if (C.valid(this.riskValue[0]) && this.riskValue[0] > this.yRange[0]) {
-                        this._warnArea[0] = this._graphContainer
-                            .append("rect")
-                            .attr("class", "risk")
-                            .attr("x", 30)
-                            .attr("y", C._y(this.riskValue[0]) - 1)
-                            .attr("width", this.width - 40)
+                        this._warnArea[0]
                             .attr("height", C._y(this.yRange[0]) - C._y(this.riskValue[0]));
-                        this._warnAreaBorder[0] = this._graphContainer.append("line")
-                            .attr("class", "dashedline")
-                            .attr("stroke-dasharray", "5,5")
-                            .attr("x1", 30)
-                            .attr("x2", this.width - 10)
-                            .attr("y1", 0)
-                            .attr("y2", 0);
                     }
+                    this._warnArea[1] = this._graphContainer
+                        .append("rect")
+                        .attr("class", "risk")
+                        .attr("x", 30)
+                        .attr("y", C._y(this.yRange[1]))
+                        .attr("width", this.width - 40);
+                    this._warnAreaBorder[1] = this._graphContainer.append("line")
+                        .attr("class", "dashedline")
+                        .attr("stroke-dasharray", "5,5")
+                        .attr("x1", 30)
+                        .attr("x2", this.width - 10)
+                        .attr("y1", 0)
+                        .attr("y2", 0);
                     if (C.valid(this.riskValue[1]) && this.riskValue[1] < this.yRange[1]) {
-                        this._warnArea[1] = this._graphContainer
-                            .append("rect")
-                            .attr("class", "risk")
-                            .attr("x", 30)
-                            .attr("y", C._y(this.yRange[1]))
-                            .attr("width", this.width - 40)
+                        this._warnArea[1]
                             .attr("height", C._y(this.riskValue[1]) - C._y(this.yRange[1]));
-                        this._warnAreaBorder[1] = this._graphContainer.append("line")
-                            .attr("class", "dashedline")
-                            .attr("stroke-dasharray", "5,5")
-                            .attr("x1", 30)
-                            .attr("x2", this.width - 10)
-                            .attr("y1", 0)
-                            .attr("y2", 0);
                     }
+                    this._critArea[0] = this._graphContainer
+                        .append("rect")
+                        .attr("class", "critical")
+                        .attr("x", 30)
+                        .attr("y", C._y(this.criticalValue[0]))
+                        .attr("width", this.width - 40);
+                    this._critAreaBorder[0] = this._graphContainer.append("line")
+                        .attr("class", "dashedline")
+                        .attr("x1", 30)
+                        .attr("x2", this.width - 10)
+                        .attr("y1", 0)
+                        .attr("y2", 0);
                     if (C.valid(this.criticalValue[0]) && this.criticalValue[0] > this.yRange[0]) {
-                        this._critArea[0] = this._graphContainer
-                            .append("rect")
-                            .attr("class", "critical")
-                            .attr("x", 30)
-                            .attr("y", C._y(this.criticalValue[0]))
-                            .attr("width", this.width - 40)
+                        this._critArea[0]
                             .attr("height", C._y(this.yRange[0]) - C._y(this.criticalValue[0]));
-                        this._critAreaBorder[0] = this._graphContainer.append("line")
-                            .attr("class", "dashedline")
-                            .attr("x1", 30)
-                            .attr("x2", this.width - 10)
-                            .attr("y1", 0)
-                            .attr("y2", 0);
                     }
+                    this._critArea[1] = this._graphContainer
+                        .append("rect")
+                        .attr("class", "critical")
+                        .attr("x", 30)
+                        .attr("y", C._y(this.yRange[1]))
+                        .attr("width", this.width - 40);
+                    this._critAreaBorder[1] = this._graphContainer.append("line")
+                        .attr("class", "dashedline")
+                        .attr("x1", 30)
+                        .attr("x2", this.width - 10)
+                        .attr("y1", 0)
+                        .attr("y2", 0);
                     if (C.valid(this.criticalValue[1]) && this.criticalValue[1] < this.yRange[1]) {
-                        this._critArea[1] = this._graphContainer
-                            .append("rect")
-                            .attr("class", "critical")
-                            .attr("x", 30)
-                            .attr("y", C._y(this.yRange[1]))
-                            .attr("width", this.width - 40)
+                        this._critArea[1]
                             .attr("height", C._y(this.criticalValue[1]) - C._y(this.yRange[1]));
-                        this._critAreaBorder[1] = this._graphContainer.append("line")
-                            .attr("class", "dashedline")
-                            .attr("x1", 30)
-                            .attr("x2", this.width - 10)
-                            .attr("y1", 0)
-                            .attr("y2", 0);
                     }
                     this._graphMaxLine = this._graphContainer.append("line")
                         .attr("class", "maxline")
@@ -255,6 +257,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     var graphMax = this._maxValue + 0.3;
                     this._y.domain([graphMin, graphMax]);
                     var graphMaxPix = this._y(graphMin);
+                    var graphMinPix = this._y(graphMax);
                     if (this._warnArea[0] != null) {
                         if (this.riskValue[0] < graphMin) {
                             this._warnArea[0].attr("height", 0);
@@ -268,7 +271,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             this._warnArea[0]
                                 .transition()
                                 .duration(300)
-                                .attr("y", this._y(this.riskValue[0]) - 1)
+                                .attr("y", this.notSmaller(graphMinPix, this._y(this.riskValue[0]) - 1))
                                 .attr("height", this.notBigger(graphMaxPix, this._y(graphMin) - this._y(this.riskValue[0])));
                             this._warnAreaBorder[0]
                                 .transition()
@@ -312,7 +315,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                             this._critArea[0]
                                 .transition()
                                 .duration(300)
-                                .attr("y", this._y(this.criticalValue[0]) - 1)
+                                .attr("y", this.notSmaller(graphMinPix, this._y(this.criticalValue[0]) - 1))
                                 .attr("height", this.notBigger(graphMaxPix, this._y(graphMin) - this._y(this.criticalValue[0])));
                             this._critAreaBorder[0]
                                 .transition()
@@ -359,6 +362,9 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         .duration(150)
                         .ease("linear")
                         .attr("transform", "translate(" + this._x(xEnd) + ",0)");
+                };
+                BLCompLineChartComponent.prototype.notSmaller = function (limit, x) {
+                    return (x < limit) ? limit : x;
                 };
                 BLCompLineChartComponent.prototype.notBigger = function (limit, x) {
                     return (x > limit) ? limit : x;
