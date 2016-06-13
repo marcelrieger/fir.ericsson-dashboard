@@ -94,6 +94,7 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 		C._deviceID = val;
 		C.loading = true;
 		C.ready = false;
+		C.subname = null;
 		//C.activeWidget = 0;
 		if (typeof C.device === "undefined") { return; }
 
@@ -178,6 +179,7 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 				break;
 		}
 		this.activeWidget = this.widgetList.ids[this.activeWidgetIterator];
+		this.subname = null;
 	}
 
 	public overrideDevice(s: any) {

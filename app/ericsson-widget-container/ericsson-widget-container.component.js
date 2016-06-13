@@ -106,6 +106,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         C._deviceID = val;
                         C.loading = true;
                         C.ready = false;
+                        C.subname = null;
                         //C.activeWidget = 0;
                         if (typeof C.device === "undefined") {
                             return;
@@ -183,6 +184,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                             break;
                     }
                     this.activeWidget = this.widgetList.ids[this.activeWidgetIterator];
+                    this.subname = null;
                 };
                 EricssonWidgetContainer.prototype.overrideDevice = function (s) {
                     this.overrideDeviceID.emit(s);
