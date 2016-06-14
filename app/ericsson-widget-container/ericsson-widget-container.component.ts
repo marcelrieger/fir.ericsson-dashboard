@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ElementRef, Output, EventEmitter, OnDestroy }
 import { Router } from 'angular2/router';
 
 import { EricssonWidgetDataMonitoring } from '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component';
-import { EricssonWidgetAccelerationMonitoring } from '../ericsson-widget-accelerationmonitoring/ericsson-widget-accelerationmonitoring.component';
+import { EricssonWidgetLiveMap } from '../ericsson-widget-livemap/ericsson-widget-livemap.component';
 import { BlCompWebSocketStream } from '../bl-comp-websocketstream/bl-comp-websocketstream.component';
 
 @Component({
@@ -11,7 +11,7 @@ import { BlCompWebSocketStream } from '../bl-comp-websocketstream/bl-comp-websoc
 	styleUrls: ['app/ericsson-widget-container/ericsson-widget-container.component.css'],
 	directives: [
 		EricssonWidgetDataMonitoring,
-		EricssonWidgetAccelerationMonitoring,
+		EricssonWidgetLiveMap,
 		BlCompWebSocketStream
 	]
 })
@@ -60,8 +60,8 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 		{
 			index: 2,
 			widgetType: 1,
-			activated: false,
-			name: "DFA-Maps",
+			activated: true,
+			name: "Live Map",
 			icon: "&#xE55E;",
 			sensors: [],
 			ids: []
@@ -91,15 +91,16 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 	@Input() 
 	set deviceID(val: number){
 		let C = this;
-		C._deviceID = val;
 		C.loading = true;
 		C.ready = false;
 		C.subname = null;
 		//C.activeWidget = 0;
 		if (typeof C.device === "undefined") { return; }
+		
+		C._deviceID = C.device.id;
 
 		// Create lookup table
-		var lookup = {ids: [3]};
+		var lookup = {ids: [3,2]};
 		for (let i = 0, lookuplength = C.availWidgetList.length, len = lookuplength; i < len; i++) {
 			C.availWidgetList[i].sensors = [];
 			C.availWidgetList[i].ids = [];
@@ -146,7 +147,7 @@ export class EricssonWidgetContainer implements OnInit, OnDestroy {
 				}
 		}
 		C.widgetList = lookup;
-
+		
 		setTimeout(function() {
 			C.ready = true;
 			C.loading = false;

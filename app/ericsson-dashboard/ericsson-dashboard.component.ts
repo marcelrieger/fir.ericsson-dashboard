@@ -65,9 +65,9 @@ export class EricssonDashboardComponent implements OnInit {
 	}
 
 	public overrideDevice(widget, op) {
-		var len = this.devices.length;
-		this.deviceIDs[widget] = (this.deviceIDs[widget] + parseInt(op)) % len;
-		if (this.deviceIDs[widget] < 0) { this.deviceIDs[widget] = len - 1;}
+		var len = this.devices.length, tmp;
+		tmp = (this.deviceIDs[widget] + parseInt(op)) % len;
+ 		this.deviceIDs[widget] = (tmp < 0) ? (len-1) : tmp;
 	}
 
 }

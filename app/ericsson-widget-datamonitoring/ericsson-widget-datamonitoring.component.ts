@@ -32,14 +32,14 @@ export class EricssonWidgetDataMonitoring implements OnInit, OnDestroy {
 	@Input() sensors = [];
 	@Input() sensorIDs = [];
 
-    @Input()
-    set datarate(val: number) {
+	@Input()
+	set datarate(val: number) {
 		this._datarate = val;
 		this.updateDatarate();
-    }
+	}
 
-    @Input() width = 390;
-    @Input() height = 200;
+	@Input() width = 390;
+	@Input() height = 200;
 	
 	@Output() setMeta= new EventEmitter();
 	

@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component', '../ericsson-widget-accelerationmonitoring/ericsson-widget-accelerationmonitoring.component', '../bl-comp-websocketstream/bl-comp-websocketstream.component'], function(exports_1, context_1) {
+System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-widget-datamonitoring.component', '../ericsson-widget-livemap/ericsson-widget-livemap.component', '../bl-comp-websocketstream/bl-comp-websocketstream.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ericsson_widget_datamonitoring_component_1, ericsson_widget_accelerationmonitoring_component_1, bl_comp_websocketstream_component_1;
+    var core_1, ericsson_widget_datamonitoring_component_1, ericsson_widget_livemap_component_1, bl_comp_websocketstream_component_1;
     var EricssonWidgetContainer;
     return {
         setters:[
@@ -20,8 +20,8 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
             function (ericsson_widget_datamonitoring_component_1_1) {
                 ericsson_widget_datamonitoring_component_1 = ericsson_widget_datamonitoring_component_1_1;
             },
-            function (ericsson_widget_accelerationmonitoring_component_1_1) {
-                ericsson_widget_accelerationmonitoring_component_1 = ericsson_widget_accelerationmonitoring_component_1_1;
+            function (ericsson_widget_livemap_component_1_1) {
+                ericsson_widget_livemap_component_1 = ericsson_widget_livemap_component_1_1;
             },
             function (bl_comp_websocketstream_component_1_1) {
                 bl_comp_websocketstream_component_1 = bl_comp_websocketstream_component_1_1;
@@ -65,8 +65,8 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         {
                             index: 2,
                             widgetType: 1,
-                            activated: false,
-                            name: "DFA-Maps",
+                            activated: true,
+                            name: "Live Map",
                             icon: "&#xE55E;",
                             sensors: [],
                             ids: []
@@ -103,7 +103,6 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                 Object.defineProperty(EricssonWidgetContainer.prototype, "deviceID", {
                     set: function (val) {
                         var C = this;
-                        C._deviceID = val;
                         C.loading = true;
                         C.ready = false;
                         C.subname = null;
@@ -111,8 +110,9 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         if (typeof C.device === "undefined") {
                             return;
                         }
+                        C._deviceID = C.device.id;
                         // Create lookup table
-                        var lookup = { ids: [3] };
+                        var lookup = { ids: [3, 2] };
                         for (var i_1 = 0, lookuplength = C.availWidgetList.length, len = lookuplength; i_1 < len; i_1++) {
                             C.availWidgetList[i_1].sensors = [];
                             C.availWidgetList[i_1].ids = [];
@@ -214,7 +214,7 @@ System.register(['angular2/core', '../ericsson-widget-datamonitoring/ericsson-wi
                         styleUrls: ['app/ericsson-widget-container/ericsson-widget-container.component.css'],
                         directives: [
                             ericsson_widget_datamonitoring_component_1.EricssonWidgetDataMonitoring,
-                            ericsson_widget_accelerationmonitoring_component_1.EricssonWidgetAccelerationMonitoring,
+                            ericsson_widget_livemap_component_1.EricssonWidgetLiveMap,
                             bl_comp_websocketstream_component_1.BlCompWebSocketStream
                         ]
                     }), 

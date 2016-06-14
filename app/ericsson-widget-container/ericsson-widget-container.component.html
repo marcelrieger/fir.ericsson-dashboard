@@ -28,9 +28,7 @@
 
 		<ericsson-widget-datamonitoring *ngSwitchWhen="1" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [height]="height" [sensors]="widgetList[activeWidget].sensors" [sensorIDs]="widgetList[activeWidget].ids" [height]="height" (setMeta)="subname=$event"></ericsson-widget-datamonitoring>
 
-		<ericsson-widget-accelerationmonitoring *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate" [width]="width"></ericsson-widget-accelerationmonitoring>
-
-		<ericsson-widget-livemap *ngSwitchWhen="9" [deviceID]="_deviceID" [datarate]="datarate"></ericsson-widget-livemap>
+		<ericsson-widget-livemap *ngSwitchWhen="2" [deviceID]="_deviceID" [datarate]="datarate" [width]="width" [height]="height"></ericsson-widget-livemap>
 
 		<bl-comp-websocketstream *ngSwitchWhen="3" [deviceID]="_deviceID" [datarate]="datarate"></bl-comp-websocketstream>
 

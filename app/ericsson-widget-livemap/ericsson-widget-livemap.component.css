@@ -1,54 +1,78 @@
-.chart {
-	text-align: center;
+.map {
 	width: 100%;
-	background: antiquewhite;
+	margin: 0 auto;
+	display: block;
 }
 
-.chart /deep/ svg {
+.map /deep/ svg {
 	padding: 0;
-	margin: 5px auto;
+	border: 1px solid #484848;
 	overflow: visible;
+	margin: 0 auto;
+	display: block;
 }
 
-.chart /deep/ path {
-	stroke: steelblue;
-	stroke-width: 1;
+
+.map /deep/ .device text {
+	fill: #c9c9c9;
+	font-size: 13px;
+}
+
+.map /deep/ rect.sector {
+	fill: #383030;
+	stroke: #594747;
+	stroke-width: 1px;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+	stroke-dasharray: 5;
+}
+
+.map /deep/ text.sector {
+	fill: #2F1D1D;
+	font-size: 19px;
+	font-weight: bold;
+}
+
+.map /deep/ text.sector {
+	fill: #2F1D1D;
+	font-size: 19px;
+	font-weight: bold;
+}
+
+.map /deep/ circle.glow {
+	stroke: #FE7400;
+	stroke-width: 2.5;
+	fill: none;
+	-webkit-animation: glow 1s infinite; /* Chrome, Safari, Opera */ 
+	animation: glow 1s infinite;
+}
+
+.map /deep/ circle.hide {
 	fill: none;
 }
 
-.chart /deep/ .axis path,
-.chart /deep/ .axis line {
-    fill: none;
-    stroke: #3e3e3e;
+/* Chrome, Safari, Opera */
+@-webkit-keyframes glow {
+    from {opacity: 1;}
+		75% {
+			opacity: 0;
+			transform: scale(1.5);
+		}
+		100% {
+			opacity: 0;
+			transform: scale(1);
+		}
 }
 
-.chart /deep/ text {
-	font-size: 11px;
-}
-
-.chart /deep/ .tick text{
-    font-size: 10px;
-    opacity: 0.8;
-}
-
-.chart /deep/ .tick line{
-	opacity: 0.1;
-}
-
-.chart /deep/ .critical{
-	fill: rgb(255, 235, 235);
-}
-
-.chart /deep/ .risk{
-	fill: #FFFFE8;
-}
-
-.chart /deep/ .dashedline {
-	stroke-width:0.4px;
-	stroke: rgb(150,150,150);
-}
-
-.chart /deep/ .maxline {
-	stroke-width:1px;
-	stroke: rgb(255,80,80);
+/* Standard syntax */
+@keyframes glow {
+    from {opacity: 1;}
+		75% {
+			opacity: 0;
+			transform: scale(1.5);
+		}
+		100% {
+			opacity: 0;
+			transform: scale(1);
+		}
 }
