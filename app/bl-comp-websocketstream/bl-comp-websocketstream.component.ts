@@ -1,5 +1,5 @@
 /// <reference path="../socket.io.d.ts" />
-import { Component, Input, OnInit, ElementRef } from 'angular2/core';
+import { Component, Input, OnInit, ElementRef, OnDestroy } from 'angular2/core';
 
 @Component({
 	selector: 'bl-comp-websocketstream',
@@ -7,7 +7,7 @@ import { Component, Input, OnInit, ElementRef } from 'angular2/core';
 	template: '<img class="livestream" alt="{{msg}}" src="data:image/jpg;base64,{{streambuffer}}" />'
 })
 
-export class BlCompWebSocketStream implements OnInit {
+export class BlCompWebSocketStream implements OnInit, OnDestroy {
 
     @Input() ip;
 	@Input() deviceID;
@@ -33,13 +33,13 @@ export class BlCompWebSocketStream implements OnInit {
 	ngOnInit() {
 		let C = this;
 		this.socket = io.connect(this.ip_raspi_wifi);
-		this.socket.on('connect', function(socket){
-			console.log("Connection established");
-			//C.msg = "camera connection established";
-		});
 		this.socket.on('update', function (data) {
-            C.streambuffer = data;
-        });
+			C.streambuffer = data;
+    });
+	}
+	
+	ngOnDestroy() {
+		this.socket.emit('close');
 	}
 
 }

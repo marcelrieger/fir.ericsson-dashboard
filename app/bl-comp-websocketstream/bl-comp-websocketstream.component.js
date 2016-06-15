@@ -42,13 +42,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 BlCompWebSocketStream.prototype.ngOnInit = function () {
                     var C = this;
                     this.socket = io.connect(this.ip_raspi_wifi);
-                    this.socket.on('connect', function (socket) {
-                        console.log("Connection established");
-                        //C.msg = "camera connection established";
-                    });
                     this.socket.on('update', function (data) {
                         C.streambuffer = data;
                     });
+                };
+                BlCompWebSocketStream.prototype.ngOnDestroy = function () {
+                    this.socket.emit('close');
                 };
                 __decorate([
                     core_1.Input(), 
