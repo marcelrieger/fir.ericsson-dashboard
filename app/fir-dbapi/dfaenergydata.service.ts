@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class DFAEnergyDataService {
 
-	private api = 'http://137.226.134.44:8080/';
+	private api = 'http://89.1.74.115:8080/';
 	private apiLastVal = this.api + "get_data/";
 
   constructor(private http: Http) { }

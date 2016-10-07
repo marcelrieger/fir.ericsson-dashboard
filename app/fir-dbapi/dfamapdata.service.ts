@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class DFAMapDataService {
 
-	private api = 'http://137.226.134.44:3200/';
+	private api = 'http://89.1.74.115:3200/';
 	private apiMapData = this.api + "mapdata";
   private apiLocation = this.api + "location";
 
